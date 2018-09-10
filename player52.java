@@ -3,6 +3,7 @@ import org.vu.contest.ContestEvaluation;
 
 import java.util.Random;
 import java.util.Properties;
+import java.util.Arrays;
 
 public class player52 implements ContestSubmission
 {
@@ -47,8 +48,11 @@ public class player52 implements ContestSubmission
 	public void run()
 	{
 		// Run your algorithm here
-        
+        Individual ind = new Individual();
+        System.out.println(Arrays.toString(ind.getGenes()));
         int evals = 0;
+        Population population = new Population(4);
+        population.sortByFitness();
         // init population
         // calculate fitness
         while(evals<evaluations_limit_){
