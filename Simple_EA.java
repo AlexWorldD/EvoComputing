@@ -7,11 +7,13 @@ import org.vu.contest.ContestEvaluation;
 public class Simple_EA {
     ContestEvaluation evaluation;
     List<Individual> population;
+    Random r;
     int populationsize;
 
     public Simple_EA(ContestEvaluation e, int populationsize) {
         this.evaluation = e;
         this.populationsize = populationsize;
+        this.r = new Random();
         this.population = new ArrayList<Individual>(populationsize);
         for (int i = 0; i < populationsize; i++) {
             Individual ind = new Individual(e);
@@ -38,7 +40,6 @@ public class Simple_EA {
     }
 
     public List<Individual> createChildren(List<Individual> parents, int size) {
-        Random r = new Random();
         List<Individual> children = new ArrayList<Individual>(size);
         for(int i=0;i<size;i++) {
             int index1 = r.nextInt(parents.size());
@@ -52,7 +53,6 @@ public class Simple_EA {
     }
 
     public double[] crossover(Individual p1, Individual p2) {
-        Random r = new Random();
         double[] childgenes = new double[10];
         for (int i=0;i<10; i++) {
             if (r.nextBoolean()) {
@@ -66,7 +66,6 @@ public class Simple_EA {
     }
 
     public double[] mutate(double[] genes) {
-        Random r = new Random();
         for (int i = 0; i< genes.length; i++) {
             if (r.nextInt(50) == 1) {
                 genes[i] = -5 + r.nextDouble() * 10;
