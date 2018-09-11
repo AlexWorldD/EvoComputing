@@ -22,7 +22,8 @@ public class Simple_EA {
     }
 
     public void evolve() {
-        List<Individual> parents = chooseParents(this.population, populationsize/2);
+    //This only works with even populationsize!
+        List<Individual> parents = chooseParents(populationsize/2);
         List<Individual> children = createChildren(parents, populationsize/2);
         List<Individual> newpop = new ArrayList<Individual>();
         newpop.addAll(children);
@@ -30,11 +31,11 @@ public class Simple_EA {
         this.population = newpop;
     }
 
-    public List<Individual> chooseParents(List<Individual> pop, int size) {
+    public List<Individual> chooseParents(int size) {
         List<Individual> parents = new ArrayList<Individual>(size);
-        Collections.sort(pop);
+        Collections.sort(this.population);
         for(int i=0;i<size;i++) {
-            parents.add(pop.get(i));
+            parents.add(this.population.get(i));
         }
         return parents;
     }
