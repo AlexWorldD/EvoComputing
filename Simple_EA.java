@@ -9,7 +9,6 @@ public class Simple_EA {
 
     public Simple_EA(ContestEvaluation e) {
         this.evaluation = e;
-        this.populationsize =
     }
 
     public List<Individual> evolve(List<Individual> pop) {
