@@ -5,10 +5,10 @@ import java.util.List;
 import org.vu.contest.ContestEvaluation;
 
 public class Simple_EA {
-    ContestEvaluation evaluation;
-    List<Individual> population;
-    Random r;
-    int populationsize;
+    private ContestEvaluation evaluation;
+    private List<Individual> population;
+    private Random r;
+    private int populationsize;
 
     public Simple_EA(ContestEvaluation e, int populationsize) {
         this.evaluation = e;
