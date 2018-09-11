@@ -57,7 +57,8 @@ public class player52 implements ContestSubmission
         }
         //evolution
         Simple_EA ea = new Simple_EA(evaluation_);
-        while (Individual.n_evals < evaluations_limit_) {
+        //this condition could entail that some evaluations are not used...
+        while (Individual.n_evals < evaluations_limit_ - populationsize) {
             double fitness_sum = 0;
             population = ea.evolve(population);
             System.out.println(Individual.n_evals);

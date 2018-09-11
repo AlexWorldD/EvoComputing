@@ -9,6 +9,7 @@ public class Simple_EA {
 
     public Simple_EA(ContestEvaluation e) {
         this.evaluation = e;
+        this.populationsize =
     }
 
     public List<Individual> evolve(List<Individual> pop) {
@@ -38,13 +39,13 @@ public class Simple_EA {
             int index2 = r.nextInt(parents.size());
             Individual p1 = parents.get(index1);
             Individual p2 = parents.get(index2);
-            Individual child = crossover(p1,p2);
-            children.add(mutate(child));
+            double[] childgenes = mutate(crossover(p1,p2));
+            children.add(new Individual(evaluation, childgenes));
         }
         return children;
     }
 
-    public Individual crossover(Individual p1, Individual p2) {
+    public double[] crossover(Individual p1, Individual p2) {
         Random r = new Random();
         double[] childgenes = new double[10];
         for (int i=0;i<10; i++) {
@@ -55,20 +56,16 @@ public class Simple_EA {
                 childgenes[i] = p2.getGenes()[i];
             }
         }
-        return new Individual(evaluation, childgenes);
+        return childgenes;
     }
 
-    public Individual mutate(Individual ind) {
+    public double[] mutate(double[] genes) {
         Random r = new Random();
-        double[] genes = ind.getGenes().clone();
-        boolean mutated = false;
         for (int i = 0; i< genes.length; i++) {
             if (r.nextInt(100) == 1) {
                 genes[i] = -5 + r.nextDouble() * 10;
-                mutated = true;
             }
         }
-        if (mutated) return new Individual(evaluation, genes);
-        else return ind;
+        return genes;
     }
 }
