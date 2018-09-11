@@ -39,7 +39,7 @@ public class Simple_EA {
             Individual p1 = parents.get(index1);
             Individual p2 = parents.get(index2);
             Individual child = crossover(p1,p2);
-            children.add(child);
+            children.add(mutate(child));
         }
         return children;
     }
@@ -56,5 +56,19 @@ public class Simple_EA {
             }
         }
         return new Individual(evaluation, childgenes);
+    }
+
+    public Individual mutate(Individual ind) {
+        Random r = new Random();
+        double[] genes = ind.getGenes().clone();
+        boolean mutated = false;
+        for (int i = 0; i< genes.length; i++) {
+            if (r.nextInt(100) == 1) {
+                genes[i] = -5 + r.nextDouble() * 10;
+                mutated = true;
+            }
+        }
+        if (mutated) return new Individual(evaluation, genes);
+        else return ind;
     }
 }

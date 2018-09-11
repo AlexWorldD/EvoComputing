@@ -48,8 +48,8 @@ public class player52 implements ContestSubmission
 
 	public void run() {
 		// Run your algorithm here
-        int populationsize = 4;
-        List<Individual> population = new ArrayList<Individual>(4);
+        int populationsize = 10;
+        List<Individual> population = new ArrayList<Individual>(populationsize);
         // init population
         for (int i = 0; i < populationsize; i++) {
             Individual ind = new Individual(evaluation_);
@@ -58,13 +58,14 @@ public class player52 implements ContestSubmission
         //evolution
         Simple_EA ea = new Simple_EA(evaluation_);
         for (int i=0;i<100;i++) {
-            double totalfitness = 0;
+            double fitness_sum = 0;
             population = ea.evolve(population);
+            System.out.println(Individual.n_evals);
             for(int j=0;j<population.size();j++) {
                 Individual ind = population.get(j);
-                totalfitness += ind.getFitness();
+                fitness_sum += ind.getFitness();
             }
-            System.out.println(totalfitness);
+            System.out.println(fitness_sum);
         }
 
 	}
