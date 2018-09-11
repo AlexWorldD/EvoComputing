@@ -46,27 +46,19 @@ public class player52 implements ContestSubmission
     }
 
 	public void run() {
-		// Run your algorithm here
         int populationsize = 100;
-
-
-        //EVOLUTION
+        //Creates a random population of size 'populationsize'
         Simple_EA ea = new Simple_EA(evaluation_, populationsize);
+
         //this condition could entail that some evaluations are not used...
         while (Individual.n_evals < evaluations_limit_ - populationsize) {
-            double fitness_sum = 0;
             ea.evolve();
-            System.out.println(Individual.n_evals);
-            for(int j=0;j<ea.populationsize;j++) {
-                Individual ind = ea.population.get(j);
-                fitness_sum += ind.getFitness();
-            }
-            System.out.print(" avg fitness: "); System.out.println(fitness_sum/populationsize);
         }
-
 	}
 
 }
+
+
 
 
 
