@@ -1,23 +1,34 @@
 import java.util.Random;
+import org.vu.contest.ContestEvaluation;
 
 public class Individual implements Comparable<Individual> {
-    private double fitness = -1; //dummy value (fitness is never negative)
+    static int n_evals = 0;
+    private Double fitness = -1.0; //dummy value (fitness is never negative)
     private double[] genes = new double[10];
 
-    public Individual() {
+    public Individual(ContestEvaluation e) {
         Random r = new Random();
         for(int i=0; i<10; i++) {
             // random value between -5 and 5
-            this.genes[i] = -5 + r.nextDouble()*10;
+            this.genes[i] = -5 + r.nextDouble() * 10;
         }
+        setFitness(e);
     }
 
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
+    public Individual(ContestEvaluation e, double[] genes) {
+        this.genes = genes;
+        setFitness(e);
     }
+
+
+    public void setFitness(ContestEvaluation e) {
+        this.fitness = (double) e.evaluate(this.genes);
+        n_evals++;
+    }
+
 
     public double getFitness() {
-        return fitness;
+        return this.fitness;
     }
 
     public double[] getGenes() {
@@ -25,8 +36,8 @@ public class Individual implements Comparable<Individual> {
     }
 
     public int compareTo(Individual other) {
-        if (this.fitness < other.fitness) return -1;
-        if (this.fitness > other.fitness) return 1;
+        if (this.fitness > other.fitness) return -1;
+        if (this.fitness < other.fitness) return 1;
         else return 0;
     }
 }

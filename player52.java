@@ -4,13 +4,14 @@ import org.vu.contest.ContestEvaluation;
 import java.util.Random;
 import java.util.Properties;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class player52 implements ContestSubmission
 {
 	Random rnd_;
 	ContestEvaluation evaluation_;
     private int evaluations_limit_;
-	
 	public player52()
 	{
 		rnd_ = new Random();
@@ -44,26 +45,32 @@ public class player52 implements ContestSubmission
             // Do sth else
         }
     }
-    
-	public void run()
-	{
+
+	public void run() {
 		// Run your algorithm here
-        Individual ind = new Individual();
-        System.out.println(Arrays.toString(ind.getGenes()));
-        int evals = 0;
-        Population population = new Population(4);
-        population.sortByFitness();
+        int populationsize = 4;
+        List<Individual> population = new ArrayList<Individual>(4);
         // init population
-        // calculate fitness
-        while(evals<evaluations_limit_){
-            // Select parents
-            // Apply crossover / mutation operators
-            double child[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
-            // Check fitness of unknown fuction
-            Double fitness = (double) evaluation_.evaluate(child);
-            evals++;
-            // Select survivors
+        for (int i = 0; i < populationsize; i++) {
+            Individual ind = new Individual(evaluation_);
+            population.add(ind);
+        }
+        //evolution
+        Simple_EA ea = new Simple_EA(evaluation_);
+        for (int i=0;i<100;i++) {
+            double totalfitness = 0;
+            population = ea.evolve(population);
+            for(int j=0;j<population.size();j++) {
+                Individual ind = population.get(j);
+                totalfitness += ind.getFitness();
+            }
+            System.out.println(totalfitness);
         }
 
 	}
+
 }
+
+
+
+
