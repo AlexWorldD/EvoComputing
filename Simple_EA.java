@@ -6,19 +6,26 @@ import org.vu.contest.ContestEvaluation;
 
 public class Simple_EA {
     ContestEvaluation evaluation;
+    List<Individual> population;
+    int populationsize;
 
-    public Simple_EA(ContestEvaluation e) {
+    public Simple_EA(ContestEvaluation e, int populationsize) {
         this.evaluation = e;
+        this.populationsize = populationsize;
+        this.population = new ArrayList<Individual>(populationsize);
+        for (int i = 0; i < populationsize; i++) {
+            Individual ind = new Individual(e);
+            population.add(ind);
+        }
     }
 
-    public List<Individual> evolve(List<Individual> pop) {
-        int popsize = pop.size();
-        List<Individual> parents = chooseParents(pop, popsize/2);
-        List<Individual> children = createChildren(parents, popsize/2);
+    public void evolve() {
+        List<Individual> parents = chooseParents(this.population, populationsize/2);
+        List<Individual> children = createChildren(parents, populationsize/2);
         List<Individual> newpop = new ArrayList<Individual>();
         newpop.addAll(children);
         newpop.addAll(parents);
-        return newpop;
+        this.population = newpop;
     }
 
     public List<Individual> chooseParents(List<Individual> pop, int size) {
@@ -61,7 +68,7 @@ public class Simple_EA {
     public double[] mutate(double[] genes) {
         Random r = new Random();
         for (int i = 0; i< genes.length; i++) {
-            if (r.nextInt(100) == 1) {
+            if (r.nextInt(50) == 1) {
                 genes[i] = -5 + r.nextDouble() * 10;
             }
         }

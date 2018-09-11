@@ -3,7 +3,7 @@ import org.vu.contest.ContestEvaluation;
 
 public class Individual implements Comparable<Individual> {
     static int n_evals = 0;
-    private Double fitness = -1.0; //dummy value (fitness is never negative)
+    private Double fitness = null;
     private double[] genes = new double[10];
 
     public Individual(ContestEvaluation e) {
@@ -21,6 +21,7 @@ public class Individual implements Comparable<Individual> {
     }
 
 
+    //Used when creating an Individual
     public void setFitness(ContestEvaluation e) {
         this.fitness = (double) e.evaluate(this.genes);
         n_evals++;
