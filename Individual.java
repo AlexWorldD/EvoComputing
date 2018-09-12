@@ -22,13 +22,13 @@ public class Individual implements Comparable<Individual> {
 
 
     //Used when creating an Individual
-    public void setFitness(ContestEvaluation e) {
+    private void setFitness(ContestEvaluation e) {
         this.fitness = (double) e.evaluate(this.genes);
         n_evals++;
     }
 
 
-    public double getFitness() {
+    public Double getFitness() {
         return this.fitness;
     }
 

@@ -31,7 +31,7 @@ public class Simple_EA {
         this.population = newpop;
     }
 
-    public List<Individual> chooseParents(int size) {
+    private List<Individual> chooseParents(int size) {
         List<Individual> parents = new ArrayList<Individual>(size);
         Collections.sort(this.population);
         for(int i=0;i<size;i++) {
@@ -40,7 +40,7 @@ public class Simple_EA {
         return parents;
     }
 
-    public List<Individual> createChildren(List<Individual> parents, int size) {
+    private List<Individual> createChildren(List<Individual> parents, int size) {
         List<Individual> children = new ArrayList<Individual>(size);
         for(int i=0;i<size;i++) {
             int index1 = r.nextInt(parents.size());
@@ -53,7 +53,7 @@ public class Simple_EA {
         return children;
     }
 
-    public double[] crossover(Individual p1, Individual p2) {
+    private double[] crossover(Individual p1, Individual p2) {
         double[] childgenes = new double[10];
         for (int i=0;i<10; i++) {
             if (r.nextBoolean()) {
@@ -66,7 +66,7 @@ public class Simple_EA {
         return childgenes;
     }
 
-    public double[] mutate(double[] genes) {
+    private double[] mutate(double[] genes) {
         for (int i = 0; i< genes.length; i++) {
             if (r.nextInt(50) == 1) {
                 genes[i] = -5 + r.nextDouble() * 10;
