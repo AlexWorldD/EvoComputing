@@ -36,6 +36,15 @@ public class Individual implements Comparable<Individual> {
         return this.genes;
     }
 
+    public double euclDist(Individual other) {
+        double[] othergenes = other.getGenes();
+        double sum = 0;
+        for (int i=0;i<10;i++) {
+           sum += Math.pow(othergenes[i]-this.genes[i],2);
+        }
+        return Math.sqrt(sum);
+    }
+
     public int compareTo(Individual other) {
         if (this.fitness > other.fitness) return -1;
         if (this.fitness < other.fitness) return 1;
