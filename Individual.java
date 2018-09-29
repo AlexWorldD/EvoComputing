@@ -3,20 +3,23 @@ import org.vu.contest.ContestEvaluation;
 
 public class Individual implements Comparable<Individual> {
     static int n_evals = 0;
-    private Double fitness = null;
+    private double fitness = 0;
     private double[] genes = new double[10];
+    private double[] stepsize = new double[10];
 
     public Individual(ContestEvaluation e) {
         Random r = new Random();
         for(int i=0; i<10; i++) {
             // random value between -5 and 5
             this.genes[i] = -5 + r.nextDouble() * 10;
+            this.stepsize[i] = 0.8;
         }
         setFitness(e);
     }
 
-    public Individual(ContestEvaluation e, double[] genes) {
+    public Individual(ContestEvaluation e, double[] genes, double[] stepsize) {
         this.genes = genes;
+        this.stepsize = stepsize;
         setFitness(e);
     }
 
@@ -34,6 +37,10 @@ public class Individual implements Comparable<Individual> {
 
     public double[] getGenes() {
         return this.genes;
+    }
+    
+    public double[] getStepsize() {
+    	return this.stepsize;
     }
 
     public int compareTo(Individual other) {

@@ -44,9 +44,12 @@ public class player52 implements ContestSubmission
             // Do sth else
         }
     }
+	public static void main(String args[]) {
+		System.out.println("Hello There");
+	}
 
 	public void run() {
-        int populationsize = 100;
+        int populationsize = 3000;
         //Creates a random population of size 'populationsize'
         Simple_EA ea = new Simple_EA(evaluation_, populationsize);
 
