@@ -3,8 +3,6 @@ import org.vu.contest.ContestEvaluation;
 
 import java.util.Random;
 import java.util.Properties;
-import java.util.ArrayList;
-import java.util.List;
 
 public class player52 implements ContestSubmission
 {

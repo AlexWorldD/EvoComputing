@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import org.vu.contest.ContestEvaluation;
 
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
+
 public class Simple_EA {
 	// Uncorrelated self-adaptive mutation parameter
 	public double tau = 5*Math.sqrt(1/20.0);
