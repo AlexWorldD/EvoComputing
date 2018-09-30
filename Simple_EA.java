@@ -9,9 +9,9 @@ public class Simple_EA {
 	public double tau = Math.sqrt(1/20.0);
 	public double tauPrime = Math.pow(1/40.0, 0.25);
 	// threshold for step sizes for self-adaptive mutation
-	public double epsilon = 0.3;
+	public double epsilon = 0.1;
 	// Constants used for linear rank based parent selection
-	public double s = 1.5;
+	public double s = 1.8;
 	public static double c1;
 	public static double c2;
 	// Constant used for exponential parent selection pressure rank based
