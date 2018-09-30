@@ -6,7 +6,7 @@ import java.util.Properties;
 
 
 public class player52 implements ContestSubmission {
-    Random rnd_;
+    static public Random rnd_;
     ContestEvaluation evaluation_;
     private int evaluations_limit_;
 
