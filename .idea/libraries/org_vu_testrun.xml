@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org.vu.testrun">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/resources/testrun.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
