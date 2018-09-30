@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Properties;
 import java.util.Date;
 
-import com.sun.xml.internal.xsom.impl.scd.Iterators;
+//import com.sun.xml.internal.xsom.impl.scd.Iterators;
 import org.vu.contest.ContestEvaluation;
 import org.vu.contest.ContestSubmission;
 
@@ -14,7 +14,7 @@ public class TestRun {
     public static void main(String args[]) {
         player52 ver1 = new player52();
         int seed = 0;
-        String eval_name = evals[0];
+        String eval_name = evals[2];
         if (eval_name == null) {
             throw new Error("Evaluation ID was not specified! Cannot run...\n Use -evaluation=<classnamehere> to specify the name of the evaluation class.");
         } else {
