@@ -84,4 +84,40 @@ public class Mutation {
     private double _nonuniform(double cur_gene, double sigma) {
         return _rnd.nextGaussian() * sigma + cur_gene;
     }
+
+    /**
+     * Simplest one mutation - uniform
+     *
+     * @param individual Current individual
+     * @return mutated individual
+     */
+    public Individual UncorrelatedOneMutation(Individual individual) throws Exception {
+        double new_sigma = individual.getSigma() * Math.exp(individual.tau * _rnd.nextGaussian());
+        double[] old_genes = individual.getGenes();
+        for (int i = 0; i < Individual.num_genes; i++) {
+            old_genes[i] += new_sigma * individual.ind_rand.nextGaussian();
+        }
+        individual.updSigma(new_sigma);
+        individual.updGenes(old_genes);
+        return individual;
+    }
+
+    /**
+     * Simplest one mutation - uniform
+     *
+     * @param individual Current individual
+     * @return mutated individual
+     */
+    public Individual UncorrelatedNStepMutation(Individual individual) throws Exception {
+        double[] old_genes = individual.getGenes();
+        double[] old_sigmas = individual.getSigmas();
+        for (int i = 0; i < Individual.num_genes; i++) {
+            old_sigmas[i] *= Math.exp(individual.taus[0] * individual.ind_rand.nextGaussian() + individual.taus[1] * _rnd.nextGaussian());
+            old_genes[i] += Math.max(old_sigmas[i], individual.epsilon) * individual.ind_rand.nextGaussian();
+        }
+        individual.updSigmas(old_sigmas);
+        individual.updGenes(old_genes);
+        return individual;
+    }
+
 }
