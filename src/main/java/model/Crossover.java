@@ -29,7 +29,7 @@ public class Crossover {
     //    Different kinds of recombination operators   \\
 
     /**
-     * Default constructor
+     * Simple Arithmetic recombination
      *
      * @param l Left parent
      * @param r Right parent
@@ -40,12 +40,12 @@ public class Crossover {
         double[] l_old_sigmas = l.getSigmas();
         double[] r_old_genes = r.getGenes();
         double[] r_old_sigmas = r.getSigmas();
-        double _gen, _sig;
         for (int i = this.k + 1; i < Individual.num_genes; i++) {
-            _gen = _mixArithmetic(l_old_genes[i], r_old_genes[i]);
-            _sig = _mixArithmetic(l_old_sigmas[i], r_old_sigmas[i]);
-            l_old_genes[i] = r_old_genes[i] = _gen;
-            l_old_sigmas[i] = r_old_sigmas[i] = _sig;
+//            TODO p65, check the formula
+            l_old_genes[i] = _mixArithmetic(l_old_genes[i], r_old_genes[i]);
+            r_old_genes[i] = _mixArithmetic(r_old_genes[i], l_old_genes[i]);
+            l_old_sigmas[i] = _mixArithmetic(l_old_sigmas[i], r_old_sigmas[i]);
+            r_old_sigmas[i] = _mixArithmetic(r_old_sigmas[i], l_old_sigmas[i]);
         }
         l.updSigmas(l_old_sigmas);
         l.updGenes(l_old_genes);
@@ -58,7 +58,7 @@ public class Crossover {
     }
 
     /**
-     * Default constructor
+     * Single Arithmetic recombination
      *
      * @param l Left parent
      * @param r Right parent
@@ -72,6 +72,34 @@ public class Crossover {
         r.updGene(this.k, _gen);
         l.updSigma(this.k, _sig);
         r.updSigma(this.k, _sig);
+        List<Individual> children = new ArrayList<>();
+        children.add(l);
+        children.add(r);
+        return children;
+    }
+
+    /**
+     * Whole Arithmetic recombination
+     *
+     * @param l Left parent
+     * @param r Right parent
+     * @return List of children
+     */
+    public List<Individual> WholeArithmetic(Individual l, Individual r) throws Exception {
+        double[] l_old_genes = l.getGenes();
+        double[] l_old_sigmas = l.getSigmas();
+        double[] r_old_genes = r.getGenes();
+        double[] r_old_sigmas = r.getSigmas();
+        for (int i = 0; i < Individual.num_genes; i++) {
+            l_old_genes[i] = _mixArithmetic(l_old_genes[i], r_old_genes[i]);
+            r_old_genes[i] = _mixArithmetic(r_old_genes[i], l_old_genes[i]);
+            l_old_sigmas[i] = _mixArithmetic(l_old_sigmas[i], r_old_sigmas[i]);
+            r_old_sigmas[i] = _mixArithmetic(r_old_sigmas[i], l_old_sigmas[i]);
+        }
+        l.updSigmas(l_old_sigmas);
+        l.updGenes(l_old_genes);
+        r.updSigmas(r_old_sigmas);
+        r.updGenes(r_old_genes);
         List<Individual> children = new ArrayList<>();
         children.add(l);
         children.add(r);
