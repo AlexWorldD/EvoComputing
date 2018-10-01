@@ -111,6 +111,7 @@ public class Mutation {
     public Individual UncorrelatedNStepMutation(Individual individual) throws Exception {
         double[] old_genes = individual.getGenes();
         double[] old_sigmas = individual.getSigmas();
+//        TODO check the correctness of different random generators
         for (int i = 0; i < Individual.num_genes; i++) {
             old_sigmas[i] *= Math.exp(individual.taus[0] * individual.ind_rand.nextGaussian() + individual.taus[1] * _rnd.nextGaussian());
             old_genes[i] += Math.max(old_sigmas[i], individual.epsilon) * individual.ind_rand.nextGaussian();

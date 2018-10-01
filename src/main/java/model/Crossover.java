@@ -1,0 +1,84 @@
+package model;
+
+import static model.UnifiedRandom._rnd;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Collections;
+import java.util.List;
+
+public class Crossover {
+    public double alpha;
+    public int k;
+    public int num_parents;
+
+
+    /**
+     * Default constructor
+     *
+     * @param p       Number of parents
+     * @param split_k Crossover point, index in Genes array
+     * @param a       Alpha for mixing alleles
+     */
+    Crossover(int p, int split_k, double a) {
+        this.num_parents = p;
+        this.alpha = a;
+        this.k = Math.min(split_k, Individual.num_genes - 1);
+    }
+
+    //    Different kinds of recombination operators   \\
+
+    /**
+     * Default constructor
+     *
+     * @param l Left parent
+     * @param r Right parent
+     * @return List of children
+     */
+    public List<Individual> SimpleArithmetic(Individual l, Individual r) throws Exception {
+        double[] l_old_genes = l.getGenes();
+        double[] l_old_sigmas = l.getSigmas();
+        double[] r_old_genes = r.getGenes();
+        double[] r_old_sigmas = r.getSigmas();
+        double _gen, _sig;
+        for (int i = this.k + 1; i < Individual.num_genes; i++) {
+            _gen = _mixArithmetic(l_old_genes[i], r_old_genes[i]);
+            _sig = _mixArithmetic(l_old_sigmas[i], r_old_sigmas[i]);
+            l_old_genes[i] = r_old_genes[i] = _gen;
+            l_old_sigmas[i] = r_old_sigmas[i] = _sig;
+        }
+        l.updSigmas(l_old_sigmas);
+        l.updGenes(l_old_genes);
+        r.updSigmas(r_old_sigmas);
+        r.updGenes(r_old_genes);
+        List<Individual> children = new ArrayList<>();
+        children.add(l);
+        children.add(r);
+        return children;
+    }
+
+    /**
+     * Default constructor
+     *
+     * @param l Left parent
+     * @param r Right parent
+     * @return List of children
+     */
+    public List<Individual> SingleArithmetic(Individual l, Individual r) throws Exception {
+        double _gen, _sig;
+        _gen = _mixArithmetic(l.getGene(this.k), r.getGene(this.k));
+        _sig = _mixArithmetic(l.getSigma(this.k), r.getSigma(this.k));
+        l.updGene(this.k, _gen);
+        r.updGene(this.k, _gen);
+        l.updSigma(this.k, _sig);
+        r.updSigma(this.k, _sig);
+        List<Individual> children = new ArrayList<>();
+        children.add(l);
+        children.add(r);
+        return children;
+    }
+
+    private double _mixArithmetic(double l, double r) {
+        return this.alpha * l + (1 - this.alpha) * r;
+    }
+}

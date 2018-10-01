@@ -20,6 +20,7 @@ public class Individual implements Comparable<Individual> {
     private double[] genes = new double[num_genes];
     private double[] sigmas = new double[num_genes];
     public Random ind_rand = new Random();
+    private ContestEvaluation evaluation;
 
     /**
      * Default constructor
@@ -32,6 +33,7 @@ public class Individual implements Comparable<Individual> {
             this.sigmas[i] = 1;
         }
         this.fitness = (double) eval.evaluate(this.genes);
+        this.evaluation = eval;
     }
 
     /**
@@ -56,6 +58,14 @@ public class Individual implements Comparable<Individual> {
      * Getting current fitness of Individual
      */
     public double getFitness() {
+        return this.fitness;
+    }
+
+    /**
+     * Getting current fitness of Individual
+     */
+    public double updFitness() {
+        this.fitness = (double) this.evaluation.evaluate(this.genes);
         return this.fitness;
     }
 
