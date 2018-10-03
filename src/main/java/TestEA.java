@@ -33,7 +33,7 @@ public class TestEA {
         Individual b = new Individual(eval);
         Crossover crossover = new Crossover(2, 6, 0.5);
         try {
-            crossover.SimpleArithmetic(a,b);
+            crossover.SingleArithmetic(a,b);
         }
         catch (Exception ex) {
             throw new RuntimeException(ex);

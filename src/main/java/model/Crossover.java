@@ -76,16 +76,17 @@ public class Crossover {
      * @return List of children
      */
     public List<Individual> SingleArithmetic(Individual l, Individual r) throws Exception {
-        double _gen, _sig;
-        _gen = _mixArithmetic(l.getGene(this.k), r.getGene(this.k));
-        _sig = _mixArithmetic(l.getSigma(this.k), r.getSigma(this.k));
-        l.updGene(this.k, _gen);
-        r.updGene(this.k, _gen);
-        l.updSigma(this.k, _sig);
-        r.updSigma(this.k, _sig);
+        double[] l_old_genes = l.getGenes().clone();
+        double[] l_old_sigmas = l.getSigmas().clone();
+        double[] r_old_genes = r.getGenes().clone();
+        double[] r_old_sigmas = r.getSigmas().clone();
+        l_old_genes[k] = _mixArithmetic(l_old_genes[k], r_old_genes[k]);
+        r_old_genes[k] = _mixArithmetic(r_old_genes[k], l_old_genes[k]);
+        l_old_sigmas[k] = _mixArithmetic(l_old_sigmas[k], r_old_sigmas[k]);
+        r_old_sigmas[k] = _mixArithmetic(r_old_sigmas[k], l_old_sigmas[k]);
         List<Individual> children = new ArrayList<>();
-        children.add(l);
-        children.add(r);
+        children.add(new Individual(l.getEvaluation(), l_old_genes, l_old_sigmas));
+        children.add(new Individual(r.getEvaluation(), r_old_genes, r_old_sigmas));
         return children;
     }
 
