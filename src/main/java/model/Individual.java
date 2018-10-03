@@ -167,11 +167,11 @@ public class Individual implements Comparable<Individual> {
      * @param position position of gene for update
      * @param value    new value
      */
-    public void updSigma(int position, double value) throws Exception {
+    public void updSigma(int position, double value) throws ArrayIndexOutOfBoundsException {
         if (position >= 0 && position < num_genes) {
             sigmas[position] = Math.max(value, epsilon);
         } else {
-            throw new Exception();
+            throw new ArrayIndexOutOfBoundsException();
         }
     }
 

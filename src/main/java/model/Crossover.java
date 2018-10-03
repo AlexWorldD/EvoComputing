@@ -20,7 +20,7 @@ public class Crossover {
      * @param split_k Crossover point, index in Genes array
      * @param a       Alpha for mixing alleles
      */
-    Crossover(int p, int split_k, double a) {
+    public Crossover(int p, int split_k, double a) {
         this.num_parents = p;
         this.alpha = a;
         this.k = Math.min(split_k, Individual.num_genes - 1);
@@ -36,10 +36,10 @@ public class Crossover {
      * @return List of children
      */
     public List<Individual> SimpleArithmetic(Individual l, Individual r) throws Exception {
-        double[] l_old_genes = l.getGenes();
-        double[] l_old_sigmas = l.getSigmas();
-        double[] r_old_genes = r.getGenes();
-        double[] r_old_sigmas = r.getSigmas();
+        double[] l_old_genes = l.getGenes().clone();
+        double[] l_old_sigmas = l.getSigmas().clone();
+        double[] r_old_genes = r.getGenes().clone();
+        double[] r_old_sigmas = r.getSigmas().clone();
         for (int i = this.k + 1; i < Individual.num_genes; i++) {
 //            TODO p65, check the formula
             l_old_genes[i] = _mixArithmetic(l_old_genes[i], r_old_genes[i]);
@@ -55,6 +55,21 @@ public class Crossover {
         children.add(l);
         children.add(r);
         return children;
+    }
+
+    /**
+     * Single Arithmetic recombination
+     *
+     * @param pair Parents for making L0ve
+     * @return List of children
+     */
+    public List<Individual> SimpleArithmetic(List<Individual> pair) {
+        try {
+            return this.SimpleArithmetic(pair.get(0), pair.get(1));
+        }
+        catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
