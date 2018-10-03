@@ -47,13 +47,9 @@ public class Crossover {
             l_old_sigmas[i] = _mixArithmetic(l_old_sigmas[i], r_old_sigmas[i]);
             r_old_sigmas[i] = _mixArithmetic(r_old_sigmas[i], l_old_sigmas[i]);
         }
-        l.updSigmas(l_old_sigmas);
-        l.updGenes(l_old_genes);
-        r.updSigmas(r_old_sigmas);
-        r.updGenes(r_old_genes);
         List<Individual> children = new ArrayList<>();
-        children.add(l);
-        children.add(r);
+        children.add(new Individual(l.getEvaluation(), l_old_genes, l_old_sigmas));
+        children.add(new Individual(r.getEvaluation(), r_old_genes, r_old_sigmas));
         return children;
     }
 

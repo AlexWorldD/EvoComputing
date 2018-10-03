@@ -37,6 +37,24 @@ public class Individual implements Comparable<Individual> {
     }
 
     /**
+     * Default constructor
+     *
+     * @param eval Contest evaluation method
+     * @param g    Genes
+     * @param s    Sigmas
+     */
+    public Individual(ContestEvaluation eval, double[] g, double[] s) {
+        try {
+            this.updGenes(g);
+            this.updSigmas(s);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        this.fitness = (double) eval.evaluate(this.genes);
+        this.evaluation = eval;
+    }
+
+    /**
      * Setting specific fitness value
      *
      * @param fitness Specific fitness, could be useful for debug
@@ -198,6 +216,10 @@ public class Individual implements Comparable<Individual> {
         return this.genes;
     }
 
+    public ContestEvaluation getEvaluation() {
+        return this.evaluation;
+    }
+
     /**
      * Comparator for class Individual
      *
@@ -207,4 +229,6 @@ public class Individual implements Comparable<Individual> {
     public int compareTo(Individual other) {
         return Double.compare(this.fitness, other.fitness);
     }
+
+
 }
