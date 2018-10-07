@@ -12,9 +12,9 @@ public class Individual implements Comparable<Individual> {
     final static public int num_genes = 10;
     final static private int min_gene = -5;
     final static private int max_gene = 5;
-    public double tau = Math.sqrt(1 / (2 * num_genes));
-    public double[] taus = {Math.sqrt(1 / (2 * Math.sqrt(num_genes))),
-            Math.sqrt(1 / (2 * num_genes))};
+    public double tau = Math.sqrt(1.0 / num_genes);
+    public double[] taus = {Math.sqrt(1.0 / (2.0 * Math.sqrt(num_genes))),
+            Math.sqrt(1.0 / (2.0 * num_genes))};
     public double epsilon = 0.05;
     private double fitness = 0.0;
     private double[] genes = new double[num_genes];
@@ -30,7 +30,8 @@ public class Individual implements Comparable<Individual> {
     public Individual(ContestEvaluation eval) {
         for (int i = 0; i < num_genes; i++) {
             this.genes[i] = min_gene + _rnd.nextDouble() * (max_gene - min_gene);
-            this.sigmas[i] = 1;
+//            TODO define the appropriate def sigmas
+            this.sigmas[i] = 1.0;
         }
         this.fitness = (double) eval.evaluate(this.genes);
         this.evaluation = eval;
@@ -47,8 +48,8 @@ public class Individual implements Comparable<Individual> {
         try {
             this.updGenes(g);
             this.updSigmas(s);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Exception thrown  :" + ex);
         }
         this.fitness = (double) eval.evaluate(this.genes);
         this.evaluation = eval;
@@ -93,7 +94,7 @@ public class Individual implements Comparable<Individual> {
      * @param position position of gene for update
      * @param value    new value
      */
-    public void updGene(int position, double value) throws Exception {
+    public void updGene(int position, double value) throws ArrayIndexOutOfBoundsException {
         if (position >= 0 && position < num_genes) {
             if (value <= min_gene) {
                 genes[position] = min_gene;
@@ -101,7 +102,7 @@ public class Individual implements Comparable<Individual> {
                 genes[position] = max_gene;
             } else genes[position] = value;
         } else {
-            throw new Exception();
+            throw new ArrayIndexOutOfBoundsException();
         }
     }
 
@@ -110,7 +111,7 @@ public class Individual implements Comparable<Individual> {
      *
      * @param new_genes array of new values
      */
-    public void updGenes(double[] new_genes) throws Exception {
+    public void updGenes(double[] new_genes) throws ArrayIndexOutOfBoundsException {
         if (new_genes.length == num_genes) {
             for (int i = 0; i < num_genes; i++) {
                 if (new_genes[i] <= min_gene) {
@@ -120,7 +121,7 @@ public class Individual implements Comparable<Individual> {
                 } else genes[i] = new_genes[i];
             }
         } else {
-            throw new Exception();
+            throw new ArrayIndexOutOfBoundsException();
         }
     }
 
@@ -130,11 +131,11 @@ public class Individual implements Comparable<Individual> {
      * @param position position of required gene
      * @return value of required gene
      */
-    public double getGene(int position) throws Exception {
+    public double getGene(int position) throws ArrayIndexOutOfBoundsException {
         if (position >= 0 && position < num_genes) {
             return genes[position];
         } else {
-            throw new Exception();
+            throw new ArrayIndexOutOfBoundsException();
         }
     }
 
@@ -162,11 +163,11 @@ public class Individual implements Comparable<Individual> {
      * @param position position of required sigma
      * @return value of required sigma
      */
-    public double getSigma(int position) throws Exception {
+    public double getSigma(int position) throws ArrayIndexOutOfBoundsException {
         if (position >= 0 && position < num_genes) {
             return sigmas[position];
         } else {
-            throw new Exception();
+            throw new ArrayIndexOutOfBoundsException();
         }
     }
 
@@ -176,6 +177,7 @@ public class Individual implements Comparable<Individual> {
      * @param value new value
      */
     public void updSigma(double value) {
+//  boundary rule, is used to force step sizes to be no smaller than threshold
         sigmas[0] = Math.max(value, epsilon);
     }
 
@@ -198,14 +200,14 @@ public class Individual implements Comparable<Individual> {
      *
      * @param new_sigmas new values for sigma
      */
-    public void updSigmas(double[] new_sigmas) throws Exception {
+    public void updSigmas(double[] new_sigmas) throws ArrayIndexOutOfBoundsException {
         if (new_sigmas.length == num_genes) {
             for (int i = 0; i < Individual.num_genes; i++) {
                 sigmas[i] = Math.max(new_sigmas[i], epsilon);
             }
 
         } else {
-            throw new Exception();
+            throw new ArrayIndexOutOfBoundsException();
         }
     }
 
