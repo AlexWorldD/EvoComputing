@@ -16,6 +16,17 @@ public class Crossover {
     /**
      * Default constructor
      *
+     * @param split_k Crossover point, index in Genes array
+     */
+    public Crossover(int split_k) {
+        this.num_parents = 2;
+        this.alpha = 0.5;
+        this.k = Math.min(split_k, Individual.num_genes - 1);
+    }
+
+    /**
+     * Default constructor with additional parameters
+     *
      * @param p       Number of parents
      * @param split_k Crossover point, index in Genes array
      * @param a       Alpha for mixing alleles
@@ -28,6 +39,8 @@ public class Crossover {
 
     //    Different kinds of recombination operators   \\
 
+//  /////// SIMPLE ARITHMETIC \\\\\\\\
+
     /**
      * Simple Arithmetic recombination
      *
@@ -35,7 +48,7 @@ public class Crossover {
      * @param r Right parent
      * @return List of children
      */
-    public List<Individual> SimpleArithmetic(Individual l, Individual r) throws Exception {
+    public List<Individual> SimpleArithmetic(Individual l, Individual r) {
         double[] l_old_genes = l.getGenes().clone();
         double[] l_old_sigmas = l.getSigmas().clone();
         double[] r_old_genes = r.getGenes().clone();
@@ -54,7 +67,7 @@ public class Crossover {
     }
 
     /**
-     * Single Arithmetic recombination
+     * Safe Simple Arithmetic recombination
      *
      * @param pair Parents for making L0ve
      * @return List of children
@@ -62,12 +75,11 @@ public class Crossover {
     public List<Individual> SimpleArithmetic(List<Individual> pair) {
         try {
             return this.SimpleArithmetic(pair.get(0), pair.get(1));
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
-
+//  /////// SINGLE ARITHMETIC \\\\\\\\
     /**
      * Single Arithmetic recombination
      *
@@ -75,7 +87,7 @@ public class Crossover {
      * @param r Right parent
      * @return List of children
      */
-    public List<Individual> SingleArithmetic(Individual l, Individual r) throws Exception {
+    public List<Individual> SingleArithmetic(Individual l, Individual r) {
         double[] l_old_genes = l.getGenes().clone();
         double[] l_old_sigmas = l.getSigmas().clone();
         double[] r_old_genes = r.getGenes().clone();
@@ -90,6 +102,8 @@ public class Crossover {
         return children;
     }
 
+
+//  /////// WHOLE ARITHMETIC \\\\\\\\
     /**
      * Whole Arithmetic recombination
      *
@@ -97,7 +111,7 @@ public class Crossover {
      * @param r Right parent
      * @return List of children
      */
-    public List<Individual> WholeArithmetic(Individual l, Individual r) throws Exception {
+    public List<Individual> WholeArithmetic(Individual l, Individual r) {
         double[] l_old_genes = l.getGenes();
         double[] l_old_sigmas = l.getSigmas();
         double[] r_old_genes = r.getGenes();
@@ -108,17 +122,17 @@ public class Crossover {
             l_old_sigmas[i] = _mixArithmetic(l_old_sigmas[i], r_old_sigmas[i]);
             r_old_sigmas[i] = _mixArithmetic(r_old_sigmas[i], l_old_sigmas[i]);
         }
-        l.updSigmas(l_old_sigmas);
-        l.updGenes(l_old_genes);
-        r.updSigmas(r_old_sigmas);
-        r.updGenes(r_old_genes);
         List<Individual> children = new ArrayList<>();
-        children.add(l);
-        children.add(r);
+        children.add(new Individual(l.getEvaluation(), l_old_genes, l_old_sigmas));
+        children.add(new Individual(r.getEvaluation(), r_old_genes, r_old_sigmas));
         return children;
     }
 
     private double _mixArithmetic(double l, double r) {
+        //            TODO p65, check the formula
         return this.alpha * l + (1 - this.alpha) * r;
     }
+
+//  /////// BLEND MUTATION \\\\\\\\
+//    TODO write it here
 }

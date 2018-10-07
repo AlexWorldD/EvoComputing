@@ -31,7 +31,8 @@ public class TestEA {
         }
         Individual a = new Individual(eval);
         Individual b = new Individual(eval);
-        Crossover crossover = new Crossover(2, 6, 0.5);
+        Crossover crossover = new Crossover(2, 6, 0.3);
+        crossover.SimpleArithmetic(a,b);
         try {
             crossover.SingleArithmetic(a,b);
         }
