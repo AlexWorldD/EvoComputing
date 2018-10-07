@@ -128,6 +128,20 @@ public class Crossover {
         return children;
     }
 
+    /**
+     * Safe Whole Arithmetic recombination
+     *
+     * @param pair Parents for making L0ve
+     * @return List of children
+     */
+    public List<Individual> WholeArithmetic(List<Individual> pair) {
+        try {
+            return this.WholeArithmetic(pair.get(0), pair.get(1));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     private double _mixArithmetic(double l, double r) {
         //            TODO p65, check the formula
         return this.alpha * l + (1 - this.alpha) * r;

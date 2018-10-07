@@ -51,7 +51,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
         } catch (ArrayIndexOutOfBoundsException ex) {
             System.out.println("Exception thrown  :" + ex);
         }
-        this.fitness = (double) eval.evaluate(this.genes);
+//        this.fitness = (double) eval.evaluate(this.genes);
         this.evaluation = eval;
     }
 

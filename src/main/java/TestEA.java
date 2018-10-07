@@ -32,27 +32,13 @@ public class TestEA {
             var21.printStackTrace();
             System.exit(1);
         }
-        Individual a = new Individual(eval);
-        Individual b = new Individual(eval);
         List<Individual> population = new ArrayList<>();
-        population.add(a);
-        population.add(b);
-        Individual c;
-        try {
-            c = population.get(0).clone();
+        for (int i = 0; i < 10; i++) {
+            Individual ind = new Individual(eval);
+            population.add(ind);
         }
-        catch (CloneNotSupportedException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        Crossover crossover = new Crossover(2, 6, 0.3);
-        crossover.SimpleArithmetic(a,b);
-        try {
-            crossover.SingleArithmetic(a,b);
-        }
-        catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        Selection selection = new Selection();
+        selection.crowding(population);
         System.out.println("Hello There");
 
     }

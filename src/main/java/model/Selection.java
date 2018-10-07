@@ -1,9 +1,12 @@
 package model;
 
+import org.vu.contest.ContestEvaluation;
+
 import static model.UnifiedRandom._rnd;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class Selection {
 
@@ -12,14 +15,22 @@ public class Selection {
         STEADE_STATE_MODEL
     }
 
-    private double lambda;
-    private double mu;
+    private int lambda;
+    private int mu;
     //    TODO is it require to have these structure inside the class or just use the static methods?
-    private List<Individual> cur_parents;
+    public List<Individual> cur_parents;
     private List<List<Individual>> cur_pairsP;
     private List<List<Individual>> cur_pairsC;
 
-    Selection(double num_parents, double num_childs) {
+    public Selection() {
+        this.mu = 6;
+        this.lambda = 2;
+        this.cur_parents = new ArrayList<>();
+        this.cur_pairsP = new ArrayList<>();
+        this.cur_pairsC = new ArrayList<>();
+    }
+
+    public Selection(int num_parents, int num_childs) {
         this.mu = num_parents;
         this.lambda = num_childs;
         this.cur_parents = new ArrayList<>();
@@ -33,9 +44,12 @@ public class Selection {
      * @param old  Population
      * @param mode The mode for parents selection: Random, Ranking etc.
      */
-    void chooseParents(List<Individual> old, String mode) {
+    public void chooseParents(List<Individual> old, String mode) {
         List<Individual> parents = new ArrayList<Individual>();
         switch (mode) {
+            case "all": {
+                this.cur_parents = old;
+            }
             case "random": {
                 this.cur_parents = this._parentsRandom(old);
             }
@@ -49,11 +63,22 @@ public class Selection {
      */
     private List<Individual> _parentsRandom(List<Individual> p) {
         List<Individual> parents = new ArrayList<Individual>();
-        for (int i = 0; i < this.mu; i++) {
-            int randomIndex = _rnd.nextInt(p.size());
-            Individual randomElement = p.get(randomIndex);
-            p.remove(randomIndex);
-            parents.add(randomElement);
+        List<Integer> indexes = new ArrayList<>();
+        int randomIndex = 0;
+        int _l = 0;
+//        indexes.add(randomIndex);
+        while (_l < this.mu) {
+            randomIndex = _rnd.nextInt(p.size());
+            if (indexes.indexOf(randomIndex) == -1) {
+                indexes.add(randomIndex);
+                try {
+                    parents.add(p.get(randomIndex).clone());
+                } catch (CloneNotSupportedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                _l++;
+            }
+
         }
         return parents;
     }
@@ -66,8 +91,11 @@ public class Selection {
     public List<List<Individual>> makePairs(String mode) {
         List<List<Individual>> pairs = new ArrayList<>();
         switch (mode) {
-            case "random": {
+            case "seq": {
                 this.cur_pairsP = this._parentsPairSequentially(this.cur_parents);
+            }
+            case "random": {
+                this.cur_pairsP = this._parentsPairRandom(this.cur_parents);
             }
         }
         return pairs;
@@ -80,12 +108,41 @@ public class Selection {
      */
     private List<List<Individual>> _parentsPairSequentially(List<Individual> p) {
         List<List<Individual>> parents = new ArrayList<>();
-        List<Individual> pair = new ArrayList<>();
+        List<Individual> pair;
         for (int i = 0; i < this.mu; i = i + 2) {
+            pair = new ArrayList<Individual>();
             pair.add(p.get(i));
             pair.add(p.get(i + 1));
             parents.add(pair);
-            pair.clear();
+
+        }
+        return parents;
+    }
+
+    /**
+     * Random parents pairing
+     *
+     * @param p Population
+     */
+    private List<List<Individual>> _parentsPairRandom(List<Individual> p) {
+        List<List<Individual>> parents = new ArrayList<>();
+        List<Individual> pair;
+        for (int i = 0; i < this.mu; i += 2) {
+            pair = new ArrayList<Individual>();
+            try {
+                int randomIndex = _rnd.nextInt(p.size());
+                Individual randomElement = p.get(randomIndex).clone();
+                p.remove(randomIndex);
+                pair.add(randomElement);
+                randomIndex = _rnd.nextInt(p.size());
+                randomElement = p.get(randomIndex).clone();
+                p.remove(randomIndex);
+                pair.add(randomElement);
+            } catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
+            parents.add(pair);
+
         }
         return parents;
     }
@@ -95,23 +152,102 @@ public class Selection {
      *
      * @param mode The mode for crossover: SimpleArithmetic, SingleArithmetic etc
      */
-    void makeChildren(String mode, Boolean mutate) throws Exception {
-        List<List<Individual>> children = new ArrayList<>();
+//    TODO add meaningful arguments?
+    void makeChildren(String mode, Boolean mutate, String mutate_mode) {
+        final Crossover crossover = new Crossover(2, 5, 0.5);
         switch (mode) {
             case "simpleA": {
-                final Crossover crossover = new Crossover(2, 6, 0.5);
-                this.cur_pairsP.forEach(item -> children.add(crossover.SimpleArithmetic(item)));
-//                for (int i = 0; i < pairs.size(); i++) {
-////                    TODO change to Array may be??
-//                    children.add(crossover.SimpleArithmetic(pairs.get(i).get(0), pairs.get(i).get(1)));
-//                }
+                this.cur_pairsP.forEach(item -> cur_pairsC.add(crossover.SimpleArithmetic(item)));
+            }
+            case "wholeA": {
+                this.cur_pairsP.forEach(item -> cur_pairsC.add(crossover.WholeArithmetic(item)));
             }
         }
         if (mutate) {
+            final Mutation mutation = new Mutation();
+            switch (mutate_mode) {
+                case "UncorN": {
+                    this.cur_pairsC.forEach(item -> item.forEach(item2 -> mutation.UncorrelatedNStepMutation(item2)));
+                }
+            }
 
         }
-        this.cur_pairsC = children;
+        this.cur_pairsC.forEach(item -> item.forEach(item2 -> item2.updFitness()));
     }
 
+
+    public List<Individual> crowding(List<Individual> p) {
+        List<Individual> offspring = new ArrayList<Individual>();
+        this.chooseParents(p, "random");
+        this.makePairs("random");
+        this.makeChildren("wholeA", true, "UncorN");
+        for (int i = 0; i < this.cur_pairsC.size(); i++) {
+            if (Metric.euclDist(this.cur_pairsP.get(i).get(0), this.cur_pairsC.get(i).get(0)) +
+                    Metric.euclDist(this.cur_pairsP.get(i).get(1), this.cur_pairsC.get(i).get(1)) <
+                    Metric.euclDist(this.cur_pairsP.get(i).get(0), this.cur_pairsC.get(i).get(1)) +
+                            Metric.euclDist(this.cur_pairsP.get(i).get(1), this.cur_pairsC.get(i).get(0))) {
+                if (this.cur_pairsC.get(i).get(0).getFitness() < this.cur_pairsP.get(i).get(0).getFitness()) {
+                    try {
+                        offspring.add(this.cur_pairsP.get(i).get(0).clone());
+                    } catch (CloneNotSupportedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                else {
+                    try {
+                        offspring.add(this.cur_pairsC.get(i).get(0).clone());
+                    } catch (CloneNotSupportedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                if (this.cur_pairsC.get(i).get(1).getFitness() < this.cur_pairsP.get(i).get(1).getFitness()) {
+                    try {
+                        offspring.add(this.cur_pairsP.get(i).get(1).clone());
+                    } catch (CloneNotSupportedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                else {
+                    try {
+                        offspring.add(this.cur_pairsC.get(i).get(1).clone());
+                    } catch (CloneNotSupportedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+            else {
+                if (this.cur_pairsC.get(i).get(0).getFitness() < this.cur_pairsP.get(i).get(1).getFitness()) {
+                    try {
+                        offspring.add(this.cur_pairsP.get(i).get(1).clone());
+                    } catch (CloneNotSupportedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                else {
+                    try {
+                        offspring.add(this.cur_pairsC.get(i).get(0).clone());
+                    } catch (CloneNotSupportedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                if (this.cur_pairsC.get(i).get(1).getFitness() < this.cur_pairsP.get(i).get(0).getFitness()) {
+                    try {
+                        offspring.add(this.cur_pairsP.get(i).get(0).clone());
+                    } catch (CloneNotSupportedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                else {
+                    try {
+                        offspring.add(this.cur_pairsC.get(i).get(1).clone());
+                    } catch (CloneNotSupportedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+
+        }
+        return offspring;
+    }
 
 }
