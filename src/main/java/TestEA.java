@@ -1,7 +1,10 @@
 import model.Individual;
 import org.vu.contest.ContestEvaluation;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import model.*;
 
 //import com.sun.xml.internal.xsom.impl.scd.Iterators;
@@ -31,6 +34,17 @@ public class TestEA {
         }
         Individual a = new Individual(eval);
         Individual b = new Individual(eval);
+        List<Individual> population = new ArrayList<>();
+        population.add(a);
+        population.add(b);
+        Individual c;
+        try {
+            c = population.get(0).clone();
+        }
+        catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+
         Crossover crossover = new Crossover(2, 6, 0.3);
         crossover.SimpleArithmetic(a,b);
         try {

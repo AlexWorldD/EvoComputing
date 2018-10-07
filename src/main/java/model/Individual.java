@@ -7,7 +7,7 @@ import static model.UnifiedRandom._rnd;
 import org.vu.contest.ContestEvaluation;
 
 
-public class Individual implements Comparable<Individual> {
+public class Individual implements Comparable<Individual>, Cloneable {
 
     final static public int num_genes = 10;
     final static private int min_gene = -5;
@@ -232,5 +232,13 @@ public class Individual implements Comparable<Individual> {
         return Double.compare(this.fitness, other.fitness);
     }
 
+    public Individual clone() throws CloneNotSupportedException {
+        Individual cloneObj = (Individual) super.clone();
+        cloneObj.genes = this.genes.clone();
+        cloneObj.sigmas = this.sigmas.clone();
+        cloneObj.taus = this.taus.clone();
+        cloneObj.evaluation = this.evaluation;
+        return cloneObj;
+    }
 
 }

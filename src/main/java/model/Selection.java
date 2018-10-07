@@ -22,7 +22,7 @@ public class Selection {
     Selection(double num_parents, double num_childs) {
         this.mu = num_parents;
         this.lambda = num_childs;
-        this.cur_parents = new ArrayList<Individual>();
+        this.cur_parents = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
     }
