@@ -8,8 +8,10 @@
   00. Clone repo to you machine
   `git clone https://github.com/AlexWorldD/EvoComputing/`
   0. Open project in [IntelliJ](https://www.jetbrains.com/idea/) as a Maven project.
-  1. Build Project
-  2. Develop and test your parameters/methods
+  1. Add libraries: `org.vu.contest` and `org.vu.testrun` to File->Project Structure->Libraries
+  2. **Ubuntu Special**, also here add `cjavabbob.dll` as a library
+  3. Build Project
+  4. Develop and test your parameters/methods
 ### How to make Submission.jar?:
   0. Rebuild Project
   1. In project directory writhe `mvn package`
