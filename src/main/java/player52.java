@@ -1,26 +1,26 @@
 import org.vu.contest.ContestEvaluation;
 import org.vu.contest.ContestSubmission;
+import model.*;
+
+import static model.UnifiedRandom._rnd;
+import static model.UnifiedRandom._evals;
 
 import java.util.Properties;
-import java.util.Random;
 
 
-public class player520 implements ContestSubmission {
-    static public Random rnd_;
+public class player52 implements ContestSubmission {
     ContestEvaluation evaluation_;
     private int evaluations_limit_;
 
-    public player520() {
-        rnd_ = new Random();
+    public player52() {
+// What we should do here?
     }
 
     public void setSeed(long seed) {
-        // Set seed of algortihms random process
-        rnd_.setSeed(seed);
+        _rnd.setSeed(seed);
     }
 
     public void setEvaluation(ContestEvaluation evaluation) {
-        // Set evaluation problem used in the run
         evaluation_ = evaluation;
 
         // Get evaluation properties
@@ -47,12 +47,13 @@ public class player520 implements ContestSubmission {
 
     public void run() {
         int populationsize = 150;
+        double update = 0.2;
         //Creates a random population of size 'populationsize'
-        Simple_EA ea = new Simple_EA(evaluation_, populationsize);
+        EA ea = new EA(evaluation_, populationsize, update);
 
         //this condition could entail that some evaluations are not used...
-        while (Individual.n_evals < evaluations_limit_ - populationsize) {
-            ea.evolve();
+        while (_evals < evaluations_limit_) {
+            ea.crowding();
         }
     }
 
