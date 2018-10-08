@@ -52,7 +52,7 @@ public class player52 implements ContestSubmission {
         EA ea = new EA(evaluation_, populationsize, update);
 
         //this condition could entail that some evaluations are not used...
-        while (_evals < evaluations_limit_) {
+        while (_evals < evaluations_limit_ - populationsize) {
             ea.crowding();
         }
     }
