@@ -18,6 +18,7 @@ public class EA {
     public int population_size;
     private double update_part;
     public int num_parents;
+    public Selection selection;
 
 
     public EA(ContestEvaluation e, int population_size, double update_part) {
@@ -32,16 +33,24 @@ public class EA {
         for (int i = 0; i < this.population_size; i++) {
             this.population.add(new Individual(this.evaluation));
         }
+        this.selection = new Selection(this.num_parents);
     }
 
     public void crowding() {
-        Selection selection = new Selection(this.num_parents);
-        selection.chooseParents(this.population, "random");
-        selection.makePairs("random");
-        selection.makeChildren("wholeA");
-        selection.mutateChilred("UncorN");
-        selection.evaluateChildren();
+//        Selection selection = new Selection(this.num_parents);
+        this.selection.chooseParents(this.population, "all");
+        System.out.println("Parents");
+        this.selection.makePairs("random");
+        System.out.println("Pairs");
+        this.selection.makeChildren("wholeA");
+        System.out.println("MakeChildren");
+        this.selection.mutateChilred("UncorN");
+        System.out.println("MutateChildren");
+//        _evals+=this.num_parents;
+        this.selection.evaluateChildren();
+        System.out.println("Evaluate");
         this.population.addAll(selection.crowding());
+        this.selection.reset();
     }
 
 }

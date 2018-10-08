@@ -34,6 +34,11 @@ public class Selection {
         this.cur_pairsC = new ArrayList<>();
     }
 
+    public void reset() {
+        this.cur_parents = new ArrayList<>();
+        this.cur_pairsP = new ArrayList<>();
+        this.cur_pairsC = new ArrayList<>();
+    }
     /**
      * Choosing parents from the whole population
      *

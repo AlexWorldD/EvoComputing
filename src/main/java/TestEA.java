@@ -36,10 +36,11 @@ public class TestEA {
             System.exit(1);
         }
 
-        int populationsize = 150;
-        double update = 0.6;
+        int populationsize = 50;
+        double update = 1;
         EA ea = new EA(eval, populationsize, update);
         while (_evals < 10000 - populationsize) {
+            System.out.println(_evals);
             ea.crowding();
 
         }
