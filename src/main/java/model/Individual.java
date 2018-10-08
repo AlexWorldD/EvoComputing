@@ -3,6 +3,7 @@ package model;
 import java.util.Random;
 
 import static model.UnifiedRandom._rnd;
+import static model.UnifiedRandom._evals;
 
 import org.vu.contest.ContestEvaluation;
 
@@ -31,10 +32,11 @@ public class Individual implements Comparable<Individual>, Cloneable {
         for (int i = 0; i < num_genes; i++) {
             this.genes[i] = min_gene + _rnd.nextDouble() * (max_gene - min_gene);
 //            TODO define the appropriate def sigmas
-            this.sigmas[i] = 1.0;
+            this.sigmas[i] = 0.5;
         }
-        this.fitness = (double) eval.evaluate(this.genes);
         this.evaluation = eval;
+        this.fitness = (double) this.evaluation.evaluate(this.genes);
+        _evals++;
     }
 
     /**
@@ -85,6 +87,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
      */
     public double updFitness() {
         this.fitness = (double) this.evaluation.evaluate(this.genes);
+        _evals++;
         return this.fitness;
     }
 

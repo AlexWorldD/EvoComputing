@@ -112,10 +112,10 @@ public class Crossover {
      * @return List of children
      */
     public List<Individual> WholeArithmetic(Individual l, Individual r) {
-        double[] l_old_genes = l.getGenes();
-        double[] l_old_sigmas = l.getSigmas();
-        double[] r_old_genes = r.getGenes();
-        double[] r_old_sigmas = r.getSigmas();
+        double[] l_old_genes = l.getGenes().clone();
+        double[] l_old_sigmas = l.getSigmas().clone();
+        double[] r_old_genes = r.getGenes().clone();
+        double[] r_old_sigmas = r.getSigmas().clone();
         for (int i = 0; i < Individual.num_genes; i++) {
             l_old_genes[i] = _mixArithmetic(l_old_genes[i], r_old_genes[i]);
             r_old_genes[i] = _mixArithmetic(r_old_genes[i], l_old_genes[i]);

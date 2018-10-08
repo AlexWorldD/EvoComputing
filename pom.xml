@@ -7,6 +7,7 @@
     <groupId>Group52</groupId>
     <artifactId>EC</artifactId>
     <version>0.7</version>
+    <packaging>jar</packaging>
     <build>
         <plugins>
             <plugin>
@@ -18,6 +19,8 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>submission</finalName>
     </build>
+
 
 </project>

@@ -1,16 +1,16 @@
-import org.vu.contest.ContestEvaluation;
 import org.vu.contest.ContestSubmission;
+import org.vu.contest.ContestEvaluation;
 
-import java.util.Properties;
 import java.util.Random;
+import java.util.Properties;
 
 
-public class player520 implements ContestSubmission {
+public class player52 implements ContestSubmission {
     static public Random rnd_;
     ContestEvaluation evaluation_;
     private int evaluations_limit_;
 
-    public player520() {
+    public player52() {
         rnd_ = new Random();
     }
 
