@@ -1,7 +1,9 @@
 import model.Individual;
 import org.vu.contest.ContestEvaluation;
 
+
 import static model.UnifiedRandom._evals;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,9 +35,13 @@ public class TestEA {
             var21.printStackTrace();
             System.exit(1);
         }
-        EA ea = new EA(eval, 100, 0.2);
-        while (_evals < 10000) {
+
+        int populationsize = 150;
+        double update = 0.6;
+        EA ea = new EA(eval, populationsize, update);
+        while (_evals < 10000 - populationsize) {
             ea.crowding();
+
         }
         System.out.println("Done");
     }

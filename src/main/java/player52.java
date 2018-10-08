@@ -46,8 +46,8 @@ public class player52 implements ContestSubmission {
     }
 
     public void run() {
-        int populationsize = 150;
-        double update = 0.2;
+        int populationsize = 50;
+        double update = 0.6;
         //Creates a random population of size 'populationsize'
         EA ea = new EA(evaluation_, populationsize, update);
 

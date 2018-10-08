@@ -25,6 +25,9 @@ public class EA {
         this.population_size = population_size;
         this.update_part = update_part;
         this.num_parents = (int) Math.round(this.population_size*this.update_part);
+        if (this.num_parents%2==1) {
+            this.num_parents+=1;
+        }
 //        Creating population
         for (int i = 0; i < this.population_size; i++) {
             this.population.add(new Individual(this.evaluation));
