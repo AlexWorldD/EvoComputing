@@ -36,6 +36,8 @@ public class TestEA {
             System.exit(1);
         }
 
+        Date time = new Date();
+        long st = time.getTime();
         int populationsize = 50;
         double update = 1;
         EA ea = new EA(eval, populationsize, update);
@@ -44,6 +46,12 @@ public class TestEA {
             ea.crowding();
 
         }
-        System.out.println("Done");
+        time = new Date();
+        long var15 = time.getTime() - st;
+        System.out.println("Evaluation function: " + name);
+        System.out.println("Score: " + Double.toString(eval.getFinalResult()));
+        System.out.println("Runtime: " + var15 + "ms");
+        System.exit(0);
+
     }
 }

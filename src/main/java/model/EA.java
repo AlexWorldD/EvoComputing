@@ -2,14 +2,16 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import static model.UnifiedRandom._rnd;
 import static model.UnifiedRandom._evals;
+
 import java.util.List;
+
 import org.vu.contest.ContestEvaluation;
 
 /**
  * Evolutionary algorithm class
- *
  */
 public class EA {
 
@@ -25,9 +27,9 @@ public class EA {
         this.evaluation = e;
         this.population_size = population_size;
         this.update_part = update_part;
-        this.num_parents = (int) Math.round(this.population_size*this.update_part);
-        if (this.num_parents%2==1) {
-            this.num_parents+=1;
+        this.num_parents = (int) Math.round(this.population_size * this.update_part);
+        if (this.num_parents % 2 == 1) {
+            this.num_parents += 1;
         }
 //        Creating population
         for (int i = 0; i < this.population_size; i++) {
@@ -38,17 +40,21 @@ public class EA {
 
     public void crowding() {
 //        Selection selection = new Selection(this.num_parents);
-        this.selection.chooseParents(this.population, "all");
-        System.out.println("Parents");
+        if (this.update_part == 1.0) {
+            this.selection.chooseParents(this.population, "all");
+        } else {
+            this.selection.chooseParents(this.population, "random");
+        }
+//        System.out.println("Parents");
         this.selection.makePairs("random");
-        System.out.println("Pairs");
+//        System.out.println("Pairs");
         this.selection.makeChildren("wholeA");
-        System.out.println("MakeChildren");
+//        System.out.println("MakeChildren");
         this.selection.mutateChilred("UncorN");
-        System.out.println("MutateChildren");
+//        System.out.println("MutateChildren");
 //        _evals+=this.num_parents;
         this.selection.evaluateChildren();
-        System.out.println("Evaluate");
+//        System.out.println("Evaluate");
         this.population.addAll(selection.crowding());
         this.selection.reset();
     }

@@ -76,7 +76,7 @@ public class Selection {
                 indexes.add(randomIndex);
                 try {
                     parents.add(p.get(randomIndex).clone());
-                    p.remove(randomIndex);
+//                    p.remove(randomIndex);
                 } catch (CloneNotSupportedException ex) {
                     throw new RuntimeException(ex);
                 }
