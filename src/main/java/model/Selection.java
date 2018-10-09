@@ -1,12 +1,9 @@
 package model;
 
-import org.vu.contest.ContestEvaluation;
-
 import static model.UnifiedRandom._rnd;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public class Selection {
 
@@ -15,7 +12,15 @@ public class Selection {
         STEADE_STATE_MODEL
     }
 
-    private int mu;
+    private int population_size;
+    private int mating_size;
+//    Constants for SUS parents selection
+//    s - selection pressure, 1 < s <= 2
+    private double s = 1.8;
+//    Constants for linear rank based selection
+    public static double s_l;
+    public static double s_r;
+
     //    TODO is it require to have these structure inside the class or just use the static methods?
     public List<Individual> cur_parents;
     private List<List<Individual>> cur_pairsP;
@@ -29,8 +34,11 @@ public class Selection {
         this.cur_pairsC = new ArrayList<>();
     }
 
-    public Selection(int num_parents) {
-        this.mu = num_parents;
+    public Selection(int pop_size, int num_parents) {
+        this.population_size = pop_size;
+        this.mating_size = num_parents;
+        s_l = (2.0-s)/(double)this.population_size;
+        s_r = 2.0*(s-1.0)/((double)(this.population_size*(this.population_size-1)));
         this.cur_parents = new ArrayList<>();
         this.cur_children = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
@@ -53,7 +61,7 @@ public class Selection {
         switch (mode) {
             case "all": {
                 this.cur_parents = this._parentsAllClone(old);
-                this.mu = this.cur_parents.size();
+                this.mating_size = this.cur_parents.size();
                 break;
             }
             case "random": {
@@ -91,7 +99,7 @@ public class Selection {
         int randomIndex = 0;
         int _l = 0;
 //        indexes.add(randomIndex);
-        while (_l < this.mu) {
+        while (_l < this.mating_size) {
             randomIndex = _rnd.nextInt(p.size());
             if (indexes.indexOf(randomIndex) == -1) {
                 indexes.add(randomIndex);
@@ -136,7 +144,7 @@ public class Selection {
     private List<List<Individual>> _parentsPairSequentially(List<Individual> p) {
         List<List<Individual>> parents = new ArrayList<>();
         List<Individual> pair;
-        for (int i = 0; i < this.mu; i = i + 2) {
+        for (int i = 0; i < this.mating_size; i = i + 2) {
             pair = new ArrayList<Individual>();
             pair.add(p.get(i));
             pair.add(p.get(i + 1));
@@ -154,7 +162,7 @@ public class Selection {
     private List<List<Individual>> _parentsPairRandom(List<Individual> p) {
         List<List<Individual>> parents = new ArrayList<>();
         List<Individual> pair;
-        for (int i = 0; i < this.mu; i += 2) {
+        for (int i = 0; i < this.mating_size; i += 2) {
             pair = new ArrayList<>();
             try {
                 int randomIndex = _rnd.nextInt(p.size());

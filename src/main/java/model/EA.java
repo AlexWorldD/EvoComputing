@@ -35,7 +35,7 @@ public class EA {
         for (int i = 0; i < this.population_size; i++) {
             this.population.add(new Individual(this.evaluation));
         }
-        this.selection = new Selection(this.num_parents);
+        this.selection = new Selection(this.population_size, this.num_parents);
     }
 
     public void crowding() {
