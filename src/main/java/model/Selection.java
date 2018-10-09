@@ -304,7 +304,7 @@ public class Selection {
 
     /**
      * get NonDominated front (based on DCN (distance closest neighbour) and fitness)
-     * 
+     *
      * @param p list of individuals from which to choose
      * @return list of nondominated Individuals
      */
