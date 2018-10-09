@@ -58,7 +58,6 @@ public class Selection {
                 break;
             }
             case "random": {
-                System.out.println(mu);
                 this.cur_parents = this._parentsRandom(old);
                 break;
             }
@@ -281,21 +280,31 @@ public class Selection {
 
     public List<Individual> dynSelect(double d, double size) {
         List<Individual> currentMembers = new ArrayList<>();
+
         //Now: select from children and parents
         this.cur_pairsC.forEach(currentMembers::addAll);
         currentMembers.addAll(cur_parents);
-
-
         Individual best = Collections.max(currentMembers);
-        System.out.println(best.getFitness());
-        currentMembers.remove(0);
-        List<Individual> newPop = new ArrayList<Individual>();
-        newPop.add(best);
-        Individual lastAdded = best;
-        //reset because te same individuals stay
+        Collections.sort(currentMembers);
+        //Experiment
+        List<Individual> best5 =
+                new ArrayList<Individual>(currentMembers.subList(currentMembers.size()-6, currentMembers.size()-1));
+
+        List<Individual> newPop = new ArrayList<Individual>(best5);
         for (int i = 0; i< currentMembers.size(); i++) {
             currentMembers.get(i).setDcn(Double.MAX_VALUE);
         }
+        Individual lastAdded = best5.get(0);
+        for (int i = 0; i< best5.size(); i++) {
+            //currentMembers.remove(best5.get(i));
+            for (int j = 0; j< currentMembers.size(); j++) {
+                double dist = Metric.euclDist(best5.get(i),currentMembers.get(j));
+                if (dist < currentMembers.get(j).getDcn()) {
+                    currentMembers.get(j).setDcn(dist);
+                }
+            }
+        }
+
         while (newPop.size() < size) {
             for (int i = 0;i<currentMembers.size();i++) {
                 Individual ind = currentMembers.get(i);
@@ -303,7 +312,6 @@ public class Selection {
                 //System.out.println(ind.getFitness());
                 if (dist < ind.getDcn()) {
                     ind.setDcn(dist);
-
                 }
                 if (ind.getDcn() < d) {
                     ind.setFitness(0);
@@ -314,6 +322,7 @@ public class Selection {
             newPop.add(lastAdded);
             currentMembers.remove(lastAdded);
         }
+        System.out.println(Collections.max(newPop).getFitness());
         return newPop;
     }
 
