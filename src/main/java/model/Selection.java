@@ -6,6 +6,7 @@ import static model.UnifiedRandom._rnd;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 import java.util.function.Function;
 
 public class Selection {
@@ -265,5 +266,57 @@ public class Selection {
         }
         return offspring;
     }
+
+
+    public List<Individual> dynSelect(List<Individual> population, int size, double d) {
+        List<Individual> currentMembers = new ArrayList<Individual>(population);
+        Collections.sort(currentMembers);
+        Individual best = currentMembers.get(0);
+        currentMembers.remove(0);
+        List<Individual> newPop = new ArrayList<Individual>();
+        newPop.add(best);
+
+        Individual lastAdded = best;
+        while (newPop.size() < size) {
+            for (int i = 0;i<currentMembers.size();i++) {
+                Individual ind = currentMembers.get(i);
+                double dist = Metric.euclDist(lastAdded, ind);
+                if (dist < ind.getDcn()) {
+                    ind.setDcn(dist);
+                }
+                if (ind.getDcn() < d) {
+                    ind.setFitness(0);
+                }
+            }
+            List<Individual> ndFront = getNDind(currentMembers);
+            lastAdded = ndFront.get(r.nextInt(ndFront.size()));
+            newPop.add(lastAdded);
+            //System.out.print(lastAdded.getFitness());System.out.print(" ");System.out.println(lastAdded.getDcn());
+            currentMembers.remove(lastAdded);
+        }
+        return newPop;
+    }
+
+    public List<Individual> getNDind(List<Individual> population) {
+        List<Individual> maybeDominated = new ArrayList<>(population); // should be sorted on fitness
+        List<Individual> nonDominated = new ArrayList<>();
+        for (int i = 0; i < maybeDominated.size(); i++) {
+            Individual ind1 = maybeDominated.get(i);
+            boolean nondominated = true;
+            for (int j = i; j < maybeDominated.size(); j++) {
+                Individual ind2 = maybeDominated.get(j);
+                if (ind1.getFitness() < ind2.getFitness() & ind1.getDcn() < ind2.getDcn()) {
+                    nondominated = false;
+                    break;
+                }
+            }
+            if (nondominated) {
+                nonDominated.add(ind1);
+            }
+            //else System.out.println("dominated");
+        }
+        return nonDominated;
+    }
+
 
 }
