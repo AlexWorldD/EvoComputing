@@ -48,8 +48,8 @@ public class Selection {
     public void chooseParents(List<Individual> old, String mode) {
         switch (mode) {
             case "all": {
-                this.cur_parents = old;
-                this.mu = old.size();
+                this.cur_parents = this._parentsAllClone(old);
+                this.mu = this.cur_parents.size();
                 break;
             }
             case "random": {
@@ -58,7 +58,24 @@ public class Selection {
             }
         }
     }
+    /**
+     * Stupid cloning the whole parents population, for saving initial one without changes
+     *
+     * @param p Population
+     */
+    private List<Individual> _parentsAllClone(List<Individual> p)  {
+        List<Individual> parents = new ArrayList<Individual>();
+        for (int i=0; i<p.size(); i++) {
+            try {
+                parents.add(p.get(i).clone());
+            }
+            catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        return parents;
 
+    }
     /**
      * Random parents selection
      *
