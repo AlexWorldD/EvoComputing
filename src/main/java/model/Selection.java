@@ -22,10 +22,12 @@ public class Selection {
     private List<List<Individual>> cur_pairsP;
     private List<List<Individual>> cur_pairsC;
 
+
     public Selection() {
         this.cur_parents = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
+
     }
 
     public Selection(int num_parents) {
@@ -33,12 +35,14 @@ public class Selection {
         this.cur_parents = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
+
     }
 
     public void reset() {
         this.cur_parents = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
+
     }
     /**
      * Choosing parents from the whole population
@@ -139,11 +143,11 @@ public class Selection {
             try {
                 int randomIndex = _rnd.nextInt(p.size());
                 Individual randomElement = p.get(randomIndex).clone();
-                p.remove(randomIndex);
+                //p.remove(randomIndex);
                 pair.add(randomElement);
                 randomIndex = _rnd.nextInt(p.size());
                 randomElement = p.get(randomIndex).clone();
-                p.remove(randomIndex);
+                //p.remove(randomIndex);
                 pair.add(randomElement);
             } catch (CloneNotSupportedException ex) {
                 throw new RuntimeException(ex);
@@ -197,12 +201,12 @@ public class Selection {
 
 
     public List<Individual> crowding() {
-        List<Individual> offspring = new ArrayList<Individual>();
 //        this.chooseParents(p, "random");
 //        this.makePairs("random");
 //        this.makeChildren("wholeA");
 //        this.mutateChilred("UncorN");
 //        this.evaluateChildren();
+        List<Individual> offspring = new ArrayList<>();
         for (int i = 0; i < this.cur_pairsC.size(); i++) {
             if (Metric.euclDist(this.cur_pairsP.get(i).get(0), this.cur_pairsC.get(i).get(0)) +
                     Metric.euclDist(this.cur_pairsP.get(i).get(1), this.cur_pairsC.get(i).get(1)) <
@@ -243,7 +247,7 @@ public class Selection {
                     }
                 } else {
                     try {
-                        offspring.add(this.cur_pairsC.get(i).get(0).clone());
+                       offspring.add(this.cur_pairsC.get(i).get(0).clone());
                     } catch (CloneNotSupportedException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -270,25 +274,35 @@ public class Selection {
     /**
      * multi select method
      *
-     * @param p list of individuals from which to do survivor selection (for example parents + children)
      * @param d threshold (dcn below this will decrease fitness to 0
-     * @return selection list of size mu
+     * @return selection list of size
      */
 
-    public List<Individual> dynSelect(List<Individual> p, double d) {
-        List<Individual> currentMembers = new ArrayList<Individual>(p);
-        Collections.sort(currentMembers);
-        Individual best = currentMembers.get(0);
+    public List<Individual> dynSelect(double d, double size) {
+        List<Individual> currentMembers = new ArrayList<>();
+        //Now: select from children and parents
+        this.cur_pairsC.forEach(currentMembers::addAll);
+        currentMembers.addAll(cur_parents);
+
+
+        Individual best = Collections.max(currentMembers);
+        System.out.println(best.getFitness());
         currentMembers.remove(0);
         List<Individual> newPop = new ArrayList<Individual>();
         newPop.add(best);
         Individual lastAdded = best;
-        while (newPop.size() < mu) {
+        //reset because te same individuals stay
+        for (int i = 0; i< currentMembers.size(); i++) {
+            currentMembers.get(i).setDcn(Double.MAX_VALUE);
+        }
+        while (newPop.size() < size) {
             for (int i = 0;i<currentMembers.size();i++) {
                 Individual ind = currentMembers.get(i);
                 double dist = Metric.euclDist(lastAdded, ind);
+                //System.out.println(ind.getFitness());
                 if (dist < ind.getDcn()) {
                     ind.setDcn(dist);
+
                 }
                 if (ind.getDcn() < d) {
                     ind.setFitness(0);
@@ -314,7 +328,7 @@ public class Selection {
         for (int i = 0; i < maybeDominated.size(); i++) {
             Individual ind1 = maybeDominated.get(i);
             boolean nondominated = true;
-            for (int j = i; j < maybeDominated.size(); j++) {
+            for (int j = 0; j < maybeDominated.size(); j++) {
                 Individual ind2 = maybeDominated.get(j);
                 if (ind1.getFitness() < ind2.getFitness() & ind1.getDcn() < ind2.getDcn()) {
                     nondominated = false;
