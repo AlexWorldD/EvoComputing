@@ -286,19 +286,24 @@ public class Selection {
         currentMembers.addAll(cur_parents);
         Individual best = Collections.max(currentMembers);
         Collections.sort(currentMembers);
-        //Experiment
-        List<Individual> best5 =
-                new ArrayList<Individual>(currentMembers.subList(currentMembers.size()-6, currentMembers.size()-1));
 
-        List<Individual> newPop = new ArrayList<Individual>(best5);
+        //Experiment
+        int s = currentMembers.size();
+        int n = s*5/100;
+        List<Individual> best5p =
+                new ArrayList<Individual>(currentMembers.subList(s-n+1, s-1));
+
+        List<Individual> newPop = new ArrayList<Individual>(best5p);
         for (int i = 0; i< currentMembers.size(); i++) {
             currentMembers.get(i).setDcn(Double.MAX_VALUE);
         }
-        Individual lastAdded = best5.get(0);
-        for (int i = 0; i< best5.size(); i++) {
-            //currentMembers.remove(best5.get(i));
+
+        //deal with elitism
+        Individual lastAdded = best5p.get(0);
+        for (int i = 0; i< best5p.size(); i++) {
+            //currentMembers.remove(best5p.get(i));
             for (int j = 0; j< currentMembers.size(); j++) {
-                double dist = Metric.euclDist(best5.get(i),currentMembers.get(j));
+                double dist = Metric.euclDist(best5p.get(i),currentMembers.get(j));
                 if (dist < currentMembers.get(j).getDcn()) {
                     currentMembers.get(j).setDcn(dist);
                 }
