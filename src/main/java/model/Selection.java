@@ -3,6 +3,7 @@ package model;
 import static model.UnifiedRandom._rnd;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Selection {
@@ -68,6 +69,10 @@ public class Selection {
                 this.cur_parents = this._parentsRandom(old);
                 break;
             }
+            case "SUS": {
+                this.cur_parents = this._parentsSUS(old);
+                break;
+            }
         }
     }
     /**
@@ -114,9 +119,52 @@ public class Selection {
 
         }
         this.cur_parents = parents;
-        return this.cur_parents;
+        return parents;
     }
 
+    /**
+     * Stochastic universal sampling
+     *
+     * @param p Population
+     */
+    private List<Individual> _parentsSUS(List<Individual> p) {
+        List<Individual> population = this._parentsAllClone(p);
+        List<Individual> parents = new ArrayList<>();
+        Collections.sort(population);
+        List<Double> ranks = new ArrayList<>();
+        for (int i=0; i<this.population_size; i++) {
+            ranks.add(s_l+s_r*(this.population_size-i-1));
+        }
+//        Getting cumulative probabilities
+        double[] cum_probs = new double[this.population_size];
+        cum_probs[0] = ranks.get(0);
+        for (int i=1; i<this.population_size; i++) {
+            cum_probs[i] = cum_probs[i-1]+ranks.get(i);
+        }
+//        Finding potential point for selection
+        double[] points = new double[this.mating_size];
+        double r = 1.0/(double)this.mating_size;
+        points[0] = _rnd.nextDouble()*r;
+        for (int i=1; i<this.mating_size; i++) {
+            points[i]=points[i-1]+r;
+        }
+//        Finding indexes with SUS
+        for (int i=0; i<this.mating_size; i++) {
+            int l=0;
+            while(cum_probs[l]<points[i]) {
+                l++;
+            }
+            try {
+                parents.add(population.get(l).clone());
+            }
+            catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        }
+        return parents;
+
+    }
     /**
      * Making pairs from the selected parents
      *
