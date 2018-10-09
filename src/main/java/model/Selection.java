@@ -20,9 +20,11 @@ public class Selection {
     public List<Individual> cur_parents;
     private List<List<Individual>> cur_pairsP;
     private List<List<Individual>> cur_pairsC;
+    public List<Individual> cur_children;
 
     public Selection() {
         this.cur_parents = new ArrayList<>();
+        this.cur_children = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
     }
@@ -30,12 +32,14 @@ public class Selection {
     public Selection(int num_parents) {
         this.mu = num_parents;
         this.cur_parents = new ArrayList<>();
+        this.cur_children = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
     }
 
     public void reset() {
         this.cur_parents = new ArrayList<>();
+        this.cur_children = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
     }
@@ -280,7 +284,8 @@ public class Selection {
             }
 
         }
-        return offspring;
+        this.cur_parents.addAll(offspring);
+        return this.cur_parents;
     }
 
 }
