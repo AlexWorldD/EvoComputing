@@ -41,7 +41,7 @@ public class TestEA {
         int populationsize = 50;
         double update = 1;
         EA ea = new EA(eval, populationsize, update);
-        while (_evals < 10000 - populationsize) {
+        while (_evals < 10050 - populationsize) {
             System.out.println(_evals);
             ea.crowding();
 
