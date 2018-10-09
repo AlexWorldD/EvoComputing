@@ -267,17 +267,23 @@ public class Selection {
         return offspring;
     }
 
+    /**
+     * multi select method
+     *
+     * @param p list of individuals from which to do survivor selection (for example parents + children)
+     * @param d threshold (dcn below this will decrease fitness to 0
+     * @return selection list of size mu
+     */
 
-    public List<Individual> dynSelect(List<Individual> population, int size, double d) {
-        List<Individual> currentMembers = new ArrayList<Individual>(population);
+    public List<Individual> dynSelect(List<Individual> p, double d) {
+        List<Individual> currentMembers = new ArrayList<Individual>(p);
         Collections.sort(currentMembers);
         Individual best = currentMembers.get(0);
         currentMembers.remove(0);
         List<Individual> newPop = new ArrayList<Individual>();
         newPop.add(best);
-
         Individual lastAdded = best;
-        while (newPop.size() < size) {
+        while (newPop.size() < mu) {
             for (int i = 0;i<currentMembers.size();i++) {
                 Individual ind = currentMembers.get(i);
                 double dist = Metric.euclDist(lastAdded, ind);
@@ -291,14 +297,19 @@ public class Selection {
             List<Individual> ndFront = getNDind(currentMembers);
             lastAdded = ndFront.get(_rnd.nextInt(ndFront.size()));
             newPop.add(lastAdded);
-            //System.out.print(lastAdded.getFitness());System.out.print(" ");System.out.println(lastAdded.getDcn());
             currentMembers.remove(lastAdded);
         }
         return newPop;
     }
 
-    public List<Individual> getNDind(List<Individual> population) {
-        List<Individual> maybeDominated = new ArrayList<>(population); // should be sorted on fitness
+    /**
+     * get NonDominated front (based on DCN (distance closest neighbour) and fitness)
+     * 
+     * @param p list of individuals from which to choose
+     * @return list of nondominated Individuals
+     */
+    public List<Individual> getNDind(List<Individual> p) {
+        List<Individual> maybeDominated = new ArrayList<>(p); // should be sorted on fitness
         List<Individual> nonDominated = new ArrayList<>();
         for (int i = 0; i < maybeDominated.size(); i++) {
             Individual ind1 = maybeDominated.get(i);
@@ -313,7 +324,6 @@ public class Selection {
             if (nondominated) {
                 nonDominated.add(ind1);
             }
-            //else System.out.println("dominated");
         }
         return nonDominated;
     }
