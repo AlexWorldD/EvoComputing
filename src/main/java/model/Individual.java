@@ -18,7 +18,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
             Math.sqrt(1.0 / (2.0 * num_genes))};
     public double epsilon = 0.05;
     private double fitness = 0.0;
-    private double dcn = 0.0;
+    private double dcn = Double.MAX_VALUE;
     private double[] genes = new double[num_genes];
     private double[] sigmas = new double[num_genes];
     public Random ind_rand = new Random();
@@ -33,7 +33,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
         for (int i = 0; i < num_genes; i++) {
             this.genes[i] = min_gene + _rnd.nextDouble() * (max_gene - min_gene);
 //            TODO define the appropriate def sigmas
-            this.sigmas[i] = 0.5;
+            this.sigmas[i] = 0.1;
         }
         this.evaluation = eval;
         this.fitness = (double) this.evaluation.evaluate(this.genes);
@@ -237,7 +237,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
      * @return boolean result of comparison
      */
     public int compareTo(Individual other) {
-        return Double.compare(this.fitness, other.fitness);
+        return  Double.compare(this.fitness, other.fitness);
     }
 
     public Individual clone() throws CloneNotSupportedException {

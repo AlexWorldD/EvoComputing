@@ -58,6 +58,7 @@ public class Selection {
                 break;
             }
             case "random": {
+                System.out.println(mu);
                 this.cur_parents = this._parentsRandom(old);
                 break;
             }
