@@ -18,6 +18,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
             Math.sqrt(1.0 / (2.0 * num_genes))};
     public double epsilon = 0.05;
     private double fitness = 0.0;
+    private double dcn = 0.0;
     private double[] genes = new double[num_genes];
     private double[] sigmas = new double[num_genes];
     public Random ind_rand = new Random();
@@ -224,6 +225,10 @@ public class Individual implements Comparable<Individual>, Cloneable {
     public ContestEvaluation getEvaluation() {
         return this.evaluation;
     }
+
+    public double getDcn() {return this.dcn;}
+
+    public void setDcn(double dcn) {this.dcn = dcn;}
 
     /**
      * Comparator for class Individual

@@ -289,7 +289,7 @@ public class Selection {
                 }
             }
             List<Individual> ndFront = getNDind(currentMembers);
-            lastAdded = ndFront.get(r.nextInt(ndFront.size()));
+            lastAdded = ndFront.get(_rnd.nextInt(ndFront.size()));
             newPop.add(lastAdded);
             //System.out.print(lastAdded.getFitness());System.out.print(" ");System.out.println(lastAdded.getDcn());
             currentMembers.remove(lastAdded);
