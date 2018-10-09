@@ -55,7 +55,7 @@ public class EA {
 //        _evals+=this.num_parents;
         this.selection.evaluateChildren();
 //        System.out.println("Evaluate");
-        this.population.addAll(selection.crowding());
+        this.population = selection.crowding();
         this.selection.reset();
     }
 
