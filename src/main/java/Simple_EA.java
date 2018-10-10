@@ -82,6 +82,7 @@ public class Simple_EA {
 		return parentList;
 	}
 
+	// stochastic universal sampling
     public List<Individual> chooseParents(int size) {
     	Collections.sort(this.population);
     	List<Integer> populationList = new ArrayList<>();

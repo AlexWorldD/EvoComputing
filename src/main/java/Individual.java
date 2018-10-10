@@ -7,6 +7,8 @@ public class Individual implements Comparable<Individual> {
     private double[] genes = new double[10];
     private double[] stepsize = new double[10];
 
+
+    // randomized individual, first gen
     public Individual(ContestEvaluation e) {
         Random r = new Random();
         for(int i=0; i<10; i++) {
@@ -17,6 +19,7 @@ public class Individual implements Comparable<Individual> {
         setFitness(e);
     }
 
+    // individual from gen 1 and up
     public Individual(ContestEvaluation e, double[] genes, double[] stepsize) {
         this.genes = genes;
         this.stepsize = stepsize;
@@ -24,7 +27,7 @@ public class Individual implements Comparable<Individual> {
     }
 
 
-    //Used when creating an Individual
+    //Used when creating an Individual, calculate fitness
     public void setFitness(ContestEvaluation e) {
         this.fitness = (double) e.evaluate(this.genes);
         n_evals++;
@@ -44,7 +47,7 @@ public class Individual implements Comparable<Individual> {
     }
     
     public double euclDist(Individual other) {
-        double[] othergenes = other.getGenes();
+        double[] othergenes = other.getGenes(); // Takes another individual
         double sum = 0;
         for (int i=0;i<10;i++) {
            sum += Math.pow(othergenes[i]-this.genes[i],2);
@@ -52,8 +55,8 @@ public class Individual implements Comparable<Individual> {
         return Math.sqrt(sum);
     }
 
-
-    public int compareTo(Individual other) {
+        // sort individuals by fitness
+        public int compareTo(Individual other) { // compare to orders objects
         if (this.fitness > other.fitness) return -1;
         if (this.fitness < other.fitness) return 1;
         else return 0;

@@ -38,8 +38,8 @@ public class TestEA {
 
         Date time = new Date();
         long st = time.getTime();
-        int populationsize = 50;
-        double update = 0.8;
+        int populationsize = 150;
+        double update = 1;
         EA ea = new EA(eval, populationsize, update);
         while (_evals < 10000 - populationsize) {
             System.out.println(_evals);
