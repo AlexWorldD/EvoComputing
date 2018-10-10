@@ -39,9 +39,8 @@ public class EA {
     }
 
     public void dynSelect(double evaluationlimit) {
-        double d1 = 0.4;
-        double d = d1 - _evals/evaluationlimit;
-        //System.out.println(d);
+        double d1 = 0.2;
+        double d = d1 - d1*_evals/evaluationlimit;
         this.selection.chooseParents(this.population,"SUS");
         this.selection.makePairs("seq");
         this.selection.makeChildren("wholeA");
