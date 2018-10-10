@@ -39,8 +39,8 @@ public class EA {
     }
 
     public void dynSelect() {
-        this.selection.chooseParents(this.population,"random");
-        this.selection.makePairs("random");
+        this.selection.chooseParents(this.population,"SUS");
+        this.selection.makePairs("seq");
         this.selection.makeChildren("wholeA");
         this.selection.mutateChilred("UncorN");
         this.selection.evaluateChildren();

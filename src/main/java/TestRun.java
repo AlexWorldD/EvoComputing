@@ -11,7 +11,7 @@ public class TestRun {
     public static void main(String args[]) {
         player52_old ver1 = new player52_old();
         int seed = 0;
-        String eval_name = evals[0];
+        String eval_name = evals[2];
         if (eval_name == null) {
             throw new Error("Evaluation ID was not specified! Cannot run...\n Use -evaluation=<classnamehere> to specify the name of the evaluation class.");
         } else {

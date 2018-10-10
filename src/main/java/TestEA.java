@@ -43,8 +43,8 @@ public class TestEA {
         EA ea = new EA(eval, populationsize, update);
         while (_evals < 100000 - populationsize) {
 //            System.out.println(_evals);
-            ea.dynSelect();
-
+//            ea.dynSelect();
+            ea.crowding();
         }
         time = new Date();
         long var15 = time.getTime() - st;

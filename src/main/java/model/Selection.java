@@ -374,7 +374,7 @@ public class Selection {
         }
         best.setDcn(0);
         //currentMembers.remove(best);
-        System.out.println(newPop.get(0).getDcn());
+//        System.out.println(newPop.get(0).getDcn());
         while (newPop.size() < size) {
             for (int i = 0;i<currentMembers.size();i++) {
                 Individual ind = currentMembers.get(i);
