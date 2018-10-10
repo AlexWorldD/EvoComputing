@@ -1,26 +1,26 @@
-import org.vu.contest.ContestEvaluation;
 import org.vu.contest.ContestSubmission;
-import model.*;
+import org.vu.contest.ContestEvaluation;
 
-import static model.UnifiedRandom._rnd;
-import static model.UnifiedRandom._evals;
-
+import java.util.Random;
 import java.util.Properties;
 
 
-public class player52 implements ContestSubmission {
+public class player52_old implements ContestSubmission {
+    Random rnd_;
     ContestEvaluation evaluation_;
     private int evaluations_limit_;
 
-    public player52() {
-// What we should do here?
+    public player52_old() {
+        rnd_ = new Random();
     }
 
     public void setSeed(long seed) {
-        _rnd.setSeed(seed);
+        // Set seed of algortihms random process
+        rnd_.setSeed(seed);
     }
 
     public void setEvaluation(ContestEvaluation evaluation) {
+        // Set evaluation problem used in the run
         evaluation_ = evaluation;
 
         // Get evaluation properties
@@ -34,11 +34,11 @@ public class player52 implements ContestSubmission {
         boolean isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
 
         // Do sth with property values, e.g. specify relevant settings of your algorithm
-//        if (hasStructure) {
-//            System.out.println(hasStructure);
-//        } else {
-//            System.out.println(hasStructure);
-//        }
+        if (isMultimodal) {
+            // Do sth
+        } else {
+            // Do sth else
+        }
     }
 
     public static void main(String args[]) {
@@ -46,16 +46,13 @@ public class player52 implements ContestSubmission {
     }
 
     public void run() {
-        int populationsize;
-        double popSize = Double.parseDouble(System.getProperty("popSize"));
-        populationsize = (int) popSize;
-        double update = 0.6;
+        int populationsize = 150;
         //Creates a random population of size 'populationsize'
-        EA ea = new EA(evaluation_, populationsize, update);
+        Simple_EA ea = new Simple_EA(evaluation_, populationsize);
 
         //this condition could entail that some evaluations are not used...
-        while (_evals < evaluations_limit_ - populationsize) {
-            ea.crowding();
+        while (Individual.n_evals < evaluations_limit_ - populationsize) {
+            ea.evolve();
         }
     }
 
