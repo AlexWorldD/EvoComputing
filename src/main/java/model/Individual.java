@@ -33,7 +33,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
         for (int i = 0; i < num_genes; i++) {
             this.genes[i] = min_gene + _rnd.nextDouble() * (max_gene - min_gene);
 //            TODO define the appropriate def sigmas
-            this.sigmas[i] = 0.5;
+            this.sigmas[i] = 0.1;
         }
         this.evaluation = eval;
         this.fitness = (double) this.evaluation.evaluate(this.genes);
