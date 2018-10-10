@@ -38,13 +38,14 @@ public class TestEA {
 
         Date time = new Date();
         long st = time.getTime();
-        int populationsize = 150;
+        int populationsize = 200;
         double update = 1;
         EA ea = new EA(eval, populationsize, update);
-        while (_evals < 100000 - populationsize) {
+        double evaluation_limit = 100000;
+        while (_evals < evaluation_limit - populationsize) {
 //            System.out.println(_evals);
-//            ea.dynSelect();
-            ea.crowding();
+           ea.dynSelect(evaluation_limit);
+            //ea.crowding();
         }
         time = new Date();
         long var15 = time.getTime() - st;

@@ -38,13 +38,16 @@ public class EA {
         this.selection = new Selection(this.population_size, this.num_parents);
     }
 
-    public void dynSelect() {
+    public void dynSelect(double evaluationlimit) {
+        double d1 = 0.4;
+        double d = d1 - _evals/evaluationlimit;
+        //System.out.println(d);
         this.selection.chooseParents(this.population,"SUS");
         this.selection.makePairs("seq");
         this.selection.makeChildren("wholeA");
         this.selection.mutateChilred("UncorN");
         this.selection.evaluateChildren();
-        this.population = selection.dynSelect(0, population_size, this.population);
+        this.population = selection.dynSelect(d, population_size, this.population);
         this.selection.reset();
 
     }
@@ -54,7 +57,7 @@ public class EA {
         if (this.update_part == 1.0) {
             this.selection.chooseParents(this.population, "SUS");
         } else {
-            this.selection.chooseParents(this.population, "SUS");
+            this.selection.chooseParents(this.population, "random");
         }
 //        System.out.println("Parents");
         this.selection.makePairs("seq");

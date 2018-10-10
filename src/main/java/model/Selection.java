@@ -373,8 +373,8 @@ public class Selection {
             currentMembers.get(i).setDcn(Double.MAX_VALUE);
         }
         best.setDcn(0);
-        //currentMembers.remove(best);
-//        System.out.println(newPop.get(0).getDcn());
+        currentMembers.remove(best);
+
         while (newPop.size() < size) {
             for (int i = 0;i<currentMembers.size();i++) {
                 Individual ind = currentMembers.get(i);
@@ -385,7 +385,10 @@ public class Selection {
                     //System.out.println(dist);
                 }
                 if (ind.getDcn() < d) {
-                    ind.setFitness(0);
+                    ind.setDynFitness(0);
+                }
+                else {
+                    ind.setDynFitness(ind.getFitness());
                 }
             }
             List<Individual> ndFront = getNDind(currentMembers);
@@ -410,7 +413,7 @@ public class Selection {
             boolean nondominated = true;
             for (int j = 0; j < maybeDominated.size(); j++) {
                 Individual ind2 = maybeDominated.get(j);
-                if (ind1.getFitness() < ind2.getFitness() & ind1.getDcn() < ind2.getDcn()) {
+                if (ind1.getDynFitness() < ind2.getDynFitness() & ind1.getDcn() < ind2.getDcn()) {
                     nondominated = false;
                     break;
                 }
