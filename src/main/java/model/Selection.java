@@ -285,31 +285,20 @@ public class Selection {
         this.cur_pairsC.forEach(currentMembers::addAll);
         currentMembers.addAll(cur_parents);
         Individual best = Collections.max(currentMembers);
+        System.out.println(best.getFitness());
         Collections.sort(currentMembers);
+        Individual lastAdded = best;
 
-        //Experiment
-        int s = currentMembers.size();
-        int n = s*5/100;
-        List<Individual> best5p =
-                new ArrayList<Individual>(currentMembers.subList(s-n+1, s-1));
+        List<Individual> newPop = new ArrayList<Individual>();
 
-        List<Individual> newPop = new ArrayList<Individual>(best5p);
+        newPop.add(best);
+
         for (int i = 0; i< currentMembers.size(); i++) {
             currentMembers.get(i).setDcn(Double.MAX_VALUE);
         }
-
-        //deal with elitism
-        Individual lastAdded = best5p.get(0);
-        for (int i = 0; i< best5p.size(); i++) {
-            //currentMembers.remove(best5p.get(i));
-            for (int j = 0; j< currentMembers.size(); j++) {
-                double dist = Metric.euclDist(best5p.get(i),currentMembers.get(j));
-                if (dist < currentMembers.get(j).getDcn()) {
-                    currentMembers.get(j).setDcn(dist);
-                }
-            }
-        }
-
+        best.setDcn(0);
+        //currentMembers.remove(best);
+        System.out.println(newPop.get(0).getDcn());
         while (newPop.size() < size) {
             for (int i = 0;i<currentMembers.size();i++) {
                 Individual ind = currentMembers.get(i);
@@ -317,6 +306,7 @@ public class Selection {
                 //System.out.println(ind.getFitness());
                 if (dist < ind.getDcn()) {
                     ind.setDcn(dist);
+                    //System.out.println(dist);
                 }
                 if (ind.getDcn() < d) {
                     ind.setFitness(0);
@@ -327,7 +317,6 @@ public class Selection {
             newPop.add(lastAdded);
             currentMembers.remove(lastAdded);
         }
-        System.out.println(Collections.max(newPop).getFitness());
         return newPop;
     }
 
