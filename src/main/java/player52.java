@@ -34,10 +34,10 @@ public class player52 implements ContestSubmission {
         boolean isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
 
         // Do sth with property values, e.g. specify relevant settings of your algorithm
-        if (isMultimodal) {
-            // Do sth
+        if (hasStructure) {
+            System.out.println(hasStructure);
         } else {
-            // Do sth else
+            System.out.println(hasStructure);
         }
     }
 
