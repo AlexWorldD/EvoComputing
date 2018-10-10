@@ -18,7 +18,7 @@ public class TestEA {
             "KatsuuraEvaluation", "SchaffersEvaluation", "SphereEvaluation"};
 
     public static void main(String args[]) {
-        String name = evals[0];
+        String name = evals[2];
         Class eval_class = null;
         ContestEvaluation eval = null;
         try {
@@ -41,9 +41,9 @@ public class TestEA {
         int populationsize = 150;
         double update = 1;
         EA ea = new EA(eval, populationsize, update);
-        while (_evals < 10000 - populationsize) {
-            System.out.println(_evals);
-            ea.crowding();
+        while (_evals < 100000 - populationsize) {
+            //System.out.println(_evals);
+            ea.dynSelect();
 
         }
         time = new Date();

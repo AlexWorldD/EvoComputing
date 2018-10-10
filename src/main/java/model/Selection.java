@@ -5,6 +5,7 @@ import static model.UnifiedRandom._rnd;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class Selection {
 
@@ -29,12 +30,14 @@ public class Selection {
     private List<List<Individual>> cur_pairsC;
     public List<Individual> cur_children;
 
+
     public Selection() {
         this.cur_parents = new ArrayList<>();
         this.old_parents = new ArrayList<>();
         this.cur_children = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
+
     }
 
     public Selection(int pop_size, int num_parents) {
@@ -47,6 +50,7 @@ public class Selection {
         this.cur_children = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
+
     }
 
     public void reset() {
@@ -55,6 +59,7 @@ public class Selection {
         this.cur_children = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
+
     }
 
     /**
@@ -276,12 +281,12 @@ public class Selection {
 
 
     public List<Individual> crowding() {
-        List<Individual> offspring = new ArrayList<Individual>();
 //        this.chooseParents(p, "random");
 //        this.makePairs("random");
 //        this.makeChildren("wholeA");
 //        this.mutateChilred("UncorN");
 //        this.evaluateChildren();
+        List<Individual> offspring = new ArrayList<>();
         for (int i = 0; i < this.cur_pairsC.size(); i++) {
             if (Metric.euclDist(this.cur_pairsP.get(i).get(0), this.cur_pairsC.get(i).get(0)) +
                     Metric.euclDist(this.cur_pairsP.get(i).get(1), this.cur_pairsC.get(i).get(1)) <
@@ -322,7 +327,7 @@ public class Selection {
                     }
                 } else {
                     try {
-                        offspring.add(this.cur_pairsC.get(i).get(0).clone());
+                       offspring.add(this.cur_pairsC.get(i).get(0).clone());
                     } catch (CloneNotSupportedException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -346,5 +351,81 @@ public class Selection {
         this.old_parents.addAll(offspring);
         return this.old_parents;
     }
+
+    /**
+     * multi select method
+     *
+     * @param d threshold (dcn below this will decrease fitness to 0
+     * @return selection list of size
+     */
+
+    public List<Individual> dynSelect(double d, double size) {
+        List<Individual> currentMembers = new ArrayList<>();
+
+        //Now: select from children and parents
+        this.cur_pairsC.forEach(currentMembers::addAll);
+        currentMembers.addAll(cur_parents);
+        Individual best = Collections.max(currentMembers);
+        System.out.println(best.getFitness());
+        Collections.sort(currentMembers);
+        Individual lastAdded = best;
+
+        List<Individual> newPop = new ArrayList<Individual>();
+
+        newPop.add(best);
+
+        for (int i = 0; i< currentMembers.size(); i++) {
+            currentMembers.get(i).setDcn(Double.MAX_VALUE);
+        }
+        best.setDcn(0);
+        //currentMembers.remove(best);
+        System.out.println(newPop.get(0).getDcn());
+        while (newPop.size() < size) {
+            for (int i = 0;i<currentMembers.size();i++) {
+                Individual ind = currentMembers.get(i);
+                double dist = Metric.euclDist(lastAdded, ind);
+                //System.out.println(ind.getFitness());
+                if (dist < ind.getDcn()) {
+                    ind.setDcn(dist);
+                    //System.out.println(dist);
+                }
+                if (ind.getDcn() < d) {
+                    ind.setFitness(0);
+                }
+            }
+            List<Individual> ndFront = getNDind(currentMembers);
+            lastAdded = ndFront.get(_rnd.nextInt(ndFront.size()));
+            newPop.add(lastAdded);
+            currentMembers.remove(lastAdded);
+        }
+        return newPop;
+    }
+
+    /**
+     * get NonDominated front (based on DCN (distance closest neighbour) and fitness)
+     *
+     * @param p list of individuals from which to choose
+     * @return list of nondominated Individuals
+     */
+    public List<Individual> getNDind(List<Individual> p) {
+        List<Individual> maybeDominated = new ArrayList<>(p); // should be sorted on fitness
+        List<Individual> nonDominated = new ArrayList<>();
+        for (int i = 0; i < maybeDominated.size(); i++) {
+            Individual ind1 = maybeDominated.get(i);
+            boolean nondominated = true;
+            for (int j = 0; j < maybeDominated.size(); j++) {
+                Individual ind2 = maybeDominated.get(j);
+                if (ind1.getFitness() < ind2.getFitness() & ind1.getDcn() < ind2.getDcn()) {
+                    nondominated = false;
+                    break;
+                }
+            }
+            if (nondominated) {
+                nonDominated.add(ind1);
+            }
+        }
+        return nonDominated;
+    }
+
 
 }
