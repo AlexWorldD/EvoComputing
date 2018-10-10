@@ -1,10 +1,12 @@
 package model;
 
+import org.vu.contest.ContestEvaluation;
+
 import static model.UnifiedRandom._rnd;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Collections;
 import java.util.function.Function;
 
 public class Selection {
@@ -14,40 +16,23 @@ public class Selection {
         STEADE_STATE_MODEL
     }
 
-    private int population_size;
-    private int mating_size;
-    //    Constants for SUS parents selection
-//    s - selection pressure, 1 < s <= 2
-    private double s = 1.8;
-    //    Constants for linear rank based selection
-    public static double s_l;
-    public static double s_r;
-
+    private int mu;
     //    TODO is it require to have these structure inside the class or just use the static methods?
-    public List<Individual> old_parents;
     public List<Individual> cur_parents;
     private List<List<Individual>> cur_pairsP;
     private List<List<Individual>> cur_pairsC;
-    public List<Individual> cur_children;
 
 
     public Selection() {
         this.cur_parents = new ArrayList<>();
-        this.old_parents = new ArrayList<>();
-        this.cur_children = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
 
     }
 
-    public Selection(int pop_size, int num_parents) {
-        this.population_size = pop_size;
-        this.mating_size = num_parents;
-        s_l = (2.0 - s) / (double) this.population_size;
-        s_r = 2.0 * (s - 1.0) / ((double) (this.population_size * (this.population_size - 1)));
+    public Selection(int num_parents) {
+        this.mu = num_parents;
         this.cur_parents = new ArrayList<>();
-        this.old_parents = new ArrayList<>();
-        this.cur_children = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
 
@@ -55,13 +40,10 @@ public class Selection {
 
     public void reset() {
         this.cur_parents = new ArrayList<>();
-        this.old_parents = new ArrayList<>();
-        this.cur_children = new ArrayList<>();
         this.cur_pairsP = new ArrayList<>();
         this.cur_pairsC = new ArrayList<>();
 
     }
-
     /**
      * Choosing parents from the whole population
      *
@@ -69,105 +51,46 @@ public class Selection {
      * @param mode The mode for parents selection: Random, Ranking etc.
      */
     public void chooseParents(List<Individual> old, String mode) {
-        this.old_parents = this._parentsAllClone(old);
         switch (mode) {
             case "all": {
-                this.cur_parents = this.old_parents;
-                this.mating_size = this.cur_parents.size();
+                this.cur_parents = old;
+                this.mu = old.size();
                 break;
             }
             case "random": {
-                this.cur_parents = this._parentsRandom();
-                break;
-            }
-            case "SUS": {
-                this.cur_parents = this._parentsSUS();
+                this.cur_parents = this._parentsRandom(old);
                 break;
             }
         }
-    }
-
-    /**
-     * Stupid cloning the whole parents population, for saving initial one without changes
-     *
-     * @param p Population
-     */
-    private List<Individual> _parentsAllClone(List<Individual> p) {
-        List<Individual> parents = new ArrayList<Individual>();
-        for (int i = 0; i < p.size(); i++) {
-            try {
-                parents.add(p.get(i).clone());
-            } catch (CloneNotSupportedException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-        return parents;
-
     }
 
     /**
      * Random parents selection
+     *
+     * @param p Population
      */
-    private List<Individual> _parentsRandom() {
+    private List<Individual> _parentsRandom(List<Individual> p) {
         List<Individual> parents = new ArrayList<Individual>();
         List<Integer> indexes = new ArrayList<>();
         int randomIndex = 0;
         int _l = 0;
 //        indexes.add(randomIndex);
-        while (_l < this.mating_size) {
-            randomIndex = _rnd.nextInt(this.old_parents.size());
+        while (_l < this.mu) {
+            randomIndex = _rnd.nextInt(p.size());
             if (indexes.indexOf(randomIndex) == -1) {
                 indexes.add(randomIndex);
-                parents.add(this.old_parents.get(randomIndex));
+                try {
+                    parents.add(p.get(randomIndex).clone());
+//                    p.remove(randomIndex);
+                } catch (CloneNotSupportedException ex) {
+                    throw new RuntimeException(ex);
+                }
                 _l++;
             }
 
         }
-//        Remove selected parents from the old list for further merging
-        parents.forEach(item->this.old_parents.remove(item));
         this.cur_parents = parents;
-        return parents;
-    }
-
-    /**
-     * Stochastic universal sampling
-     *
-     */
-    private List<Individual> _parentsSUS() {
-        List<Individual> parents = new ArrayList<>();
-        Collections.sort(this.old_parents);
-        Collections.reverse(this.old_parents);
-        List<Double> ranks = new ArrayList<>();
-        for (int i = 0; i < this.population_size; i++) {
-            ranks.add(s_l + s_r * (this.population_size - i - 1));
-        }
-//        Getting cumulative probabilities
-        double[] cum_probs = new double[this.population_size];
-        cum_probs[0] = ranks.get(0);
-        for (int i = 1; i < this.population_size; i++) {
-            cum_probs[i] = cum_probs[i - 1] + ranks.get(i);
-        }
-//        Finding potential point for selection
-        double[] points = new double[this.mating_size];
-        double r = 1.0 / (double) this.mating_size;
-        points[0] = _rnd.nextDouble() * r;
-        for (int i = 1; i < this.mating_size; i++) {
-            points[i] = points[i - 1] + r;
-        }
-//        Finding indexes with SUS
-        for (int i = 0; i < this.mating_size; i++) {
-            int l = 0;
-            while (cum_probs[l] < points[i]) {
-                l++;
-            }
-            parents.add(this.old_parents.get(l));
-
-        }
-        //        Remove selected parents from the old list for further merging
-        parents.forEach(item->this.old_parents.remove(item));
-        this.cur_parents = parents;
-        return parents;
-
+        return this.cur_parents;
     }
 
     /**
@@ -178,11 +101,11 @@ public class Selection {
     public List<List<Individual>> makePairs(String mode) {
         switch (mode) {
             case "seq": {
-                this.cur_pairsP = this._parentsPairSequentially();
+                this.cur_pairsP = this._parentsPairSequentially(this.cur_parents);
                 break;
             }
             case "random": {
-                this.cur_pairsP = this._parentsPairRandom();
+                this.cur_pairsP = this._parentsPairRandom(this.cur_parents);
                 break;
             }
         }
@@ -191,43 +114,40 @@ public class Selection {
 
     /**
      * Sequential pairs making: [i, i+1] etc
+     *
+     * @param p Population
      */
-    private List<List<Individual>> _parentsPairSequentially() {
+    private List<List<Individual>> _parentsPairSequentially(List<Individual> p) {
         List<List<Individual>> parents = new ArrayList<>();
         List<Individual> pair;
-        for (int i = 0; i < this.mating_size; i = i + 2) {
-            pair = new ArrayList<>();
-            try {
-                pair.add(this.cur_parents.get(i).clone());
-                pair.add(this.cur_parents.get(i + 1).clone());
-
-            } catch (CloneNotSupportedException ex) {
-                throw new RuntimeException(ex);
-            }
+        for (int i = 0; i < this.mu; i = i + 2) {
+            pair = new ArrayList<Individual>();
+            pair.add(p.get(i));
+            pair.add(p.get(i + 1));
             parents.add(pair);
 
         }
-        this.cur_parents.clear();
         return parents;
     }
 
     /**
      * Random parents pairing
      *
+     * @param p Population
      */
-    private List<List<Individual>> _parentsPairRandom() {
+    private List<List<Individual>> _parentsPairRandom(List<Individual> p) {
         List<List<Individual>> parents = new ArrayList<>();
         List<Individual> pair;
-        for (int i = 0; i < this.mating_size; i += 2) {
+        for (int i = 0; i < this.mu; i += 2) {
             pair = new ArrayList<>();
             try {
-                int randomIndex = _rnd.nextInt(this.cur_parents.size());
-                Individual randomElement = this.cur_parents.get(randomIndex).clone();
-                this.cur_parents.remove(randomIndex);
+                int randomIndex = _rnd.nextInt(p.size());
+                Individual randomElement = p.get(randomIndex).clone();
+                //p.remove(randomIndex);
                 pair.add(randomElement);
-                randomIndex = _rnd.nextInt(this.cur_parents.size());
-                randomElement = this.cur_parents.get(randomIndex).clone();
-                this.cur_parents.remove(randomIndex);
+                randomIndex = _rnd.nextInt(p.size());
+                randomElement = p.get(randomIndex).clone();
+                //p.remove(randomIndex);
                 pair.add(randomElement);
             } catch (CloneNotSupportedException ex) {
                 throw new RuntimeException(ex);
@@ -327,7 +247,7 @@ public class Selection {
                     }
                 } else {
                     try {
-                       offspring.add(this.cur_pairsC.get(i).get(0).clone());
+                        offspring.add(this.cur_pairsC.get(i).get(0).clone());
                     } catch (CloneNotSupportedException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -348,8 +268,7 @@ public class Selection {
             }
 
         }
-        this.old_parents.addAll(offspring);
-        return this.old_parents;
+        return offspring;
     }
 
     /**

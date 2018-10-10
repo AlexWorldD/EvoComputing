@@ -35,7 +35,7 @@ public class EA {
         for (int i = 0; i < this.population_size; i++) {
             this.population.add(new Individual(this.evaluation));
         }
-        this.selection = new Selection(this.population_size, this.num_parents);
+        this.selection = new Selection(this.num_parents);
     }
 
     public void dynSelect() {
@@ -52,12 +52,12 @@ public class EA {
     public void crowding() {
 //        Selection selection = new Selection(this.num_parents);
         if (this.update_part == 1.0) {
-            this.selection.chooseParents(this.population, "SUS");
+            this.selection.chooseParents(this.population, "all");
         } else {
-            this.selection.chooseParents(this.population, "SUS");
+            this.selection.chooseParents(this.population, "random");
         }
 //        System.out.println("Parents");
-        this.selection.makePairs("seq");
+        this.selection.makePairs("random");
 //        System.out.println("Pairs");
         this.selection.makeChildren("wholeA");
 //        System.out.println("MakeChildren");
