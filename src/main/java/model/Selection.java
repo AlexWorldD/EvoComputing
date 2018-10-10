@@ -347,4 +347,78 @@ public class Selection {
         return this.old_parents;
     }
 
+    /**
+     * multi select method
+     *
+     * @param d threshold (dcn below this will decrease fitness to 0
+     * @return selection list of size
+     */
+
+    public List<Individual> dynSelect(double d, double size, List<Individual> pop) {
+        List<Individual> currentMembers = new ArrayList<>();
+
+        //Now: select from children and parents
+        this.cur_pairsC.forEach(currentMembers::addAll);
+        currentMembers.addAll(pop);
+        Individual best = Collections.max(currentMembers);
+        System.out.println(best.getFitness());
+        Collections.sort(currentMembers);
+        Individual lastAdded = best;
+
+        List<Individual> newPop = new ArrayList<Individual>();
+
+        newPop.add(best);
+
+        for (int i = 0; i< currentMembers.size(); i++) {
+            currentMembers.get(i).setDcn(Double.MAX_VALUE);
+        }
+        best.setDcn(0);
+        //currentMembers.remove(best);
+        System.out.println(newPop.get(0).getDcn());
+        while (newPop.size() < size) {
+            for (int i = 0;i<currentMembers.size();i++) {
+                Individual ind = currentMembers.get(i);
+                double dist = Metric.euclDist(lastAdded, ind);
+                //System.out.println(ind.getFitness());
+                if (dist < ind.getDcn()) {
+                    ind.setDcn(dist);
+                    //System.out.println(dist);
+                }
+                if (ind.getDcn() < d) {
+                    ind.setFitness(0);
+                }
+            }
+            List<Individual> ndFront = getNDind(currentMembers);
+            lastAdded = ndFront.get(_rnd.nextInt(ndFront.size()));
+            newPop.add(lastAdded);
+            currentMembers.remove(lastAdded);
+        }
+        return newPop;
+    }
+
+    /**
+     * get NonDominated front (based on DCN (distance closest neighbour) and fitness)
+     *
+     * @param p list of individuals from which to choose
+     * @return list of nondominated Individuals
+     */
+    public List<Individual> getNDind(List<Individual> p) {
+        List<Individual> maybeDominated = new ArrayList<>(p); // should be sorted on fitness
+        List<Individual> nonDominated = new ArrayList<>();
+        for (int i = 0; i < maybeDominated.size(); i++) {
+            Individual ind1 = maybeDominated.get(i);
+            boolean nondominated = true;
+            for (int j = 0; j < maybeDominated.size(); j++) {
+                Individual ind2 = maybeDominated.get(j);
+                if (ind1.getFitness() < ind2.getFitness() & ind1.getDcn() < ind2.getDcn()) {
+                    nondominated = false;
+                    break;
+                }
+            }
+            if (nondominated) {
+                nonDominated.add(ind1);
+            }
+        }
+        return nonDominated;
+    }
 }

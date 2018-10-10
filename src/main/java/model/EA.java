@@ -38,6 +38,17 @@ public class EA {
         this.selection = new Selection(this.population_size, this.num_parents);
     }
 
+    public void dynSelect() {
+        this.selection.chooseParents(this.population,"random");
+        this.selection.makePairs("random");
+        this.selection.makeChildren("wholeA");
+        this.selection.mutateChilred("UncorN");
+        this.selection.evaluateChildren();
+        this.population = selection.dynSelect(0, population_size, this.population);
+        this.selection.reset();
+
+    }
+
     public void crowding() {
 //        Selection selection = new Selection(this.num_parents);
         if (this.update_part == 1.0) {

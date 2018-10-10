@@ -18,6 +18,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
             Math.sqrt(1.0 / (2.0 * num_genes))};
     public double epsilon = 0.05;
     private double fitness = 0.0;
+    private double dcn = Double.MAX_VALUE;
     private double[] genes = new double[num_genes];
     private double[] sigmas = new double[num_genes];
     public Random ind_rand = new Random();
@@ -234,6 +235,10 @@ public class Individual implements Comparable<Individual>, Cloneable {
     public int compareTo(Individual other) {
         return Double.compare(this.fitness, other.fitness);
     }
+
+    public double getDcn() {return this.dcn;}
+
+    public void setDcn(double dcn) {this.dcn = dcn;}
 
     public Individual clone() throws CloneNotSupportedException {
         Individual cloneObj = (Individual) super.clone();
