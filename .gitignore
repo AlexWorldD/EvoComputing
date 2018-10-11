@@ -34,8 +34,14 @@ src/\.DS_Store
 
 target/
 
+SubmitHere/model/*.class
+
 src/main/resources/\.DS_Store
 
 src/main/\.DS_Store
 
 \.DS_Store
+
+SubmitHere/player52_old\.class
+
+SubmitHere/player52\.class

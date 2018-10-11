@@ -4,6 +4,7 @@ import model.*;
 
 import static model.UnifiedRandom._rnd;
 import static model.UnifiedRandom._evals;
+import static model.Parameters.*;
 
 import java.util.Properties;
 
@@ -34,28 +35,51 @@ public class player52 implements ContestSubmission {
         boolean isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
 
         // Do sth with property values, e.g. specify relevant settings of your algorithm
-        if (hasStructure) {
-            System.out.println(hasStructure);
-        } else {
-            System.out.println(hasStructure);
-        }
+//        if (hasStructure) {
+//            System.out.println(hasStructure);
+//        } else {
+//            System.out.println(hasStructure);
+//        }
     }
 
     public static void main(String args[]) {
         System.out.println("Hello There");
     }
 
-    public void run() {
-        int populationsize;;
-        double popSize = Double.parseDouble(System.getProperty("popSize"));
-        populationsize = (int) popSize;
-        double update = 0.6;
-        //Creates a random population of size 'populationsize'
-        EA ea = new EA(evaluation_, populationsize, update);
+    private void setParameters() {
+        String tmp = System.getProperty("method");
+        if (tmp != null) {
+            method = tmp;
+        }
+        tmp = System.getProperty("popSize");
+        if (tmp != null) {
+            population_size = (int) Double.parseDouble(tmp);
+        }
+        tmp = System.getProperty("updSize");
+        if (tmp != null) {
+            update_part = (double) Double.parseDouble(tmp);
+        }
+        tmp = System.getProperty("selectionPressure");
+        if (tmp != null) {
+            selection_pressure = Double.parseDouble(tmp);
+        }
+    }
 
-        //this condition could entail that some evaluations are not used...
-        while (_evals < evaluations_limit_ - populationsize) {
-            ea.crowding();
+    public void run() {
+        this.setParameters();
+        EA ea = new EA(evaluation_);
+
+        if (method.equals("crowding")) {
+            while (_evals < evaluations_limit_ - population_size) {
+//            System.out.println(_evals);
+                ea.crowding();
+            }
+        }
+        if (method.equals("dyn")) {
+            while (_evals < evaluations_limit_ - population_size) {
+//            System.out.println(_evals);
+                ea.dynSelect(evaluations_limit_);
+            }
         }
     }
 

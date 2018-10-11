@@ -4,6 +4,7 @@ import java.util.Random;
 
 import static model.UnifiedRandom._rnd;
 import static model.UnifiedRandom._evals;
+import static model.Parameters.*;
 
 import org.vu.contest.ContestEvaluation;
 
@@ -16,7 +17,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
     public double tau = Math.sqrt(1.0 / num_genes);
     public double[] taus = {Math.sqrt(1.0 / (2.0 * Math.sqrt(num_genes))),
             Math.sqrt(1.0 / (2.0 * num_genes))};
-    public double epsilon = 0.02;
+    public double epsilon = def_eps;
     private double fitness = 0.0;
     private double dcn = Double.MAX_VALUE;
     private double dynfitness;
@@ -34,7 +35,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
         for (int i = 0; i < num_genes; i++) {
             this.genes[i] = min_gene + _rnd.nextDouble() * (max_gene - min_gene);
 //            TODO define the appropriate def sigmas
-            this.sigmas[i] = 0.1;
+            this.sigmas[i] = def_sigma;
         }
         this.evaluation = eval;
         this.fitness = (double) this.evaluation.evaluate(this.genes);

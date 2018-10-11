@@ -3,6 +3,7 @@ import org.vu.contest.ContestEvaluation;
 
 
 import static model.UnifiedRandom._evals;
+import static model.Parameters.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,7 @@ public class TestEA {
             "KatsuuraEvaluation", "SchaffersEvaluation", "SphereEvaluation"};
 
     public static void main(String args[]) {
-        String name = evals[2];
+        String name = evals[0];
         Class eval_class = null;
         ContestEvaluation eval = null;
         try {
@@ -38,14 +39,19 @@ public class TestEA {
 
         Date time = new Date();
         long st = time.getTime();
-        int populationsize = 200;
-        double update = 1;
-        EA ea = new EA(eval, populationsize, update);
-        double evaluation_limit = 100000;
-        while (_evals < evaluation_limit - populationsize) {
+        EA ea = new EA(eval);
+        double evaluation_limit = 10000;
+        if (method.equals("crowding")) {
+            while (_evals < evaluation_limit - population_size) {
 //            System.out.println(_evals);
-           ea.dynSelect(evaluation_limit);
-            //ea.crowding();
+                ea.crowding();
+            }
+        }
+        if (method.equals("dyn")) {
+            while (_evals < evaluation_limit - population_size) {
+//            System.out.println(_evals);
+                ea.dynSelect(evaluation_limit);
+            }
         }
         time = new Date();
         long var15 = time.getTime() - st;

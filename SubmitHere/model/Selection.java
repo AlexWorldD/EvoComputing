@@ -1,6 +1,7 @@
 package model;
 
 import static model.UnifiedRandom._rnd;
+import static model.Parameters.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,7 @@ public class Selection {
     private int mating_size;
     //    Constants for SUS parents selection
 //    s - selection pressure, 1 < s <= 2
-    private double s = 1.8;
+    private double s;
     //    Constants for linear rank based selection
     public static double s_l;
     public static double s_r;
@@ -30,6 +31,7 @@ public class Selection {
     public List<Individual> cur_children;
 
     public Selection() {
+        this.s = selection_pressure;
         this.cur_parents = new ArrayList<>();
         this.old_parents = new ArrayList<>();
         this.cur_children = new ArrayList<>();
@@ -38,6 +40,7 @@ public class Selection {
     }
 
     public Selection(int pop_size, int num_parents) {
+        this.s = selection_pressure;
         this.population_size = pop_size;
         this.mating_size = num_parents;
         s_l = (2.0 - s) / (double) this.population_size;
@@ -240,7 +243,7 @@ public class Selection {
      */
 //    TODO add meaningful arguments?
     public void makeChildren(String mode) {
-        final Crossover crossover = new Crossover(2, 5, 0.5);
+        final Crossover crossover = new Crossover(2, split_k,  alpha);
         switch (mode) {
             case "simpleA": {
                 this.cur_pairsP.forEach(item -> cur_pairsC.add(crossover.SimpleArithmetic(item)));
@@ -261,8 +264,12 @@ public class Selection {
     public void mutateChilred(String mode) {
         final Mutation mutation = new Mutation();
         switch (mode) {
-            case "UncorN": {
+            case "uncorN": {
                 this.cur_pairsC.forEach(item -> item.forEach(item2 -> mutation.UncorrelatedNStepMutation(item2)));
+                break;
+            }
+            case "uncor1": {
+                this.cur_pairsC.forEach(item -> item.forEach(item2 -> mutation.UncorrelatedOneMutation(item2)));
                 break;
             }
         }
@@ -361,6 +368,7 @@ public class Selection {
         this.cur_pairsC.forEach(currentMembers::addAll);
         currentMembers.addAll(pop);
         Individual best = Collections.max(currentMembers);
+//        TODO del output below before submission
         System.out.println(best.getFitness());
         Collections.sort(currentMembers);
         Individual lastAdded = best;
@@ -373,8 +381,8 @@ public class Selection {
             currentMembers.get(i).setDcn(Double.MAX_VALUE);
         }
         best.setDcn(0);
-        //currentMembers.remove(best);
-//        System.out.println(newPop.get(0).getDcn());
+        currentMembers.remove(best);
+
         while (newPop.size() < size) {
             for (int i = 0;i<currentMembers.size();i++) {
                 Individual ind = currentMembers.get(i);
@@ -385,7 +393,10 @@ public class Selection {
                     //System.out.println(dist);
                 }
                 if (ind.getDcn() < d) {
-                    ind.setFitness(0);
+                    ind.setDynFitness(0);
+                }
+                else {
+                    ind.setDynFitness(ind.getFitness());
                 }
             }
             List<Individual> ndFront = getNDind(currentMembers);
@@ -410,7 +421,7 @@ public class Selection {
             boolean nondominated = true;
             for (int j = 0; j < maybeDominated.size(); j++) {
                 Individual ind2 = maybeDominated.get(j);
-                if (ind1.getFitness() < ind2.getFitness() & ind1.getDcn() < ind2.getDcn()) {
+                if (ind1.getDynFitness() < ind2.getDynFitness() & ind1.getDcn() < ind2.getDcn()) {
                     nondominated = false;
                     break;
                 }

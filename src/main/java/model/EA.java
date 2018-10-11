@@ -5,6 +5,7 @@ import java.util.Random;
 
 import static model.UnifiedRandom._rnd;
 import static model.UnifiedRandom._evals;
+import static model.Parameters.*;
 
 import java.util.List;
 
@@ -23,10 +24,10 @@ public class EA {
     public Selection selection;
 
 
-    public EA(ContestEvaluation e, int population_size, double update_part) {
+    public EA(ContestEvaluation e) {
         this.evaluation = e;
-        this.population_size = population_size;
-        this.update_part = update_part;
+        this.population_size = Parameters.population_size;
+        this.update_part = Parameters.update_part;
         this.num_parents = (int) Math.round(this.population_size * this.update_part);
         if (this.num_parents % 2 == 1) {
             this.num_parents += 1;
@@ -39,12 +40,11 @@ public class EA {
     }
 
     public void dynSelect(double evaluationlimit) {
-        double d1 = 0.2;
-        double d = d1 - d1*_evals/evaluationlimit;
-        this.selection.chooseParents(this.population,"SUS");
+        double d = d_dyn - d_dyn*_evals/evaluationlimit;
+        this.selection.chooseParents(this.population, selection_parents);
         this.selection.makePairs("seq");
-        this.selection.makeChildren("wholeA");
-        this.selection.mutateChilred("UncorN");
+        this.selection.makeChildren(mode_crossover);
+        this.selection.mutateChilred(mode_mutation);
         this.selection.evaluateChildren();
         this.population = selection.dynSelect(d, population_size, this.population);
         this.selection.reset();
@@ -52,18 +52,13 @@ public class EA {
     }
 
     public void crowding() {
-//        Selection selection = new Selection(this.num_parents);
-        if (this.update_part == 1.0) {
-            this.selection.chooseParents(this.population, "SUS");
-        } else {
-            this.selection.chooseParents(this.population, "random");
-        }
+        this.selection.chooseParents(this.population, selection_parents);
 //        System.out.println("Parents");
         this.selection.makePairs("seq");
 //        System.out.println("Pairs");
-        this.selection.makeChildren("wholeA");
+        this.selection.makeChildren(mode_crossover);
 //        System.out.println("MakeChildren");
-        this.selection.mutateChilred("UncorN");
+        this.selection.mutateChilred(mode_mutation);
 //        System.out.println("MutateChildren");
 //        _evals+=this.num_parents;
         this.selection.evaluateChildren();

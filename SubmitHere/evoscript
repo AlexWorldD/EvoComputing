@@ -1,4 +1,7 @@
 javac -cp contest.jar *.java model/*.java \
 && jar cmf MainClass.txt submission.jar *.class model/*.class \
-&& java -DpopSize=50 -jar testrun.jar -submission=player52 -evaluation=BentCigarFunction -seed=2
+&& java -DpopSize=50 -DupdSize=1 -DselectionPressure=1.8 -jar testrun.jar -submission=player52 -evaluation=BentCigarFunction -seed=2
+
+
+java -jar testrun.jar -submission=player52 -evaluation=BentCigarFunction -seed=2
 
