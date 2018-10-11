@@ -367,12 +367,13 @@ public class Selection {
         //Now: select from children and parents
         this.cur_pairsC.forEach(currentMembers::addAll);
         currentMembers.addAll(pop);
+
         Individual best = Collections.max(currentMembers);
 //        TODO del output below before submission
         System.out.println(best.getFitness());
-        Collections.sort(currentMembers);
+        Collections.shuffle(currentMembers);
         Individual lastAdded = best;
-
+        best.setDynFitness(best.getFitness());
         List<Individual> newPop = new ArrayList<Individual>();
 
         newPop.add(best);
@@ -381,19 +382,20 @@ public class Selection {
             currentMembers.get(i).setDcn(Double.MAX_VALUE);
         }
         best.setDcn(0);
+
         currentMembers.remove(best);
 
         while (newPop.size() < size) {
             for (int i = 0;i<currentMembers.size();i++) {
                 Individual ind = currentMembers.get(i);
                 double dist = Metric.euclDist(lastAdded, ind);
-                //System.out.println(ind.getFitness());
                 if (dist < ind.getDcn()) {
                     ind.setDcn(dist);
                     //System.out.println(dist);
                 }
                 if (ind.getDcn() < d) {
                     ind.setDynFitness(0);
+                    //System.out.println(ind.getDcn());
                 }
                 else {
                     ind.setDynFitness(ind.getFitness());
