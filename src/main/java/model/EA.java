@@ -67,4 +67,20 @@ public class EA {
         this.selection.reset();
     }
 
+    public void baseline() {
+        this.selection.chooseParents(this.population, selection_parents);
+//        System.out.println("Parents");
+        this.selection.makePairs("seq");
+//        System.out.println("Pairs");
+        this.selection.makeChildren(mode_crossover);
+//        System.out.println("MakeChildren");
+        this.selection.mutateChilred(mode_mutation);
+//        System.out.println("MutateChildren");
+//        _evals+=this.num_parents;
+        this.selection.evaluateChildren();
+//        System.out.println("Evaluate");
+        this.population = selection.returnChildren();
+        this.selection.reset();
+    }
+
 }

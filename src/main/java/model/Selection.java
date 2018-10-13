@@ -168,6 +168,7 @@ public class Selection {
 
     }
 
+
     /**
      * Making pairs from the selected parents
      *
@@ -281,6 +282,11 @@ public class Selection {
         this.cur_pairsC.forEach(item -> item.forEach(item2 -> item2.updFitness()));
     }
 
+    public List<Individual> returnChildren() {
+        List<Individual> children = new ArrayList<>();
+        this.cur_pairsC.forEach(children::addAll);
+        return children;
+    }
 
     public List<Individual> crowding() {
         List<Individual> offspring = new ArrayList<Individual>();
@@ -370,7 +376,7 @@ public class Selection {
 
         Individual best = Collections.max(currentMembers);
 //        TODO del output below before submission
-        System.out.println(best.getFitness());
+        //System.out.println(best.getFitness());
         Collections.shuffle(currentMembers);
         Individual lastAdded = best;
         best.setDynFitness(best.getFitness());
@@ -391,11 +397,9 @@ public class Selection {
                 double dist = Metric.euclDist(lastAdded, ind);
                 if (dist < ind.getDcn()) {
                     ind.setDcn(dist);
-                    //System.out.println(dist);
                 }
                 if (ind.getDcn() < d) {
                     ind.setDynFitness(0);
-                    //System.out.println(ind.getDcn());
                 }
                 else {
                     ind.setDynFitness(ind.getFitness());
