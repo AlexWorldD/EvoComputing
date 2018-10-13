@@ -215,26 +215,26 @@ public class Selection {
      *
      */
     private List<List<Individual>> _parentsPairRandom() {
-        List<List<Individual>> parents = new ArrayList<>();
-        List<Individual> pair;
-        for (int i = 0; i < this.mating_size; i += 2) {
-            pair = new ArrayList<>();
-            try {
-                int randomIndex = _rnd.nextInt(this.cur_parents.size());
-                Individual randomElement = this.cur_parents.get(randomIndex).clone();
-                this.cur_parents.remove(randomIndex);
-                pair.add(randomElement);
-                randomIndex = _rnd.nextInt(this.cur_parents.size());
-                randomElement = this.cur_parents.get(randomIndex).clone();
-                this.cur_parents.remove(randomIndex);
-                pair.add(randomElement);
-            } catch (CloneNotSupportedException ex) {
-                throw new RuntimeException(ex);
-            }
-            parents.add(pair);
-
-        }
-        return parents;
+        Collections.shuffle(cur_parents);
+        return _parentsPairSequentially();
+//        for (int i = 0; i < this.mating_size; i += 2) {
+//            pair = new ArrayList<>();
+//            try {
+//                int randomIndex = _rnd.nextInt(this.cur_parents.size());
+//                Individual randomElement = this.cur_parents.get(randomIndex).clone();
+//                this.cur_parents.remove(randomIndex);
+//                pair.add(randomElement);
+//                randomIndex = _rnd.nextInt(this.cur_parents.size());
+//                randomElement = this.cur_parents.get(randomIndex).clone();
+//                this.cur_parents.remove(randomIndex);
+//                pair.add(randomElement);
+//            } catch (CloneNotSupportedException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//            parents.add(pair);
+//
+//        }
+//        return parents;
     }
 
     /**
@@ -290,6 +290,7 @@ public class Selection {
 
     public List<Individual> crowding() {
         List<Individual> offspring = new ArrayList<Individual>();
+
 //        this.chooseParents(p, "random");
 //        this.makePairs("random");
 //        this.makeChildren("wholeA");
@@ -357,6 +358,7 @@ public class Selection {
 
         }
         this.old_parents.addAll(offspring);
+        System.out.println(Collections.max(this.old_parents).getFitness());
         return this.old_parents;
     }
 
@@ -370,13 +372,11 @@ public class Selection {
     public List<Individual> dynSelect(double d, double size, List<Individual> pop) {
         List<Individual> currentMembers = new ArrayList<>();
 
-        //Now: select from children and parents
         this.cur_pairsC.forEach(currentMembers::addAll);
         currentMembers.addAll(pop);
 
         Individual best = Collections.max(currentMembers);
-//        TODO del output below before submission
-        //System.out.println(best.getFitness());
+        System.out.println(best.getFitness());
         Collections.shuffle(currentMembers);
         Individual lastAdded = best;
         best.setDynFitness(best.getFitness());
@@ -400,6 +400,7 @@ public class Selection {
                 }
                 if (ind.getDcn() < d) {
                     ind.setDynFitness(0);
+                    //System.out.print(ind.getDynFitness());System.out.println(ind.getFitness());
                 }
                 else {
                     ind.setDynFitness(ind.getFitness());
