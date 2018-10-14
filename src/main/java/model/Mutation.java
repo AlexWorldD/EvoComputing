@@ -153,7 +153,7 @@ public class Mutation {
         }
         individual.updSigmas(old_sigmas);
         individual.updGenes(old_genes);
-        System.out.println(Arrays.toString(old_genes));
+//        System.out.println(Arrays.toString(old_genes));
         return individual;
     }
 

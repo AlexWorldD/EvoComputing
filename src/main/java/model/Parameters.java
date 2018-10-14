@@ -25,7 +25,7 @@ public class Parameters {
     public static int split_k = 5;
     //    "wholeA" - Whole Arithmetic recombination
 //    "simpleA" - Simple Arithmetic recombination
-    public static String mode_crossover = "simpleA";
+    public static String mode_crossover = "wholeA";
 
     //    MUTATION
 //    "uncorN" - Uncorrelated N StepMutation
