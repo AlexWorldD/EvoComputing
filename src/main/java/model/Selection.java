@@ -254,6 +254,13 @@ public class Selection {
                 this.cur_pairsP.forEach(item -> cur_pairsC.add(crossover.WholeArithmetic(item)));
                 break;
             }
+            case "singleA": {
+                this.cur_pairsP.forEach(item -> cur_pairsC.add(crossover.SingleArithmetic(item)));
+                break;
+            }
+            case "no": {
+                this.cur_pairsC = cur_pairsP;
+            }
         }
     }
 

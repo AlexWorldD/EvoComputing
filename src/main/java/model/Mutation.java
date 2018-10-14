@@ -1,6 +1,7 @@
 package model;
 
 import static model.UnifiedRandom._rnd;
+import java.util.Arrays;
 
 public class Mutation {
     public String mode;
@@ -126,11 +127,12 @@ public class Mutation {
      */
     public Individual UncorrelatedOneMutation(Individual individual) {
         double new_sigma = individual.getSigma() * Math.exp(individual.tau * _rnd.nextGaussian());
+        individual.updSigma(new_sigma);
+        new_sigma = individual.getSigma();
         double[] old_genes = individual.getGenes().clone();
         for (int i = 0; i < Individual.num_genes; i++) {
             old_genes[i] += new_sigma * individual.ind_rand.nextGaussian();
         }
-        individual.updSigma(new_sigma);
         individual.updGenes(old_genes);
         return individual;
     }
@@ -151,6 +153,7 @@ public class Mutation {
         }
         individual.updSigmas(old_sigmas);
         individual.updGenes(old_genes);
+        System.out.println(Arrays.toString(old_genes));
         return individual;
     }
 

@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 import org.vu.contest.ContestEvaluation;
 
@@ -23,6 +24,7 @@ public class Individual implements Comparable<Individual> {
     public Individual(ContestEvaluation e, double[] genes, double[] stepsize) {
         this.genes = genes;
         this.stepsize = stepsize;
+        System.out.println(Arrays.toString(genes));
         setFitness(e);
     }
 

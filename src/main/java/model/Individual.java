@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import static model.UnifiedRandom._rnd;
@@ -126,6 +127,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
                     genes[i] = max_gene;
                 } else genes[i] = new_genes[i];
             }
+//            System.out.println(Arrays.toString(this.getGenes()));
         } else {
             throw new ArrayIndexOutOfBoundsException();
         }
