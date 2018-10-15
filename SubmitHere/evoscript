@@ -5,3 +5,6 @@ javac -cp contest.jar *.java model/*.java \
 
 java -jar testrun.jar -submission=player52 -evaluation=BentCigarFunction -seed=2
 
+
+java -Dmethod=crowding -DpopSize=50 -DupdSize=1 -DselectionPressure=1.8 -Dsigma=0.8 -jar testrun.jar -submission=player52 -evaluation=SchaffersEvaluation -seed=2
+
