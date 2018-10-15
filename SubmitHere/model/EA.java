@@ -5,6 +5,7 @@ import java.util.Random;
 
 import static model.UnifiedRandom._rnd;
 import static model.UnifiedRandom._evals;
+import static model.UnifiedRandom.makeRandoms;
 import static model.Parameters.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class EA {
 
     public EA(ContestEvaluation e) {
         this.evaluation = e;
+        makeRandoms();
         this.population_size = Parameters.population_size;
         this.update_part = Parameters.update_part;
         this.num_parents = (int) Math.round(this.population_size * this.update_part);
@@ -64,6 +66,22 @@ public class EA {
         this.selection.evaluateChildren();
 //        System.out.println("Evaluate");
         this.population = selection.crowding();
+        this.selection.reset();
+    }
+
+    public void baseline() {
+        this.selection.chooseParents(this.population, selection_parents);
+//        System.out.println("Parents");
+        this.selection.makePairs("seq");
+//        System.out.println("Pairs");
+        this.selection.makeChildren(mode_crossover);
+//        System.out.println("MakeChildren");
+        this.selection.mutateChilred(mode_mutation);
+//        System.out.println("MutateChildren");
+//        _evals+=this.num_parents;
+        this.selection.evaluateChildren();
+//        System.out.println("Evaluate");
+        this.population = selection.returnChildren();
         this.selection.reset();
     }
 

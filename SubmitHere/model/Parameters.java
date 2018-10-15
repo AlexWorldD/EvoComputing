@@ -1,8 +1,11 @@
 package model;
 
 public class Parameters {
+//    DEBUG FLAGs
+    public static boolean debug = false;
+    public static boolean debug_sigma = false;
     //    POPULATION
-    public static int population_size = 50;
+    public static int population_size = 100;
     public static double update_part = 1.0;
 
     //    SELECTION
@@ -11,16 +14,17 @@ public class Parameters {
     //    Method for making evolution step:
 //    "crowding" - Deterministic Crowding, when children vs. parents
 //    "dyn" - Multi Dynamic Selection by Lotta
+//    "baseline" - no selection
     public static String method = "crowding";
     //    "SUS" - Stochastic universal sampling
 //    "random" - Random selection from the whole population
     public static String selection_parents = "SUS";
     //    Special parameter for DynamicSelection by Lotta
-    public static double d_dyn = 0.2;
+    public static double d_dyn = 0;
 
     //    CROSSOVER
 //    y*alpha + (1-alpha)*x
-    public static double alpha = 0.5;
+    public static double alpha = .8;
     public static int split_k = 5;
     //    "wholeA" - Whole Arithmetic recombination
 //    "simpleA" - Simple Arithmetic recombination
@@ -32,8 +36,8 @@ public class Parameters {
     public static String mode_mutation = "uncorN";
 
     //    INDIVIDUAL
-    public static double def_sigma = 0.1;
-    public static double def_eps = 0.05;
+    public static double def_sigma = 0.8;
+    public static double def_eps = 0.1;
 
 
 }

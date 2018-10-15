@@ -123,7 +123,7 @@ public class Selection {
         }
 //        Remove selected parents from the old list for further merging
         parents.forEach(item->this.old_parents.remove(item));
-        this.cur_parents = parents;
+//        this.cur_parents = parents;
         return parents;
     }
 
@@ -167,6 +167,7 @@ public class Selection {
         return parents;
 
     }
+
 
     /**
      * Making pairs from the selected parents
@@ -214,26 +215,26 @@ public class Selection {
      *
      */
     private List<List<Individual>> _parentsPairRandom() {
-        List<List<Individual>> parents = new ArrayList<>();
-        List<Individual> pair;
-        for (int i = 0; i < this.mating_size; i += 2) {
-            pair = new ArrayList<>();
-            try {
-                int randomIndex = _rnd.nextInt(this.cur_parents.size());
-                Individual randomElement = this.cur_parents.get(randomIndex).clone();
-                this.cur_parents.remove(randomIndex);
-                pair.add(randomElement);
-                randomIndex = _rnd.nextInt(this.cur_parents.size());
-                randomElement = this.cur_parents.get(randomIndex).clone();
-                this.cur_parents.remove(randomIndex);
-                pair.add(randomElement);
-            } catch (CloneNotSupportedException ex) {
-                throw new RuntimeException(ex);
-            }
-            parents.add(pair);
-
-        }
-        return parents;
+        Collections.shuffle(cur_parents);
+        return _parentsPairSequentially();
+//        for (int i = 0; i < this.mating_size; i += 2) {
+//            pair = new ArrayList<>();
+//            try {
+//                int randomIndex = _rnd.nextInt(this.cur_parents.size());
+//                Individual randomElement = this.cur_parents.get(randomIndex).clone();
+//                this.cur_parents.remove(randomIndex);
+//                pair.add(randomElement);
+//                randomIndex = _rnd.nextInt(this.cur_parents.size());
+//                randomElement = this.cur_parents.get(randomIndex).clone();
+//                this.cur_parents.remove(randomIndex);
+//                pair.add(randomElement);
+//            } catch (CloneNotSupportedException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//            parents.add(pair);
+//
+//        }
+//        return parents;
     }
 
     /**
@@ -252,6 +253,13 @@ public class Selection {
             case "wholeA": {
                 this.cur_pairsP.forEach(item -> cur_pairsC.add(crossover.WholeArithmetic(item)));
                 break;
+            }
+            case "singleA": {
+                this.cur_pairsP.forEach(item -> cur_pairsC.add(crossover.SingleArithmetic(item)));
+                break;
+            }
+            case "no": {
+                this.cur_pairsC = cur_pairsP;
             }
         }
     }
@@ -281,9 +289,15 @@ public class Selection {
         this.cur_pairsC.forEach(item -> item.forEach(item2 -> item2.updFitness()));
     }
 
+    public List<Individual> returnChildren() {
+        List<Individual> children = new ArrayList<>();
+        this.cur_pairsC.forEach(children::addAll);
+        return children;
+    }
 
     public List<Individual> crowding() {
         List<Individual> offspring = new ArrayList<Individual>();
+
 //        this.chooseParents(p, "random");
 //        this.makePairs("random");
 //        this.makeChildren("wholeA");
@@ -351,6 +365,7 @@ public class Selection {
 
         }
         this.old_parents.addAll(offspring);
+        if (debug) System.out.println(Collections.max(this.old_parents).getFitness());
         return this.old_parents;
     }
 
@@ -364,15 +379,14 @@ public class Selection {
     public List<Individual> dynSelect(double d, double size, List<Individual> pop) {
         List<Individual> currentMembers = new ArrayList<>();
 
-        //Now: select from children and parents
         this.cur_pairsC.forEach(currentMembers::addAll);
         currentMembers.addAll(pop);
-        Individual best = Collections.max(currentMembers);
-//        TODO del output below before submission
-        System.out.println(best.getFitness());
-        Collections.sort(currentMembers);
-        Individual lastAdded = best;
 
+        Individual best = Collections.max(currentMembers);
+        if (debug) System.out.println(best.getFitness());
+        Collections.shuffle(currentMembers);
+        Individual lastAdded = best;
+        best.setDynFitness(best.getFitness());
         List<Individual> newPop = new ArrayList<Individual>();
 
         newPop.add(best);
@@ -381,19 +395,19 @@ public class Selection {
             currentMembers.get(i).setDcn(Double.MAX_VALUE);
         }
         best.setDcn(0);
+
         currentMembers.remove(best);
 
         while (newPop.size() < size) {
             for (int i = 0;i<currentMembers.size();i++) {
                 Individual ind = currentMembers.get(i);
                 double dist = Metric.euclDist(lastAdded, ind);
-                //System.out.println(ind.getFitness());
                 if (dist < ind.getDcn()) {
                     ind.setDcn(dist);
-                    //System.out.println(dist);
                 }
                 if (ind.getDcn() < d) {
                     ind.setDynFitness(0);
+                    //System.out.print(ind.getDynFitness());System.out.println(ind.getFitness());
                 }
                 else {
                     ind.setDynFitness(ind.getFitness());

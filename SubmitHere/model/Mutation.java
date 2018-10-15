@@ -1,6 +1,10 @@
 package model;
 
 import static model.UnifiedRandom._rnd;
+import static model.UnifiedRandom._randoms;
+import static model.Parameters.debug_sigma;
+import java.util.Arrays;
+import java.util.Random;
 
 public class Mutation {
     public String mode;
@@ -126,12 +130,14 @@ public class Mutation {
      */
     public Individual UncorrelatedOneMutation(Individual individual) {
         double new_sigma = individual.getSigma() * Math.exp(individual.tau * _rnd.nextGaussian());
+        individual.updSigma(new_sigma);
+        new_sigma = individual.getSigma();
         double[] old_genes = individual.getGenes().clone();
         for (int i = 0; i < Individual.num_genes; i++) {
-            old_genes[i] += new_sigma * individual.ind_rand.nextGaussian();
+            old_genes[i] += new_sigma * _randoms.get(i).nextGaussian();
         }
-        individual.updSigma(new_sigma);
         individual.updGenes(old_genes);
+        if (debug_sigma) System.out.println(Arrays.toString(old_genes));
         return individual;
     }
 
@@ -144,13 +150,17 @@ public class Mutation {
     public Individual UncorrelatedNStepMutation(Individual individual) {
         double[] old_genes = individual.getGenes().clone();
         double[] old_sigmas = individual.getSigmas().clone();
+        double r2 = _rnd.nextGaussian();
 //        TODO check the correctness of different random generators
         for (int i = 0; i < Individual.num_genes; i++) {
-            old_sigmas[i] *= Math.exp(individual.taus[0] * individual.ind_rand.nextGaussian() + individual.taus[1] * _rnd.nextGaussian());
-            old_genes[i] += Math.max(old_sigmas[i], individual.epsilon) * individual.ind_rand.nextGaussian();
+            Random r1 = _randoms.get(i);
+//            Random r1 = new Random();
+            old_sigmas[i] *= Math.exp(individual.taus[0] * r1.nextGaussian() + individual.taus[1] * r2);
+            old_genes[i] += Math.max(old_sigmas[i], individual.epsilon) * r1.nextGaussian();
         }
         individual.updSigmas(old_sigmas);
         individual.updGenes(old_genes);
+        if (debug_sigma) System.out.println(Arrays.toString(old_sigmas));
         return individual;
     }
 

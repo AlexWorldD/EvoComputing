@@ -1,11 +1,13 @@
 package model;
 
 import static model.UnifiedRandom._rnd;
+import static model.Parameters.debug_sigma;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Collections;
 import java.util.List;
+import java.util.Arrays;
 
 public class Crossover {
     public double alpha;
@@ -55,14 +57,15 @@ public class Crossover {
         double[] r_old_sigmas = r.getSigmas().clone();
         for (int i = this.k + 1; i < Individual.num_genes; i++) {
 //            TODO p65, check the formula
-            l_old_genes[i] = _mixArithmetic(l_old_genes[i], r_old_genes[i]);
-            r_old_genes[i] = _mixArithmetic(r_old_genes[i], l_old_genes[i]);
-            l_old_sigmas[i] = _mixArithmetic(l_old_sigmas[i], r_old_sigmas[i]);
-            r_old_sigmas[i] = _mixArithmetic(r_old_sigmas[i], l_old_sigmas[i]);
+            l_old_genes[i] = _mixArithmetic(l.getGene(i), r.getGene(i));
+            r_old_genes[i] = _mixArithmetic(r.getGene(i), l.getGene(i));
+            l_old_sigmas[i] = _mixArithmetic(l.getSigma(i), r.getSigma(i));
+            r_old_sigmas[i] = _mixArithmetic(r.getSigma(i), l.getSigma(i));
         }
         List<Individual> children = new ArrayList<>();
         children.add(new Individual(l.getEvaluation(), l_old_genes, l_old_sigmas));
         children.add(new Individual(r.getEvaluation(), r_old_genes, r_old_sigmas));
+        if (debug_sigma) System.out.println(Arrays.toString(l_old_sigmas));
         return children;
     }
 
@@ -92,16 +95,30 @@ public class Crossover {
         double[] l_old_sigmas = l.getSigmas().clone();
         double[] r_old_genes = r.getGenes().clone();
         double[] r_old_sigmas = r.getSigmas().clone();
-        l_old_genes[k] = _mixArithmetic(l_old_genes[k], r_old_genes[k]);
-        r_old_genes[k] = _mixArithmetic(r_old_genes[k], l_old_genes[k]);
-        l_old_sigmas[k] = _mixArithmetic(l_old_sigmas[k], r_old_sigmas[k]);
-        r_old_sigmas[k] = _mixArithmetic(r_old_sigmas[k], l_old_sigmas[k]);
+        l_old_genes[k] = _mixArithmetic(l.getGene(k), r.getGene(k));
+        r_old_genes[k] = _mixArithmetic(r.getGene(k), l.getGene(k));
+        l_old_sigmas[k] = _mixArithmetic(l.getSigma(k), r.getSigma(k));
+        r_old_sigmas[k] = _mixArithmetic(r.getSigma(k), l.getSigma(k));
         List<Individual> children = new ArrayList<>();
         children.add(new Individual(l.getEvaluation(), l_old_genes, l_old_sigmas));
         children.add(new Individual(r.getEvaluation(), r_old_genes, r_old_sigmas));
+        if (debug_sigma) System.out.println(Arrays.toString(l_old_sigmas));
         return children;
     }
 
+    /**
+     * Safe SingleArithmetic recombination
+     *
+     * @param pair Parents for making L0ve
+     * @return List of children
+     */
+    public List<Individual> SingleArithmetic(List<Individual> pair) {
+        try {
+            return this.SingleArithmetic(pair.get(0), pair.get(1));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
 //  /////// WHOLE ARITHMETIC \\\\\\\\
     /**
@@ -112,19 +129,26 @@ public class Crossover {
      * @return List of children
      */
     public List<Individual> WholeArithmetic(Individual l, Individual r) {
-        double[] l_old_genes = l.getGenes().clone();
-        double[] l_old_sigmas = l.getSigmas().clone();
-        double[] r_old_genes = r.getGenes().clone();
-        double[] r_old_sigmas = r.getSigmas().clone();
+        double[] l_old_genes = new double[Individual.num_genes];
+        double[] l_old_sigmas = new double[Individual.num_genes];
+        double[] r_old_genes = new double[Individual.num_genes];
+        double[] r_old_sigmas = new double[Individual.num_genes];
         for (int i = 0; i < Individual.num_genes; i++) {
-            l_old_genes[i] = _mixArithmetic(l_old_genes[i], r_old_genes[i]);
-            r_old_genes[i] = _mixArithmetic(r_old_genes[i], l_old_genes[i]);
-            l_old_sigmas[i] = _mixArithmetic(l_old_sigmas[i], r_old_sigmas[i]);
-            r_old_sigmas[i] = _mixArithmetic(r_old_sigmas[i], l_old_sigmas[i]);
+//            l_old_genes[i] = _mixArithmetic(l.getGene(i), r.getGene(i));
+//            r_old_genes[i] = _mixArithmetic(r.getGene(i), l.getGene(i));
+//            l_old_sigmas[i] = _mixArithmetic(l.getSigma(i), r.getSigma(i));
+//            r_old_sigmas[i] = _mixArithmetic(r.getSigma(i), l.getSigma(i));
+            l_old_genes[i] = this.alpha*l.getGene(i) + (1-this.alpha)*r.getGene(i);
+            r_old_genes[i] = this.alpha*r.getGene(i) + (1-this.alpha)*l.getGene(i);
+            l_old_sigmas[i] = this.alpha*l.getSigma(i) + (1-this.alpha)*r.getSigma(i);
+            r_old_sigmas[i] = this.alpha*r.getSigma(i) + (1-this.alpha)*l.getSigma(i);
         }
         List<Individual> children = new ArrayList<>();
         children.add(new Individual(l.getEvaluation(), l_old_genes, l_old_sigmas));
         children.add(new Individual(r.getEvaluation(), r_old_genes, r_old_sigmas));
+//        if (l_old_sigmas[0]>100) {
+//            System.out.println(Arrays.toString(l_old_sigmas));
+//        }
         return children;
     }
 
@@ -144,7 +168,7 @@ public class Crossover {
 
     private double _mixArithmetic(double l, double r) {
         //            TODO p65, check the formula
-        return this.alpha * l + (1 - this.alpha) * r;
+        return this.alpha * l + (1.0 - this.alpha) * r;
     }
 
 //  /////// BLEND MUTATION \\\\\\\\
