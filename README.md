@@ -4,6 +4,14 @@
 ### Dependensies:
   - [Maven](https://maven.apache.org/)
   - A lot of luck :)
+### How to use for parameter tuning?:
+1. Open terminal and go to SubmitHere folder: `cd SubmitHere`
+2. Make compile script executable: `chmod u+x compile.sh` and `./compile.sh`
+3. Test it from command line: \
+`java -DpopSize=50 -DupdSize=1 -DselectionPressure=1.8 -jar testrun.jar -submission=player52 -evaluation=BentCigarFunction -seed=2`
+4. Make running script executable: `chmod u+x wtf.sh`
+5. Create folder for output inside SubmitHere
+6. Run script: `./wtf.sh` and wait
 ### How to use?:
   00. Clone repo to you machine
   `git clone https://github.com/AlexWorldD/EvoComputing/`
