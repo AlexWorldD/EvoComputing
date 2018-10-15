@@ -43,7 +43,7 @@ public class TestEA {
         double evaluation_limit = 10000;
         if (method.equals("crowding")) {
             while (_evals < evaluation_limit - population_size) {
-            //System.out.println(_evals);
+//            System.out.println(_evals);
                 ea.crowding();
             }
         }

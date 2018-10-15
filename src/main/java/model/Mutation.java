@@ -156,7 +156,7 @@ public class Mutation {
             Random r1 = _randoms.get(i);
 //            Random r1 = new Random();
             old_sigmas[i] *= Math.exp(individual.taus[0] * r1.nextGaussian() + individual.taus[1] * r2);
-            old_genes[i] += Math.max(old_sigmas[i], individual.epsilon) * r1.nextGaussian();
+            old_genes[i] += Math.min(Math.max(old_sigmas[i], individual.epsilon), individual.stepSizeMax) * r1.nextGaussian();
         }
         individual.updSigmas(old_sigmas);
         individual.updGenes(old_genes);
