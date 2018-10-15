@@ -19,6 +19,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
     public double[] taus = {Math.sqrt(1.0 / (2.0 * Math.sqrt(num_genes))),
             Math.sqrt(1.0 / (2.0 * num_genes))};
     public double epsilon = def_eps;
+    public double stepSizeMax = epsMax;
     private double fitness = 0.0;
     private double dcn = Double.MAX_VALUE;
     private double dynfitness;
@@ -186,7 +187,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
      */
     public void updSigma(double value) {
 //  boundary rule, is used to force step sizes to be no smaller than threshold
-        sigmas[0] = Math.max(value, epsilon);
+        sigmas[0] = Math.min(Math.max(value, epsilon), stepSizeMax);
     }
 
     /**
@@ -211,7 +212,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
     public void updSigmas(double[] new_sigmas) throws ArrayIndexOutOfBoundsException {
         if (new_sigmas.length == num_genes) {
             for (int i = 0; i < Individual.num_genes; i++) {
-                sigmas[i] = Math.max(new_sigmas[i], epsilon);
+                sigmas[i] = Math.min(Math.max(new_sigmas[i], epsilon), stepSizeMax);
             }
 
         } else {

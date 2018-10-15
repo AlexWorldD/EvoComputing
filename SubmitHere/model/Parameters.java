@@ -15,7 +15,7 @@ public class Parameters {
 //    "crowding" - Deterministic Crowding, when children vs. parents
 //    "dyn" - Multi Dynamic Selection by Lotta
 //    "baseline" - no selection
-    public static String method = "crowding";
+    public static String method = "baseline";
     //    "SUS" - Stochastic universal sampling
 //    "random" - Random selection from the whole population
     public static String selection_parents = "SUS";
@@ -24,7 +24,7 @@ public class Parameters {
 
     //    CROSSOVER
 //    y*alpha + (1-alpha)*x
-    public static double alpha = .8;
+    public static double alpha = .2;
     public static int split_k = 5;
     //    "wholeA" - Whole Arithmetic recombination
 //    "simpleA" - Simple Arithmetic recombination
@@ -36,8 +36,9 @@ public class Parameters {
     public static String mode_mutation = "uncorN";
 
     //    INDIVIDUAL
-    public static double def_sigma = 0.8;
-    public static double def_eps = 0.1;
+    public static double def_sigma = 1;
+    public static double def_eps = 0.001;
+    public static double epsMax=4.0;
 
 
 }
