@@ -5,6 +5,7 @@ import java.util.Random;
 
 import static model.UnifiedRandom._rnd;
 import static model.UnifiedRandom._evals;
+import static model.UnifiedRandom.makeRandoms;
 import static model.Parameters.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class EA {
 
     public EA(ContestEvaluation e) {
         this.evaluation = e;
+        makeRandoms();
         this.population_size = Parameters.population_size;
         this.update_part = Parameters.update_part;
         this.num_parents = (int) Math.round(this.population_size * this.update_part);

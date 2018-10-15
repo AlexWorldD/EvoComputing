@@ -1,6 +1,7 @@
 package model;
 
 import static model.UnifiedRandom._rnd;
+import static model.Parameters.debug_sigma;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -64,7 +65,7 @@ public class Crossover {
         List<Individual> children = new ArrayList<>();
         children.add(new Individual(l.getEvaluation(), l_old_genes, l_old_sigmas));
         children.add(new Individual(r.getEvaluation(), r_old_genes, r_old_sigmas));
-        System.out.println(Arrays.toString(l_old_genes));
+        if (debug_sigma) System.out.println(Arrays.toString(l_old_sigmas));
         return children;
     }
 
@@ -101,7 +102,7 @@ public class Crossover {
         List<Individual> children = new ArrayList<>();
         children.add(new Individual(l.getEvaluation(), l_old_genes, l_old_sigmas));
         children.add(new Individual(r.getEvaluation(), r_old_genes, r_old_sigmas));
-        System.out.println(Arrays.toString(l_old_sigmas));
+        if (debug_sigma) System.out.println(Arrays.toString(l_old_sigmas));
         return children;
     }
 
@@ -145,7 +146,9 @@ public class Crossover {
         List<Individual> children = new ArrayList<>();
         children.add(new Individual(l.getEvaluation(), l_old_genes, l_old_sigmas));
         children.add(new Individual(r.getEvaluation(), r_old_genes, r_old_sigmas));
-        System.out.println(Arrays.toString(l_old_sigmas));
+//        if (l_old_sigmas[0]>100) {
+//            System.out.println(Arrays.toString(l_old_sigmas));
+//        }
         return children;
     }
 

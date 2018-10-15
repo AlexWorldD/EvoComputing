@@ -123,7 +123,7 @@ public class Selection {
         }
 //        Remove selected parents from the old list for further merging
         parents.forEach(item->this.old_parents.remove(item));
-        this.cur_parents = parents;
+//        this.cur_parents = parents;
         return parents;
     }
 
@@ -365,7 +365,7 @@ public class Selection {
 
         }
         this.old_parents.addAll(offspring);
-        System.out.println(Collections.max(this.old_parents).getFitness());
+        if (debug) System.out.println(Collections.max(this.old_parents).getFitness());
         return this.old_parents;
     }
 
@@ -383,7 +383,7 @@ public class Selection {
         currentMembers.addAll(pop);
 
         Individual best = Collections.max(currentMembers);
-        System.out.println(best.getFitness());
+        if (debug) System.out.println(best.getFitness());
         Collections.shuffle(currentMembers);
         Individual lastAdded = best;
         best.setDynFitness(best.getFitness());

@@ -135,7 +135,7 @@ public class Simple_EA {
         List<Individual>children = new ArrayList<>();
         List<double[]> genotypes = new ArrayList<>();
         genotypes = mutate(child3genes, child3stepsize);
-//        System.out.println(Arrays.toString(child1stepsize));
+        System.out.println(Arrays.toString(child1stepsize));
         children.add(new Individual(this.evaluation, genotypes.get(0), genotypes.get(1) ));
         genotypes = mutate(child2genes, child2stepsize);
         children.add(new Individual(this.evaluation, genotypes.get(0), genotypes.get(1) ));

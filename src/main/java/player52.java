@@ -63,6 +63,18 @@ public class player52 implements ContestSubmission {
         if (tmp != null) {
             selection_pressure = Double.parseDouble(tmp);
         }
+        tmp = System.getProperty("eps");
+        if (tmp != null) {
+            def_eps = (double) Double.parseDouble(tmp);
+        }
+        tmp = System.getProperty("sigma");
+        if (tmp != null) {
+            def_sigma = (double) Double.parseDouble(tmp);
+        }
+        tmp = System.getProperty("alpha");
+        if (tmp != null) {
+            alpha = (double) Double.parseDouble(tmp);
+        }
     }
 
     public void run() {
@@ -79,6 +91,11 @@ public class player52 implements ContestSubmission {
             while (_evals < evaluations_limit_ - population_size) {
 //            System.out.println(_evals);
                 ea.dynSelect(evaluations_limit_);
+            }
+        }
+        if (method.equals("baseline")) {
+            while (_evals < evaluations_limit_ - population_size) {
+                ea.baseline();
             }
         }
     }
