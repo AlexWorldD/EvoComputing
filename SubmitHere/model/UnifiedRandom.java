@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class UnifiedRandom {
     public static Random _rnd = new Random();
+    public static Random _rnd2 = new Random();
     //    public static Random[] _randoms = new Random[Individual.num_genes];
     public static List<Random> _randoms = new ArrayList<>();
     //    Counter for elapsed evaluations
