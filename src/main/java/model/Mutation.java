@@ -1,6 +1,6 @@
 package model;
 
-import static model.UnifiedRandom._rnd;
+import static model.UnifiedRandom._rnd2;
 import static model.UnifiedRandom._randoms;
 import static model.Parameters.debug_sigma;
 import java.util.Arrays;
@@ -63,7 +63,7 @@ public class Mutation {
      */
     public Individual UniformMutation(Individual individual) {
         for (int i = 0; i < Individual.num_genes; i++) {
-            if (_rnd.nextDouble() < this.ratio) {
+            if (_rnd2.nextDouble() < this.ratio) {
                 individual.updGene(i, _uniform());
             }
         }
@@ -79,7 +79,7 @@ public class Mutation {
      */
     public Individual UniformMutation(Individual individual, double mut_ratio) {
         for (int i = 0; i < Individual.num_genes; i++) {
-            if (_rnd.nextDouble() < mut_ratio) {
+            if (_rnd2.nextDouble() < mut_ratio) {
                 individual.updGene(i, _uniform());
             }
         }
@@ -87,7 +87,7 @@ public class Mutation {
     }
 
     private double _uniform() {
-        return _rnd.nextDouble() * (up - low) + low;
+        return _rnd2.nextDouble() * (up - low) + low;
     }
 
 //  /////// NONE-UNIFORM \\\\\\\\
@@ -114,7 +114,7 @@ public class Mutation {
      * @return mutated gene
      */
     private double _nonuniform(double cur_gene, double sigma) {
-        return _rnd.nextGaussian() * sigma + cur_gene;
+        return _rnd2.nextGaussian() * sigma + cur_gene;
     }
 
 //  /////// UNCORRELATED ONE STEP \\\\\\\\
@@ -129,7 +129,7 @@ public class Mutation {
      * @return mutated individual
      */
     public Individual UncorrelatedOneMutation(Individual individual) {
-        double new_sigma = individual.getSigma() * Math.exp(individual.tau * _rnd.nextGaussian());
+        double new_sigma = individual.getSigma() * Math.exp(individual.tau * _rnd2.nextGaussian());
         individual.updSigma(new_sigma);
         new_sigma = individual.getSigma();
         double[] old_genes = individual.getGenes().clone();
@@ -150,7 +150,7 @@ public class Mutation {
     public Individual UncorrelatedNStepMutation(Individual individual) {
         double[] old_genes = individual.getGenes().clone();
         double[] old_sigmas = individual.getSigmas().clone();
-        double r2 = _rnd.nextGaussian();
+        double r2 = _rnd2.nextGaussian();
 //        TODO check the correctness of different random generators
         for (int i = 0; i < Individual.num_genes; i++) {
             Random r1 = _randoms.get(i);
