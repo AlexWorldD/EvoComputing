@@ -42,7 +42,7 @@ public class EA {
         this.selection = new Selection(this.population_size, this.num_parents);
     }
 
-    public void dynSelect(double evaluationlimit, int i) {
+    public void dynSelect(double evaluationlimit) {
         double d = d_dyn - d_dyn*_evals/evaluationlimit;
         this.selection.chooseParents(this.population, selection_parents);
         this.selection.makePairs("seq");
@@ -70,9 +70,9 @@ public class EA {
         this.selection.evaluateChildren();
 //        System.out.println("Evaluate");
         this.population = selection.crowding();
-        System.out.print(Collections.max(population).getFitness());
-        System.out.print(" ");
-        System.out.println(Metric.avgDCN(population));
+//        System.out.print(Collections.max(population).getFitness());
+//        System.out.print(" ");
+//        System.out.println(Metric.avgDCN(population));
         this.selection.reset();
     }
 
