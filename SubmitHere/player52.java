@@ -86,7 +86,7 @@ public class player52 implements ContestSubmission {
     public void run() {
         this.setParameters();
         EA ea = new EA(evaluation_);
-
+        int i =0;
         if (method.equals("crowding")) {
             while (_evals < evaluations_limit_ - population_size) {
 //            System.out.println(_evals);
@@ -97,6 +97,7 @@ public class player52 implements ContestSubmission {
             while (_evals < evaluations_limit_ - population_size) {
 //            System.out.println(_evals);
                 ea.dynSelect(evaluations_limit_);
+                i++;
             }
         }
         if (method.equals("baseline")) {
