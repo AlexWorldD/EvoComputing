@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for popSize in 400 500
+for popSize in 250 400 500
 do
     for sigma in 0.001 0.01 0.1
     do
@@ -11,7 +11,7 @@ do
                 for j in {1..10}
                 do
                     java -DpopSize=$popSize -Dmethod="crowding" -Dsigma=$sigma -DupdSize=1 -DselectionPressure=$selPressure -Deps=$eps \
-                    -jar testrun.jar > "./out/Katsuura/crowding/Size_"$popSize"_Sigma_"$sigma"_SelPressure_"$selPressure"_Eps_"$eps"_"$j".txt" \
+                    -jar testrun.jar > "./out/Katsuura/crowding/bigPop/Size_"$popSize"_Sigma_"$sigma"_SelPressure_"$selPressure"_Eps_"$eps"_"$j".txt" \
                      -submission=player52 \
                      -evaluation=KatsuuraEvaluation \
                      -seed=2
