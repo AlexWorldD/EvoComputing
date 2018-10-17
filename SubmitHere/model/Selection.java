@@ -297,12 +297,6 @@ public class Selection {
 
     public List<Individual> crowding() {
         List<Individual> offspring = new ArrayList<Individual>();
-
-//        this.chooseParents(p, "random");
-//        this.makePairs("random");
-//        this.makeChildren("wholeA");
-//        this.mutateChilred("UncorN");
-//        this.evaluateChildren();
         for (int i = 0; i < this.cur_pairsC.size(); i++) {
             if (Metric.euclDist(this.cur_pairsP.get(i).get(0), this.cur_pairsC.get(i).get(0)) +
                     Metric.euclDist(this.cur_pairsP.get(i).get(1), this.cur_pairsC.get(i).get(1)) <
@@ -364,9 +358,9 @@ public class Selection {
             }
 
         }
-        this.old_parents.addAll(offspring);
-        if (debug) System.out.println(Collections.max(this.old_parents).getFitness());
-        return this.old_parents;
+//        this.old_parents.addAll(offspring);
+        if (debug) System.out.println(Collections.max(offspring).getFitness());
+        return offspring;
     }
 
     /**

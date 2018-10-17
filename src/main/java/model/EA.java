@@ -58,6 +58,7 @@ public class EA {
 //        System.out.println("Parents");
         this.selection.makePairs("seq");
 //        System.out.println("Pairs");
+        this.selection.old_parents.clear();
         this.selection.makeChildren(mode_crossover);
 //        System.out.println("MakeChildren");
         this.selection.mutateChilred(mode_mutation);
