@@ -9,22 +9,22 @@ import matplotlib.pyplot as plt
 # selPressure = np.array([1.1, 1.3])
 # eps = np.array([0.0, 0.01])
 # Crowding seq
-popSize = np.array([10, 20, 30, 50], int)
-sigma = np.array([0.3, 0.5, 0.8, 1.0])
-selPressure = np.array([1.1, 1.6])
-eps = np.array([0.0, 0.01, 0.1])
-dir = "out/Schaffers/cr/"
+# popSize = np.array([10, 20, 30, 50], int)
+# sigma = np.array([0.3, 0.5, 0.8, 1.0])
+# selPressure = np.array([1.1, 1.6])
+# eps = np.array([0.0, 0.01, 0.1])
+# dir = "out/Schaffers/cr/"
 
 # Katsuura
-# popSize = np.array([200, 300, 400, 500], int)
-# sigma = np.array([0.0001, 0.0005, 0.001], float)
-# selPressure = np.array([1.85, 1.95])
-# eps = np.array(['0.00001', '0.00005'])
-# dir = "out/Katsuura/crowding/"
+popSize = np.array([30, 50, 80, 100], int)
+sigma = np.array([0.0001, 0.0005, 0.001], float)
+selPressure = np.array([1.85, 1.95])
+eps = np.array(['0.00001', '0.00005'])
+dir = "out/Katsuura/crowding/"
 
 
 popFit = []
-simltnSize = 30
+simltnSize = 5
 
 format = ".txt"
 combinations = [(psize, s, sp, _eps) for _eps in eps for psize in popSize for s in sigma for sp in selPressure]
