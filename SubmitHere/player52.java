@@ -34,12 +34,18 @@ public class player52 implements ContestSubmission {
         boolean hasStructure = Boolean.parseBoolean(props.getProperty("Regular"));
         boolean isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
 
-        // Do sth with property values, e.g. specify relevant settings of your algorithm
-//        if (hasStructure) {
-//            System.out.println(hasStructure);
-//        } else {
-//            System.out.println(hasStructure);
-//        }
+//        BentCigar - all false, Schaffers - Multimodal and Regular are true, Katsuura - Multimodal and NotRegular
+
+//         Do sth with property values, e.g. specify relevant settings of your algorithm
+        if (isMultimodal && hasStructure) {
+//            Schaffers function here
+        } else {
+            if (isMultimodal) {
+//                Katsuura function here
+            } else {
+//                BencCigar function here
+            }
+        }
     }
 
     public static void main(String args[]) {
