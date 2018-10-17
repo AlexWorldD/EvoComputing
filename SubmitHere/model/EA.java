@@ -9,6 +9,7 @@ import static model.UnifiedRandom.makeRandoms;
 import static model.Parameters.*;
 
 import java.util.List;
+import java.util.Collections;
 
 import org.vu.contest.ContestEvaluation;
 
@@ -41,7 +42,7 @@ public class EA {
         this.selection = new Selection(this.population_size, this.num_parents);
     }
 
-    public void dynSelect(double evaluationlimit) {
+    public void dynSelect(double evaluationlimit, int i) {
         double d = d_dyn - d_dyn*_evals/evaluationlimit;
         this.selection.chooseParents(this.population, selection_parents);
         this.selection.makePairs("seq");
@@ -49,6 +50,9 @@ public class EA {
         this.selection.mutateChilred(mode_mutation);
         this.selection.evaluateChildren();
         this.population = selection.dynSelect(d, population_size, this.population);
+        System.out.print(Collections.max(population).getFitness());
+        System.out.print(" ");
+        System.out.println(Metric.avgDCN(population));
         this.selection.reset();
 
     }
@@ -66,6 +70,9 @@ public class EA {
         this.selection.evaluateChildren();
 //        System.out.println("Evaluate");
         this.population = selection.crowding();
+        System.out.print(Collections.max(population).getFitness());
+        System.out.print(" ");
+        System.out.println(Metric.avgDCN(population));
         this.selection.reset();
     }
 
@@ -82,6 +89,9 @@ public class EA {
         this.selection.evaluateChildren();
 //        System.out.println("Evaluate");
         this.population = selection.returnChildren();
+        System.out.print(Collections.max(population).getFitness());
+        System.out.print(" ");
+        System.out.println(Metric.avgDCN(population));
         this.selection.reset();
     }
 
