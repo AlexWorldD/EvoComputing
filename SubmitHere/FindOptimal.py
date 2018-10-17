@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 # sigma = np.array([0.001, 0.05, 0.15, 0.3, 0.5, 0.8])
 # selPressure = np.array([1.0, 1.8])
 # eps = np.array([0.0, 0.01, 0.1])
+
 # Katsuura
 popSize = np.array([200, 300, 400, 500], int)
 sigma = np.array([0.0001, 0.0005, 0.001], float)
