@@ -5,7 +5,7 @@ public class Parameters {
     public static boolean debug = false;
     public static boolean debug_sigma = false;
     //    POPULATION
-    public static int population_size = 200;
+    public static int population_size = 100;
     public static double update_part = 1.0;
 
     //    SELECTION
