@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Collections;
 
 import static model.UnifiedRandom._rnd;
 import static model.UnifiedRandom._evals;
@@ -49,6 +50,11 @@ public class EA {
         this.selection.mutateChilred(mode_mutation);
         this.selection.evaluateChildren();
         this.population = selection.dynSelect(d, population_size, this.population);
+        if(lotta) {
+            System.out.print(Collections.max(population).getFitness());
+            System.out.print(" ");
+            System.out.println(Metric.avgDCN(population));
+        }
         this.selection.reset();
 
     }
@@ -67,6 +73,11 @@ public class EA {
         this.selection.evaluateChildren();
 //        System.out.println("Evaluate");
         this.population = selection.crowding();
+        if(lotta) {
+            System.out.print(Collections.max(population).getFitness());
+            System.out.print(" ");
+            System.out.println(Metric.avgDCN(population));
+        }
         this.selection.reset();
     }
 
@@ -83,6 +94,11 @@ public class EA {
         this.selection.evaluateChildren();
 //        System.out.println("Evaluate");
         this.population = selection.returnChildren();
+        if(lotta) {
+            System.out.print(Collections.max(population).getFitness());
+            System.out.print(" ");
+            System.out.println(Metric.avgDCN(population));
+        }
         this.selection.reset();
     }
 
