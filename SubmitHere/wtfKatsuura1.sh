@@ -2,7 +2,7 @@
 
 for popSize in 300 200
 do
-    for sigma in 0.001
+    for sigma in 0.001 0.01 0.1
     do
         for selPressure in 1.85 1.95
         do
