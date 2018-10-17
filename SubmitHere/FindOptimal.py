@@ -9,11 +9,11 @@ import matplotlib.pyplot as plt
 # selPressure = np.array([1.1, 1.3])
 # eps = np.array([0.0, 0.01])
 # Crowding seq
-popSize = np.array([20, 50, 80, 150], int)
-sigma = np.array([0.001, 0.05, 0.15, 0.3, 0.5, 0.8])
-selPressure = np.array([1.0, 1.8])
+popSize = np.array([10, 20, 30, 50], int)
+sigma = np.array([0.3, 0.5, 0.8, 1.0])
+selPressure = np.array([1.1, 1.6])
 eps = np.array([0.0, 0.01, 0.1])
-dir = "out/Schaffers/crowding/"
+dir = "out/Schaffers/cr/"
 
 # Katsuura
 # popSize = np.array([200, 300, 400, 500], int)
@@ -24,7 +24,7 @@ dir = "out/Schaffers/crowding/"
 
 
 popFit = []
-simltnSize = 5
+simltnSize = 30
 
 format = ".txt"
 combinations = [(psize, s, sp, _eps) for _eps in eps for psize in popSize for s in sigma for sp in selPressure]

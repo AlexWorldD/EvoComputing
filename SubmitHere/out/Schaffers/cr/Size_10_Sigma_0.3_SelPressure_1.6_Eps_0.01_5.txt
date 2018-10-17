@@ -1,2 +1,2 @@
-Score: 0.15735232638981866
-Runtime: 8135ms
+Score: 0.259900490370477
+Runtime: 580ms
