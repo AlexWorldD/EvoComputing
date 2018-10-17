@@ -1,13 +1,31 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+# Schaffers
+# Crowding random
+# popSize = np.array([20, 30, 50], int)
+# sigma = np.array([0.3, 0.5, 0.8, 1.0])
+# selPressure = np.array([1.1, 1.3])
+# eps = np.array([0.0, 0.01])
+# Crowding seq
 popSize = np.array([20, 50, 80, 150], int)
 sigma = np.array([0.001, 0.05, 0.15, 0.3, 0.5, 0.8])
 selPressure = np.array([1.0, 1.8])
 eps = np.array([0.0, 0.01, 0.1])
+dir = "out/Schaffers/crowding/"
+
+# Katsuura
+# popSize = np.array([200, 300, 400, 500], int)
+# sigma = np.array([0.0001, 0.0005, 0.001], float)
+# selPressure = np.array([1.85, 1.95])
+# eps = np.array(['0.00001', '0.00005'])
+# dir = "out/Katsuura/crowding/"
+
+
 popFit = []
 simltnSize = 5
-dir = "out/Schaffers/crowding/"
+
 format = ".txt"
 combinations = [(psize, s, sp, _eps) for _eps in eps for psize in popSize for s in sigma for sp in selPressure]
 print(combinations)

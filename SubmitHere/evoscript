@@ -8,3 +8,6 @@ java -jar testrun.jar -submission=player52 -evaluation=BentCigarFunction -seed=2
 
 java -Dmethod=crowding -DpopSize=50 -DupdSize=1 -DselectionPressure=1.8 -Dsigma=0.8 -jar testrun.jar -submission=player52 -evaluation=SchaffersEvaluation -seed=2
 
+
+java -Dmethod=crowding -DpopSize=500 -DupdSize=1 -DselectionPressure=1.95 -Dsigma=0.001 -Deps=0.00001 -jar testrun.jar -submission=player52 -evaluation=KatsuuraEvaluation -seed=2
+
