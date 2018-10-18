@@ -10,11 +10,11 @@ import os
 # selPressure = np.array([1.1, 1.3])
 # eps = np.array([0.0, 0.01])
 # Crowding seq
-# popSize = np.array([10, 20, 30, 50], int)
-# sigma = np.array([0.3, 0.5, 0.8, 1.0])
-# selPressure = np.array([1.1, 1.6])
-# eps = np.array([0.0, 0.01, 0.1])
-# dir = "out/Schaffers/cr/"
+popSize = np.array([10, 20, 30, 50, 100, 150, 200, 300], int)
+sigma = np.array([0.3, 0.5, 0.8, 1.0])
+selPressure = np.array([1.1, 1.6])
+eps = np.array([0.0, 0.01, 0.1])
+dir = "out/Schaffers/cr/"
 
 # Katsuura low size
 # popSize = np.array([30, 50, 80, 100], int)
@@ -31,14 +31,14 @@ import os
 # dir = "out/Katsuura/crowding/bigPop/"
 
 # Katsuura very big size
-popSize = np.array([500, 1000, 1500, 2000], int)
-sigma = np.array([0.008, 0.01, 0.012], float)
-selPressure = np.array([1.8, 1.85, 1.95])
-eps = np.array(['0.000001', '0.000'])
-dir = "out/Katsuura/crowding/veryBigPop/"
+# popSize = np.array([500, 1000, 1500, 2000], int)
+# sigma = np.array([0.008, 0.01, 0.012], float)
+# selPressure = np.array([1.8, 1.85, 1.95])
+# eps = np.array(['0.000001', '0.000'])
+# dir = "out/Katsuura/crowding/veryBigPop/"
 
 popFit = []
-simltnSize = 10
+simltnSize = 30
 delta = 0
 
 format = ".txt"

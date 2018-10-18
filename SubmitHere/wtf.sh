@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for popSize in 30 20
+for popSize in 200 300
 do
     for sigma in  0.3 0.5 0.8 1.0
     do

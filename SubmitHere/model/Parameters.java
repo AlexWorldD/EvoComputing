@@ -3,7 +3,7 @@ package model;
 public class Parameters {
     //    DEBUG FLAGs
     public static boolean debug = false;
-    public static boolean lotta = false;
+    public static boolean lotta = true;
     public static boolean debug_sigma = false;
     //    POPULATION
     public static int population_size = 50;
