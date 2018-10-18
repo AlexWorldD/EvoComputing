@@ -10,7 +10,7 @@ import os
 # selPressure = np.array([1.1, 1.3])
 # eps = np.array([0.0, 0.01])
 # Crowding seq
-popSize = np.array([10, 20, 30, 50], int)
+popSize = np.array([10, 20, 30, 50, 100, 150, 200, 300], int)
 sigma = np.array([0.3, 0.5, 0.8, 1.0])
 selPressure = np.array([1.1, 1.6])
 eps = np.array([0.0, 0.01, 0.1])

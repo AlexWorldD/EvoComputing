@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-for popSize in 50
+for popSize in 150
 do
-    for sigma in  0.8
+    for sigma in  0.3
     do
         for selPressure in 1.1
         do
@@ -11,7 +11,7 @@ do
                 for j in {1..100}
                 do
                     java -DpopSize=$popSize -Dmethod="crowding" -Dsigma=$sigma -DupdSize=1 -DselectionPressure=$selPressure -Deps=$eps \
-                    -jar testrun.jar > "./out/Schaffers/crowding/final/Size_"$popSize"_Sigma_"$sigma"_SelPressure_"$selPressure"_Eps_"$eps"_"$j".txt" \
+                    -jar testrun.jar > "./out/Schaffers/crowding/final2/Size_"$popSize"_Sigma_"$sigma"_SelPressure_"$selPressure"_Eps_"$eps"_"$j".txt" \
                      -submission=player52 \
                      -evaluation=SchaffersEvaluation \
                      -seed=2
