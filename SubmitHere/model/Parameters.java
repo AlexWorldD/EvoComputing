@@ -29,6 +29,7 @@ public class Parameters {
     public static int split_k = 5;
     //    "wholeA" - Whole Arithmetic recombination
 //    "simpleA" - Simple Arithmetic recombination
+//    "no" - without recombination, only mutatution
     public static String mode_crossover = "wholeA";
 
     //    MUTATION
