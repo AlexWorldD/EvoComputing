@@ -81,6 +81,10 @@ public class player52 implements ContestSubmission {
         if (tmp != null) {
             alpha = (double) Double.parseDouble(tmp);
         }
+        tmp = System.getProperty("epsMax");
+        if (tmp != null) {
+            epsMax = (double) Double.parseDouble(tmp);
+        }
     }
 
     public void run() {

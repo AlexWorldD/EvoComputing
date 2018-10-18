@@ -1,23 +1,26 @@
 #!/usr/bin/env bash
 
-for popSize in 1500 1000
+for popSize in 40 60
 do
-    for sigma in 0.008 0.01 0.012
+    for epsMax in 2.0 3.0 4.0
     do
-        for selPressure in 1.8 1.85 1.95
+        for sigma in 0.005
         do
-            for eps in 0.000001 0.000
+            for selPressure in 1.8 1.95
             do
-                for j in {1..10}
+                for eps in 0.0002 0.0004
                 do
-                    java -DpopSize=$popSize -Dmethod="crowding" -Dsigma=$sigma -DupdSize=1 -DselectionPressure=$selPressure -Deps=$eps \
-                    -jar testrun.jar > "./out/Katsuura/crowding/veryBigPop/Size_"$popSize"_Sigma_"$sigma"_SelPressure_"$selPressure"_Eps_"$eps"_"$j".txt" \
-                     -submission=player52 \
-                     -evaluation=KatsuuraEvaluation \
-                     -seed=2
+                    for j in {1..5}
+                    do
+                        java -DpopSize=$popSize -Dmethod="crowding" -Dsigma=$sigma -DupdSize=1 -DselectionPressure=$selPressure -Deps=$eps -DepsMax=$epsMax \
+                        -jar testrun.jar > "./out/Katsuura/crowding/onlyMut/Size_"$popSize"_Sigma_"$sigma"_SelPressure_"$selPressure"_Eps_"$eps"_EpsMax_"$epsMax"_"$j".txt" \
+                         -submission=player52 \
+                         -evaluation=KatsuuraEvaluation \
+                         -seed=2
+                    done
+                    echo "Size_"$popSize"_Sigma_"$sigma"_SelPressure_"$selPressure"_Eps_"$eps
                 done
-                echo "Size_"$popSize"_Sigma_"$sigma"_SelPressure_"$selPressure"_Eps_"$eps
-            done
-         done
+             done
+        done
     done
 done
