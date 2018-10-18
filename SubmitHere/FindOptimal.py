@@ -15,13 +15,19 @@ import matplotlib.pyplot as plt
 # eps = np.array([0.0, 0.01, 0.1])
 # dir = "out/Schaffers/cr/"
 
-# Katsuura
-popSize = np.array([30, 50, 80, 100], int)
-sigma = np.array([0.0001, 0.0005, 0.001], float)
-selPressure = np.array([1.85, 1.95])
-eps = np.array(['0.00001', '0.00005'])
-dir = "out/Katsuura/crowding/"
+# Katsuura low size
+# popSize = np.array([30, 50, 80, 100], int)
+# sigma = np.array([0.0001, 0.0005, 0.001], float)
+# selPressure = np.array([1.85, 1.95])
+# eps = np.array(['0.00001', '0.00005'])
+# dir = "out/Katsuura/crowding/"
 
+# Katsuura Big size
+popSize = np.array([140, 200, 250, 300, 400, 500], int)
+sigma = np.array([0.001, 0.01, 0.1], float)
+selPressure = np.array([1.85, 1.95])
+eps = np.array(['0.000001', '0.000'])
+dir = "out/Katsuura/crowding/bigPop/"
 
 popFit = []
 simltnSize = 5
