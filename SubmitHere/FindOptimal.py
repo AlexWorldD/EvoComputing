@@ -19,10 +19,10 @@ import matplotlib.pyplot as plt
 # popSize = np.array([30, 50, 80, 100], int)
 # sigma = np.array([0.0001, 0.0005, 0.001], float)
 # selPressure = np.array([1.85, 1.95])
-# eps = np.array(['0.00001', '0.00005'])
+# eps = np.array(['0.00001', '0.00005', '0.01', '0.001'])
 # dir = "out/Katsuura/crowding/"
 
-# Katsuura Big size
+# # Katsuura Big size
 popSize = np.array([140, 200, 250, 300, 400, 500], int)
 sigma = np.array([0.001, 0.01, 0.1], float)
 selPressure = np.array([1.85, 1.95])
