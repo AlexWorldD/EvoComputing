@@ -28,6 +28,7 @@ public class player52 implements ContestSubmission {
         Properties props = evaluation.getProperties();
         // Get evaluation limit
         evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
+        eval_limit = evaluations_limit_;
         // Property keys depend on specific evaluation
         // E.g. double param = Double.parseDouble(props.getProperty("property_name"));
         boolean isMultimodal = Boolean.parseBoolean(props.getProperty("Multimodal"));
@@ -44,11 +45,26 @@ public class player52 implements ContestSubmission {
             selection_pressure = 1.9;
             def_eps = 0.0;
             population_size = 120;
+            epsMax = 4.0;
         } else {
             if (isMultimodal) {
 //                Katsuura function here
+                method = "dyn";
+                def_sigma = 0.01;
+                selection_pressure = 1.8;
+                def_eps = 0.0001;
+                population_size = 130;
+                epsMax = 4.0;
             } else {
 //                BencCigar function here
+                method = "cigar";
+                def_sigma = 0.1;
+                selection_pressure = 3;
+                def_eps = 0.0001;
+                population_size = 4;
+                mode_crossover = "no";
+                mode_mutation = "uncorN";
+                epsMax = 8.0;
             }
         }
     }
@@ -107,6 +123,11 @@ public class player52 implements ContestSubmission {
         if (method.equals("baseline")) {
             while (_evals < evaluations_limit_ - population_size) {
                 ea.baseline();
+            }
+        }
+        if (method.equals("cigar")) {
+            while (_evals < eval_limit - population_size) {
+                ea.BentCigar();
             }
         }
     }

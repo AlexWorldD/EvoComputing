@@ -3,6 +3,7 @@ package model;
 import static model.UnifiedRandom._rnd2;
 import static model.UnifiedRandom._randoms;
 import static model.Parameters.debug_sigma;
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -90,6 +91,15 @@ public class Mutation {
         return _rnd2.nextDouble() * (up - low) + low;
     }
 
+
+    public Individual Uniform(Individual individual) {
+        double sig = individual.getSigma();
+        for (int i = 0; i < Individual.num_genes; i++) {
+            double st = _rnd2.nextDouble() * (sig) - sig/2 + individual.getGene(i);
+            individual.updGene(i, st);
+        }
+        return individual;
+    }
 //  /////// NONE-UNIFORM \\\\\\\\
 
     /**

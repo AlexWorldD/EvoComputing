@@ -8,6 +8,7 @@ import static model.Parameters.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import model.*;
 
@@ -31,6 +32,9 @@ public class TestEA {
         }
         try {
             eval = (ContestEvaluation) eval_class.newInstance();
+            Properties props = eval.getProperties();
+            // Get evaluation limit
+            eval_limit = Integer.parseInt(props.getProperty("Evaluations"));
         } catch (Throwable var21) {
             System.err.println("ExecutionError: Could not instantiate evaluation object for evaluation '" + name + "'");
             var21.printStackTrace();
@@ -42,23 +46,23 @@ public class TestEA {
         EA ea = new EA(eval);
         double evaluation_limit = 10000;
         if (method.equals("crowding")) {
-            while (_evals < evaluation_limit - population_size) {
+            while (_evals < eval_limit - population_size) {
 //            System.out.println(_evals);
                 ea.crowding();
             }
         }
         if (method.equals("dyn")) {
-            while (_evals < evaluation_limit - population_size) {
-                ea.dynSelect(evaluation_limit);
+            while (_evals < eval_limit - population_size) {
+                ea.dynSelect(eval_limit);
             }
         }
         if (method.equals("baseline")) {
-            while (_evals < evaluation_limit - population_size) {
+            while (_evals < eval_limit - population_size) {
                 ea.baseline();
             }
         }
         if (method.equals("cigar")) {
-            while (_evals < evaluation_limit - population_size) {
+            while (_evals < eval_limit - population_size) {
                 ea.BentCigar();
             }
         }

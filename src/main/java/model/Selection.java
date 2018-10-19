@@ -281,8 +281,6 @@ public class Selection {
                 break;
             }
         }
-
-
     }
 
     public void evaluateChildren() {

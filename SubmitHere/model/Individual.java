@@ -91,8 +91,10 @@ public class Individual implements Comparable<Individual>, Cloneable {
      * Getting current fitness of Individual
      */
     public double updFitness() {
-        this.fitness = (double) this.evaluation.evaluate(this.genes);
-        _evals++;
+        if (_evals<eval_limit) {
+            this.fitness = (double) this.evaluation.evaluate(this.genes);
+            _evals++;
+        }
         return this.fitness;
     }
 

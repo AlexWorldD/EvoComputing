@@ -6,12 +6,13 @@ public class Parameters {
     public static boolean lotta = false;
     public static boolean debug_sigma = false;
     //    POPULATION
-    public static int population_size = 2;
+    public static int population_size = 4;
+    public static int new_size = 6;
     public static double update_part = 1;
 
     //    SELECTION
 //    s - selection pressure, 1 < s <= 2
-    public static double selection_pressure = 2.3;
+    public static double selection_pressure = 3;
     //    Method for making evolution step:
 //    "crowding" - Deterministic Crowding, when children vs. parents
 //    "dyn" - Multi Dynamic Selection by Lotta
@@ -25,16 +26,16 @@ public class Parameters {
 
     //    CROSSOVER
 //    y*alpha + (1-alpha)*x
-    public static double alpha = .4;
+    public static double alpha = .2;
     public static int split_k = 0;
     //    "wholeA" - Whole Arithmetic recombination
 //    "simpleA" - Simple Arithmetic recombination
-    public static String mode_crossover = "no";
+    public static String mode_crossover = "wholeA";
 
     //    MUTATION
 //    "uncorN" - Uncorrelated N StepMutation
 //    "uncor1" - Uncorrelated One StepMutation
-    public static String mode_mutation = "uncor1";
+    public static String mode_mutation = "uncorN";
 
     //    INDIVIDUAL
     public static double def_sigma = 0.1;
@@ -42,4 +43,5 @@ public class Parameters {
     public static double epsMax = 8.0;
 
 
+    public static int eval_limit;
 }

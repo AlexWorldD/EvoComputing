@@ -24,6 +24,9 @@ public class EA {
     private double update_part;
     public int num_parents;
     public Selection selection;
+    private Boolean _new_size = true;
+    private Boolean _new_size2 = true;
+    private Boolean _one = true;
 
 
     public EA(ContestEvaluation e) {
@@ -42,15 +45,46 @@ public class EA {
         this.selection = new Selection(this.population_size, this.num_parents);
     }
 
+    private void EA_update(Individual individual, double k, int mode) {
+        this.selection.reset();
+        this.population_size = Parameters.new_size * (int) (Parameters.population_size * k);
+        this.update_part = Parameters.update_part;
+        this.num_parents = (int) Math.round(this.population_size * this.update_part);
+        if (this.num_parents % 2 == 1) {
+            this.num_parents += 1;
+        }
+        //        Creating population
+        this.population.clear();
+        for (int i = 0; i < this.population_size; i++) {
+            try {
+                this.population.add(individual.clone());
+            } catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        Mutation mutation = new Mutation();
+        if (mode == 1) {
+            this.population.forEach(item -> mutation.UncorrelatedOneMutation(item));
+        }
+        if (mode == 2) {
+            this.population.forEach(item -> mutation.Uniform(item));
+        }
+        if (mode == 3) {
+            this.population.forEach(item -> mutation.UncorrelatedNStepMutation(item));
+        }
+        this.population.forEach(item -> item.updFitness());
+        this.selection = new Selection(this.population_size, this.num_parents);
+    }
+
     public void dynSelect(double evaluationlimit) {
-        double d = d_dyn - d_dyn*_evals/evaluationlimit;
+        double d = d_dyn - d_dyn * _evals / evaluationlimit;
         this.selection.chooseParents(this.population, selection_parents);
         this.selection.makePairs("seq");
         this.selection.makeChildren(mode_crossover);
         this.selection.mutateChilred(mode_mutation);
         this.selection.evaluateChildren();
         this.population = selection.dynSelect(d, population_size, this.population);
-        if(lotta) {
+        if (lotta) {
             System.out.print(Collections.max(population).getFitness());
             System.out.print(" ");
             System.out.println(Metric.avgDCN(population));
@@ -73,7 +107,7 @@ public class EA {
         this.selection.evaluateChildren();
 //        System.out.println("Evaluate");
         this.population = selection.crowding();
-        if(lotta) {
+        if (lotta) {
             System.out.print(Collections.max(population).getFitness());
             System.out.print(" ");
             System.out.println(Metric.avgDCN(population));
@@ -94,12 +128,52 @@ public class EA {
         this.selection.evaluateChildren();
 //        System.out.println("Evaluate");
         this.population = selection.returnChildren();
-        if(lotta) {
+        if (lotta) {
             System.out.print(Collections.max(population).getFitness());
             System.out.print(" ");
             System.out.println(Metric.avgDCN(population));
         }
         this.selection.reset();
+    }
+
+    public void BentCigar() {
+        this.selection.chooseParents(this.population, selection_parents);
+//        System.out.println("Parents");
+        this.selection.makePairs("seq");
+//        System.out.println("Pairs");
+        this.selection.old_parents.clear();
+        this.selection.makeChildren(mode_crossover);
+//        System.out.println("MakeChildren");
+        this.selection.mutateChilred(mode_mutation);
+//        System.out.println("MutateChildren");
+//        _evals+=this.num_parents;
+        this.selection.evaluateChildren();
+        this.population = selection.returnChildren();
+//        if (this._new_size2) {
+//            this.population = selection.crowding();
+//        } else {
+//            this.population = selection.returnChildren();
+//        }
+        if (Collections.max(population).getFitness() > 9.99 && this._new_size) {
+            try {
+                Individual tmp = Collections.max(population).clone();
+//                                tmp.updSigma(tmp.getSigma()/2);
+                this.EA_update(tmp, 3, 1);
+            } catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
+            this._new_size = false;
+        }
+        if (Collections.max(population).getFitness() > 9.999 && this._new_size2) {
+            try {
+                Individual tmp = Collections.max(population).clone();
+                tmp.updSigma(tmp.getSigma() / 2);
+                this.EA_update(tmp, 1, 1);
+            } catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
+            this._new_size2 = false;
+        }
     }
 
 }
