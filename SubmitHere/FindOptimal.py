@@ -2,6 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+# BentCigar
+popSize = np.array([40, 60, 80, 100, 120], int)
+sigma = np.array([0.8, 1.0, 1.3, 1.5])
+selPressure = np.array([1.2, 1.6, 1.9])
+eps = np.array([0.01, 0.1])
+dir = "out/BentCigar/baseline/lex/"
 # Schaffers
 # Crowding random
 # popSize = np.array([20, 30, 50], int)
@@ -12,11 +18,11 @@ import os
 # popSize = np.array([40, 50, 60, 100, 120, 160], int)
 # sigma = np.array([0.7, 0.8, 0.9])
 # selPressure = np.array([1.7, 1.8, 1.9, 1.95, 2.0])
-popSize = np.array([100, 120], int)
-sigma = np.array([0.9, 0.95, 1.0, 0.96, 0.97])
-selPressure = np.array([1.7, 1.8, 1.9, 1.95])
-eps = np.array(['0.000', '0.00001'])
-dir = "out/Schaffers/baseline/lex2/"
+# popSize = np.array([100, 120], int)
+# sigma = np.array([0.9, 0.95, 1.0, 0.96, 0.97])
+# selPressure = np.array([1.7, 1.8, 1.9, 1.95])
+# eps = np.array(['0.000', '0.00001'])
+# dir = "out/Schaffers/baseline/lex2/"
 
 # Katsuura low size
 # popSize = np.array([30, 50, 80, 100], int)
