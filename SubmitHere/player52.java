@@ -40,7 +40,7 @@ public class player52 implements ContestSubmission {
         if (isMultimodal && hasStructure) {
 //            Schaffers function here
             method = "baseline";
-            def_sigma = 0.9;
+            def_sigma = 0.95;
             selection_pressure = 1.9;
             def_eps = 0.0;
             population_size = 120;

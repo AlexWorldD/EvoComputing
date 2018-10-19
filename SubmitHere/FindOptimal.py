@@ -9,14 +9,14 @@ import os
 # selPressure = np.array([1.1, 1.3])
 # eps = np.array([0.0, 0.01])
 # Baseline
-popSize = np.array([40, 50, 60, 100, 120, 160], int)
-sigma = np.array([0.7, 0.8, 0.9])
-selPressure = np.array([1.7, 1.8, 1.9])
 # popSize = np.array([40, 50, 60, 100, 120, 160], int)
-# sigma = np.array([0.95, 1.0])
-# selPressure = np.array([1.95, 2.0])
+# sigma = np.array([0.7, 0.8, 0.9])
+# selPressure = np.array([1.7, 1.8, 1.9, 1.95, 2.0])
+popSize = np.array([100, 120], int)
+sigma = np.array([0.9, 0.95, 1.0, 0.96, 0.97])
+selPressure = np.array([1.7, 1.8, 1.9, 1.95])
 eps = np.array(['0.000', '0.00001'])
-dir = "out/Schaffers/baseline/lex/"
+dir = "out/Schaffers/baseline/lex2/"
 
 # Katsuura low size
 # popSize = np.array([30, 50, 80, 100], int)
