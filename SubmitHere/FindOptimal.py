@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import os
 
 # BentCigar
-popSize = np.array([40, 60, 80, 100, 120], int)
-sigma = np.array([0.8, 1.0, 1.3, 1.5])
+popSize = np.array([40, 60, 80], int)
+sigma = np.array([0.8, 1.0])
 selPressure = np.array([1.2, 1.6, 1.9])
 eps = np.array([0.01, 0.1])
-dir = "out/BentCigar/baseline/lex/"
+dir = "out/BentCigar/crowding/lex/"
 # Schaffers
 # Crowding random
 # popSize = np.array([20, 30, 50], int)

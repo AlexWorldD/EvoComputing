@@ -19,7 +19,7 @@ public class TestEA {
             "KatsuuraEvaluation", "SchaffersEvaluation", "SphereEvaluation"};
 
     public static void main(String args[]) {
-        String name = evals[1];
+        String name = evals[0];
         Class eval_class = null;
         ContestEvaluation eval = null;
         try {
@@ -40,7 +40,7 @@ public class TestEA {
         Date time = new Date();
         long st = time.getTime();
         EA ea = new EA(eval);
-        double evaluation_limit = 1000000;
+        double evaluation_limit = 10000;
         if (method.equals("crowding")) {
             while (_evals < evaluation_limit - population_size) {
 //            System.out.println(_evals);
@@ -55,6 +55,11 @@ public class TestEA {
         if (method.equals("baseline")) {
             while (_evals < evaluation_limit - population_size) {
                 ea.baseline();
+            }
+        }
+        if (method.equals("cigar")) {
+            while (_evals < evaluation_limit - population_size) {
+                ea.BentCigar();
             }
         }
         time = new Date();
