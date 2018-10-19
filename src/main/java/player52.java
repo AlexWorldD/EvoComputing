@@ -39,6 +39,11 @@ public class player52 implements ContestSubmission {
 //         Do sth with property values, e.g. specify relevant settings of your algorithm
         if (isMultimodal && hasStructure) {
 //            Schaffers function here
+            method = "baseline";
+            def_sigma = 0.9;
+            selection_pressure = 1.9;
+            def_eps = 0.0;
+            population_size = 120;
         } else {
             if (isMultimodal) {
 //                Katsuura function here

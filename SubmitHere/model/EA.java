@@ -84,7 +84,7 @@ public class EA {
     public void baseline() {
         this.selection.chooseParents(this.population, selection_parents);
 //        System.out.println("Parents");
-        this.selection.makePairs("seq");
+        this.selection.makePairs("random");
 //        System.out.println("Pairs");
         this.selection.makeChildren(mode_crossover);
 //        System.out.println("MakeChildren");
