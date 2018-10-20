@@ -44,7 +44,6 @@ public class TestEA {
         Date time = new Date();
         long st = time.getTime();
         EA ea = new EA(eval);
-        double evaluation_limit = 10000;
         if (method.equals("crowding")) {
             while (_evals < eval_limit - population_size) {
 //            System.out.println(_evals);

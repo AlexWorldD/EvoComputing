@@ -260,4 +260,9 @@ public class Individual implements Comparable<Individual>, Cloneable {
         return cloneObj;
     }
 
+    public void resetSigmas() {
+        for (int i=0; i<Individual.num_genes; i++) {
+            this.sigmas[i] = def_sigma;
+        }
+    }
 }

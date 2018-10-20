@@ -76,6 +76,37 @@ public class EA {
         this.selection = new Selection(this.population_size, this.num_parents);
     }
 
+    private void EA_update_baseline(Individual individual, int mode) {
+        this.selection.reset();
+        this.population_size = Parameters.new_size;
+        this.update_part = Parameters.update_part;
+        this.num_parents = (int) Math.round(this.population_size * this.update_part);
+        if (this.num_parents % 2 == 1) {
+            this.num_parents += 1;
+        }
+        //        Creating population
+        this.population.clear();
+        for (int i = 0; i < this.population_size; i++) {
+            try {
+                this.population.add(individual.clone());
+            } catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        Mutation mutation = new Mutation();
+        if (mode == 1) {
+            this.population.forEach(item -> mutation.UncorrelatedOneMutation(item));
+        }
+        if (mode == 2) {
+            this.population.forEach(item -> mutation.Uniform(item));
+        }
+        if (mode == 3) {
+            this.population.forEach(item -> mutation.UncorrelatedNStepMutation(item));
+        }
+        this.population.forEach(item -> item.updFitness());
+        this.selection = new Selection(this.population_size, this.num_parents);
+    }
+
     public void dynSelect(double evaluationlimit) {
         double d = d_dyn - d_dyn * _evals / evaluationlimit;
         this.selection.chooseParents(this.population, selection_parents);
@@ -136,6 +167,48 @@ public class EA {
         this.selection.reset();
     }
 
+    public void baseline_v2() {
+        this.selection.chooseParents(this.population, selection_parents);
+//        System.out.println("Parents");
+        this.selection.makePairs("random");
+//        System.out.println("Pairs");
+        this.selection.makeChildren(mode_crossover);
+//        System.out.println("MakeChildren");
+        this.selection.mutateChilred(mode_mutation);
+//        System.out.println("MutateChildren");
+//        _evals+=this.num_parents;
+        this.selection.evaluateChildren();
+//        System.out.println("Evaluate");
+        this.population = selection.returnChildren();
+        if (Collections.max(population).getFitness() > 9.999 && this._new_size) {
+            try {
+                Individual tmp = Collections.max(population).clone();
+//                                tmp.updSigma(tmp.getSigma()/2)
+            def_sigma = 0.0001;
+                System.out.println("Change PopSize ----------------- ");
+            for (int i=0; i<Individual.num_genes; i++) {
+                tmp.updSigma(i, tmp.getSigma(i)*10);
+            }
+                this.EA_update_baseline(tmp, 1);
+            } catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
+            this._new_size = false;
+//            mode_crossover = "no";
+            alpha = 0.25;
+            selection_pressure = 1.95;
+        }
+        if (lotta) {
+            System.out.print(Collections.max(population).getFitness());
+            System.out.print(" ");
+            System.out.println(Metric.avgDCN(population));
+        }
+        this.selection.reset();
+        if (debug) System.out.println(Collections.max(this.population).getFitness());
+//        if (Collections.max(population).getFitness()==10) {
+//            System.out.println("BESt ----------------- ");
+//        }
+    }
     public void BentCigar() {
         this.selection.chooseParents(this.population, selection_parents);
 //        System.out.println("Parents");

@@ -7,7 +7,7 @@ public class Parameters {
     public static boolean debug_sigma = false;
     //    POPULATION
     public static int population_size = 4;
-    public static int new_size = 6;
+    public static int new_size = 20;
     public static double update_part = 1;
 
     //    SELECTION
@@ -30,7 +30,7 @@ public class Parameters {
     public static int split_k = 0;
     //    "wholeA" - Whole Arithmetic recombination
 //    "simpleA" - Simple Arithmetic recombination
-    public static String mode_crossover = "wholeA";
+    public static String mode_crossover = "no";
 
     //    MUTATION
 //    "uncorN" - Uncorrelated N StepMutation

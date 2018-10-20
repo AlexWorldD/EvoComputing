@@ -42,10 +42,10 @@ public class player52 implements ContestSubmission {
 //            Schaffers function here
             method = "baseline";
             def_sigma = 0.9;
-            selection_pressure = 1.9;
+            selection_pressure = 1.88;
             def_eps = 0.0;
             population_size = 120;
-            epsMax = 4.0;
+            epsMax = 5.0;
         } else {
             if (isMultimodal) {
 //                Katsuura function here
