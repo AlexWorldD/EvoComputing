@@ -235,9 +235,10 @@ public class EA {
                 throw new RuntimeException(ex);
             }
             this._new_size = false;
-//            mode_crossover = "no";
+            mode_crossover = "wholeA";
             alpha = 0.25;
-            selection_pressure = 1.2;
+            epsMax = 2.0;
+            selection_pressure = 1.3;
         }
 //        if (Collections.max(population).getFitness() > 9.99 && this._new_size) {
 //            try {

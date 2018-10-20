@@ -39,17 +39,26 @@ public class player52 implements ContestSubmission {
 
 //         Do sth with property values, e.g. specify relevant settings of your algorithm
         if (isMultimodal && hasStructure) {
-//            Schaffers function here
             method = "baseline";
+            mode_crossover = "wholeA";
+            mode_mutation = "uncorN";
             def_sigma = 0.9;
-            selection_pressure = 1.88;
+            selection_pressure = 1.9;
             def_eps = 0.0;
             population_size = 120;
-            epsMax = 5.0;
+            epsMax = 4.0;
+//            Schaffers function here
+//            def_sigma = 0.9;
+//            selection_pressure = 1.88;
+//            def_eps = 0.0;
+//            population_size = 120;
+//            epsMax = 5.0;
         } else {
             if (isMultimodal) {
 //                Katsuura function here
                 method = "dyn";
+                mode_crossover = "wholeA";
+                mode_mutation = "uncorN";
                 def_sigma = 0.01;
                 selection_pressure = 1.8;
                 def_eps = 0.0001;
@@ -64,7 +73,8 @@ public class player52 implements ContestSubmission {
                 population_size = 4;
                 mode_crossover = "no";
                 mode_mutation = "uncorN";
-                epsMax = 8.0;
+                new_size = 100;
+                epsMax = 4.0;
             }
         }
     }

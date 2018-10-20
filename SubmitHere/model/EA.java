@@ -212,7 +212,7 @@ public class EA {
     public void BentCigar() {
         this.selection.chooseParents(this.population, selection_parents);
 //        System.out.println("Parents");
-        this.selection.makePairs("seq");
+        this.selection.makePairs("random");
 //        System.out.println("Pairs");
         this.selection.old_parents.clear();
         this.selection.makeChildren(mode_crossover);
@@ -222,31 +222,44 @@ public class EA {
 //        _evals+=this.num_parents;
         this.selection.evaluateChildren();
         this.population = selection.returnChildren();
-//        if (this._new_size2) {
-//            this.population = selection.crowding();
-//        } else {
-//            this.population = selection.returnChildren();
-//        }
-        if (Collections.max(population).getFitness() > 9.99 && this._new_size) {
+        if (Collections.max(population).getFitness() > 9.999 && this._new_size) {
             try {
                 Individual tmp = Collections.max(population).clone();
-//                                tmp.updSigma(tmp.getSigma()/2);
-                this.EA_update(tmp, 3, 1);
+//                                tmp.updSigma(tmp.getSigma()/2)
+                def_sigma = 0.0001;
+                for (int i=0; i<Individual.num_genes; i++) {
+                    tmp.updSigma(i, tmp.getSigma(i)*4);
+                }
+                this.EA_update_baseline(tmp, 2);
             } catch (CloneNotSupportedException ex) {
                 throw new RuntimeException(ex);
             }
             this._new_size = false;
+            mode_crossover = "wholeA";
+            alpha = 0.25;
+            epsMax = 2.0;
+            selection_pressure = 1.3;
         }
-        if (Collections.max(population).getFitness() > 9.999 && this._new_size2) {
-            try {
-                Individual tmp = Collections.max(population).clone();
-                tmp.updSigma(tmp.getSigma() / 2);
-                this.EA_update(tmp, 1, 1);
-            } catch (CloneNotSupportedException ex) {
-                throw new RuntimeException(ex);
-            }
-            this._new_size2 = false;
-        }
+//        if (Collections.max(population).getFitness() > 9.99 && this._new_size) {
+//            try {
+//                Individual tmp = Collections.max(population).clone();
+////                                tmp.updSigma(tmp.getSigma()/2);
+//                this.EA_update(tmp, 3, 1);
+//            } catch (CloneNotSupportedException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//            this._new_size = false;
+//        }
+//        if (Collections.max(population).getFitness() > 9.999 && this._new_size2) {
+//            try {
+//                Individual tmp = Collections.max(population).clone();
+//                tmp.updSigma(tmp.getSigma() / 2);
+//                this.EA_update(tmp, 1, 1);
+//            } catch (CloneNotSupportedException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//            this._new_size2 = false;
+//        }
     }
 
 }

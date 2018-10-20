@@ -2,7 +2,7 @@ package model;
 
 public class Parameters {
     //    DEBUG FLAGs
-    public static boolean debug = true;
+    public static boolean debug = false;
     public static boolean lotta = false;
     public static boolean debug_sigma = false;
     //    POPULATION
@@ -40,7 +40,7 @@ public class Parameters {
     //    INDIVIDUAL
     public static double def_sigma = 0.1;
     public static double def_eps = 0.0001;
-    public static double epsMax = 4.0;
+    public static double epsMax = 3.0;
 
 
     public static int eval_limit;
