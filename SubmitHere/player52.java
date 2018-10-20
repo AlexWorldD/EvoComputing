@@ -1,3 +1,17 @@
+/*
+ * Developed by Alex, Lotta, Pratik and Bella during the Evolutionary Computing course at VU University, 2018.
+ * Last modified 10/21/18 12:04 AM.
+ * Copyright (c) 2018 with 💛 by Group52.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 import org.vu.contest.ContestEvaluation;
 import org.vu.contest.ContestSubmission;
 import model.*;
@@ -14,7 +28,6 @@ public class player52 implements ContestSubmission {
     private int evaluations_limit_;
 
     public player52() {
-// What we should do here?
     }
 
     public void setSeed(long seed) {
@@ -74,7 +87,7 @@ public class player52 implements ContestSubmission {
                 mode_crossover = "no";
                 mode_mutation = "uncorN";
                 new_size = 100;
-                epsMax = 4.0;
+                epsMax = 3.0;
             }
         }
     }

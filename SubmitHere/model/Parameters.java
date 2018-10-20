@@ -1,3 +1,17 @@
+/*
+ * Developed by Alex, Lotta, Pratik and Bella during the Evolutionary Computing course at VU University, 2018.
+ * Last modified 10/20/18 4:09 PM.
+ * Copyright (c) 2018 with 💛 by Group52.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package model;
 
 public class Parameters {
@@ -7,7 +21,7 @@ public class Parameters {
     public static boolean debug_sigma = false;
     //    POPULATION
     public static int population_size = 4;
-    public static int new_size = 6;
+    public static int new_size = 100;
     public static double update_part = 1;
 
     //    SELECTION
@@ -30,7 +44,7 @@ public class Parameters {
     public static int split_k = 0;
     //    "wholeA" - Whole Arithmetic recombination
 //    "simpleA" - Simple Arithmetic recombination
-    public static String mode_crossover = "wholeA";
+    public static String mode_crossover = "no";
 
     //    MUTATION
 //    "uncorN" - Uncorrelated N StepMutation

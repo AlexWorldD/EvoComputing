@@ -1,3 +1,17 @@
+/*
+ * Developed by Alex, Lotta, Pratik and Bella during the Evolutionary Computing course at VU University, 2018.
+ * Last modified 10/21/18 12:19 AM.
+ * Copyright (c) 2018 with 💛 by Group52.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package model;
 
 import static model.UnifiedRandom._rnd;
@@ -142,9 +156,6 @@ public class Crossover {
         List<Individual> children = new ArrayList<>();
         children.add(new Individual(l.getEvaluation(), l_old_genes, l_old_sigmas));
         children.add(new Individual(r.getEvaluation(), r_old_genes, r_old_sigmas));
-//        if (l_old_sigmas[0]>100) {
-//            System.out.println(Arrays.toString(l_old_sigmas));
-//        }
         return children;
     }
 
