@@ -23,10 +23,12 @@
 hs_err_pid*
 
 tmp/
-
+.idea/
 **/.idea/workspace.xml
 **/.idea/tasks.xml
-**/.idea/libraries
+**/.idea/vcs.xml
+**/.idea/copyright
+**/.idea/fileTemplates
 
 EvoComputing\.iml
 
@@ -42,6 +44,5 @@ src/main/\.DS_Store
 
 \.DS_Store
 
-SubmitHere/player52_old\.class
 
 SubmitHere/player52\.class
