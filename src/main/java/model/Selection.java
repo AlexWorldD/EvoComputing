@@ -8,12 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Selection {
-
-    public static enum Management {
-        GENERATION_MODEL,
-        STEADE_STATE_MODEL
-    }
-
     private int population_size;
     private int mating_size;
     //    Constants for SUS parents selection
@@ -123,7 +117,6 @@ public class Selection {
         }
 //        Remove selected parents from the old list for further merging
         parents.forEach(item->this.old_parents.remove(item));
-//        this.cur_parents = parents;
         return parents;
     }
 
@@ -217,24 +210,6 @@ public class Selection {
     private List<List<Individual>> _parentsPairRandom() {
         Collections.shuffle(cur_parents);
         return _parentsPairSequentially();
-//        for (int i = 0; i < this.mating_size; i += 2) {
-//            pair = new ArrayList<>();
-//            try {
-//                int randomIndex = _rnd.nextInt(this.cur_parents.size());
-//                Individual randomElement = this.cur_parents.get(randomIndex).clone();
-//                this.cur_parents.remove(randomIndex);
-//                pair.add(randomElement);
-//                randomIndex = _rnd.nextInt(this.cur_parents.size());
-//                randomElement = this.cur_parents.get(randomIndex).clone();
-//                this.cur_parents.remove(randomIndex);
-//                pair.add(randomElement);
-//            } catch (CloneNotSupportedException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//            parents.add(pair);
-//
-//        }
-//        return parents;
     }
 
     /**
