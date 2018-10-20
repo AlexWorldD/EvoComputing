@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org.vu.contest">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/resources/org.vu.contest.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

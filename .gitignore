@@ -1,5 +1,5 @@
 # Compiled class file
-*.class
+**/target/*.class
 
 # Log file
 *.log
@@ -11,7 +11,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+**/target/*.jar
 *.war
 *.nar
 *.ear
@@ -23,7 +23,23 @@
 hs_err_pid*
 
 tmp/
-
-\.idea/
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+**/.idea/vcs.xml
 
 EvoComputing\.iml
+
+src/\.DS_Store
+
+target/
+
+SubmitHere/model/*.class
+
+src/main/resources/\.DS_Store
+
+src/main/\.DS_Store
+
+\.DS_Store
+
+
+SubmitHere/player52\.class
