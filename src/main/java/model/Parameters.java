@@ -7,7 +7,7 @@ public class Parameters {
     public static boolean debug_sigma = false;
     //    POPULATION
     public static int population_size = 4;
-    public static int new_size = 20;
+    public static int new_size = 100;
     public static double update_part = 1;
 
     //    SELECTION
@@ -40,7 +40,7 @@ public class Parameters {
     //    INDIVIDUAL
     public static double def_sigma = 0.1;
     public static double def_eps = 0.0001;
-    public static double epsMax = 8.0;
+    public static double epsMax = 4.0;
 
 
     public static int eval_limit;
