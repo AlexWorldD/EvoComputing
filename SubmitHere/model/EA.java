@@ -1,7 +1,7 @@
 /*
  * Developed by Alex, Lotta, Pratik and Bella during the Evolutionary Computing course at VU University, 2018.
- * Last modified 10/20/18 11:57 PM.
- * Copyright (c) 2018 with 💛 by Group52.
+ * Last modified 10/21/18 1:05 AM.
+ * Copyright (c) 2018 with  by Group52.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
