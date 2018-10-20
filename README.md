@@ -1,4 +1,4 @@
-# Evolutionary Computing, Group 52
+# Evolutionary Computing, Group 52 <img align="right" width="150" height="150" src="logo.png"> 
 <hr>
 
 ### Dependensies:
