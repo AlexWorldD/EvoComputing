@@ -1,8 +1,18 @@
+/*
+ * Developed by Alex, Lotta, Pratik and Bella during the Evolutionary Computing course at VU University, 2018.
+ * Last modified 10/20/18 11:58 PM.
+ * Copyright (c) 2018 with 💛 by Group52.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package model;
-
-import java.util.Arrays;
-import java.util.Random;
-
 import static model.UnifiedRandom._rnd;
 import static model.UnifiedRandom._evals;
 import static model.Parameters.*;
@@ -25,7 +35,6 @@ public class Individual implements Comparable<Individual>, Cloneable {
     private double dynfitness;
     private double[] genes = new double[num_genes];
     private double[] sigmas = new double[num_genes];
-    public Random ind_rand = new Random();
     private ContestEvaluation evaluation;
 
     /**
