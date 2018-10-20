@@ -23,12 +23,9 @@
 hs_err_pid*
 
 tmp/
-.idea/
 **/.idea/workspace.xml
 **/.idea/tasks.xml
 **/.idea/vcs.xml
-**/.idea/copyright
-**/.idea/fileTemplates
 
 EvoComputing\.iml
 
