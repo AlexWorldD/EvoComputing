@@ -1,7 +1,7 @@
 # Evolutionary Computing, Group 52 <img align="right" width="150" height="150" src="logo.png"> 
 <hr>
 
-### Dependensies:
+### Dependencies:
   - [Maven](https://maven.apache.org/)
   - A lot of luck :)
 ### How to use for parameter tuning?:
